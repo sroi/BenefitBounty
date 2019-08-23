@@ -1,0 +1,91 @@
+<!-- main app container -->
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h3>Angular 7 Reactive Form Validation</h3>
+                <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label>Project</label>
+                        <input type="text" formControlName="project" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.project.errors }" />
+                        <div *ngIf="submitted && f.project.errors" class="invalid-feedback">
+                            <div *ngIf="f.project.errors.required">Project is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Area of Engagement</label>
+                        <input type="text" formControlName="engageArea" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.engageArea.errors }" />
+                        <div *ngIf="submitted && f.engageArea.errors" class="invalid-feedback">
+                            <div *ngIf="f.engageArea.errors.required">Engagement Area is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Summary</label>
+                        <input type="text" formControlName="summary" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.summary.errors }" />
+                        <div *ngIf="submitted && f.summary.errors" class="invalid-feedback">
+                            <div *ngIf="f.summary.errors.required">Summary is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Duration</label>
+                        <input type="text" formControlName="duration" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.duration.errors }" />
+                        <div *ngIf="submitted && f.duration.errors" class="invalid-feedback">
+                            <div *ngIf="f.duration.errors.required">Duration is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Budget Estimate</label>
+                        <input type="text" formControlName="budget" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.budget.errors }" />
+                        <div *ngIf="submitted && f.budget.errors" class="invalid-feedback">
+                            <div *ngIf="f.budget.errors.required">Budget is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Company</label>
+                        <input type="text" formControlName="company" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.company.errors }" />
+                        <div *ngIf="submitted && f.company.errors" class="invalid-feedback">
+                            <div *ngIf="f.company.errors.required">Company is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" formControlName="location" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.location.errors }" />
+                        <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
+                            <div *ngIf="f.location.errors.required">Location is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.email.errors.required">Email is required</div>
+                            <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                            <div *ngIf="f.password.errors.required">Password is required</div>
+                            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" formControlName="confirmPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
+                        <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                            <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+                            <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <button class="btn btn-primary">Add</button>
+                        <!-- <a routerLink="/" class="btn btn-link">Cancel</a>
+                        <a routerLink="/adminpr" class="btn btn-link">Reset</a> -->
+                        <button class="btn btn-primary">Save as Template</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
