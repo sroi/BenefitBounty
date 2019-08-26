@@ -7,6 +7,12 @@ import { AdminPrComponent } from './admin-pr/admin-pr.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginCompComponent } from './login-comp/login-comp.component';
+import { Routes, RouterModule } from '@angular/router';
+
+const appRoutes: Routes = [
+  { path: 'login', component:LoginCompComponent }
+ 
+];
 
 @NgModule({
   declarations: [
@@ -18,7 +24,11 @@ import { LoginCompComponent } from './login-comp/login-comp.component';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule 
+    HttpClientModule,
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: true }
+    ) 
   ],
   
   providers: [],
