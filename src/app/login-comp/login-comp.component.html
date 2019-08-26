@@ -6,11 +6,26 @@
         </div>
         <div class="col-lg-4" id="form1">
             <h3>Login</h3>
-                <form [formGroup]="loginForm" id="login_form">
-                    <input type="text" id="user_name" class="field" placeholder="Enter Username" name="username" style="width: 100%;">
-                    <input type="password" id="pass_word" class="field" placeholder="Enter Password" name="password" style="width: 100%">
-                    <input type="submit" id="submit_button" class="btn" value="Submit" name="submit" style="width: 100%">
-                </form>
+            <form [formGroup]="loginForm" (submit)="loginUser()">
+  
+              <div class="form-group"> 
+              <input type="text" class="form-control" placeholder="Email ID" 
+              formControlName="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" title="Email ID"/><br/>
+              <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                  <div *ngIf="f.username.errors.required"><font color="red" size = "2.5">Username is required</font></div>
+              </div>    
+            </div>
+  
+  
+            <div class="form-group" >
+              <input type="password" formControlName="password"  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" placeholder="Password" title="Password"><br/>
+              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                  <div *ngIf="f.password.errors.required" ><font color="red" size = "2.5">Password is required</font></div>
+              </div>
+            </div>
+              
+              <button class="btn btn-primary login-btn"   [disabled]="loading">Submit</button><br/>
+            </form>
 
         </div>
         <div class="col-lg-4">
