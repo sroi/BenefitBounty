@@ -1,0 +1,31 @@
+<!-- <nav class="navbar is-dark">
+    
+    <div class="navbar-brand">
+      <a class="navbar-item">
+        <img src="assets/img/angular-logo.png">
+      </a>
+    </div>
+    
+    <div class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" routerLink="/">Home</a>
+        <a class="navbar-item" routerLink="/adminpr">ProjectsAdmin</a>
+        <a class="navbar-item" routerLink="/reports">Reports</a>
+      </div>
+    </div>
+  </nav>
+  <router-outlet></router-outlet> -->
+
+<mat-toolbar color="primary" class="fixed-header mat-elevation-z6">
+  <mat-toolbar-row>
+    <span><img src="assets/img/angular-logo.png" style="width:70px;"></span>
+    <!-- <span style="widows: 70px;"></span> -->
+    <a mat-button class="mat-button-font" routerLink="" routerLinkActive="active">Home</a>
+    <a mat-button class="mat-button-font"routerLink="/projects">Projects</a>
+    <a mat-button class="mat-button-font" routerLink="/reports">Reports</a>
+    <a mat-button class="mat-button-font" routerLink="/templates">Templates</a>
+  </mat-toolbar-row>
+</mat-toolbar>
+<main>
+  <router-outlet style="margin-top: 80px;"></router-outlet>
+</main>
