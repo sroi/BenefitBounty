@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'BenefitBounty'`, () => {
+  it(`should have as title 'SROIBenefitBounty'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('BenefitBounty');
+    expect(app.title).toEqual('SROIBenefitBounty');
   });
 
-  it('should render title in a h1 tag', () => {
+  it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to BenefitBounty!');
+    expect(compiled.querySelector('.content span').textContent).toContain('SROIBenefitBounty app is running!');
   });
 });

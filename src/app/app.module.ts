@@ -3,22 +3,27 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AdminPrComponent } from './admin-pr/admin-pr.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-
+import { ProjectAddComponent } from './project/index';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatCardModule, MatButtonModule, MatIconModule } from '@angular/material';
+import{MatMenuModule} from '@angular/material/menu';
+import { FormsModule } from '@angular/forms'
 @NgModule({
   declarations: [
     AppComponent,
-    AdminPrComponent
+    ProjectAddComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule 
+    NoopAnimationsModule,
+ MatCardModule,
+ MatButtonModule,
+ MatMenuModule,
+ MatIconModule,
+ FormsModule
+     
   ],
-  
   providers: [],
   bootstrap: [AppComponent]
 })
