@@ -1,0 +1,45 @@
+<table id="project">
+  <tr>
+    <th>Area</th>
+    <th>Duration(Days)</th>
+    <th>Status</th>
+    <th>Edit</th>
+    <th>Delete</th>
+  </tr>
+  <tr (click) ="showDetails()" style="cursor:pointer;">
+    <td>Goregaon</td>
+    <td>20</td>
+    <td>Active</td>
+    <td [routerLink] ="'edit'" style="color: blue; cursor:pointer;">Edit Project</td>
+    <td [routerLink] ="'edit'" style="color: blue; cursor:pointer;">Delete Project</td>
+  </tr>
+  <tr>
+    <td>Malad</td>
+    <td>10</td>
+    <td>Active</td>
+    <td>Edit Project</td>
+    <td>Delete Project</td>
+  </tr>
+  <tr>
+    <td>Dadar</td>
+    <td>22</td>
+    <td>Active</td>
+    <td>Edit Project</td>
+    <td>Delete Project</td>
+  </tr>
+  
+</table>
+
+<button type="button" class="button" [routerLink] ="'edit'">Create</button><br>
+
+<div id="projectDetails" hidden>
+  <h1>Project1</h1>
+  <p>
+    Area : Goregaon <br>
+    Duration : 20 Days <br>
+    Status : Active <br>
+    <button type="button" class="button" [routerLink] ="'edit'">Edit</button><br>
+    <button type="button" class="button" [routerLink] ="'edit'">Delete</button><br>
+    <button type="button" class="button" (click) ="hideDetails()">Close</button><br>
+  </p>
+</div>
