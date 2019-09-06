@@ -7,8 +7,8 @@ import { ProjectAddComponent } from './project/index';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule, MatButtonModule, MatIconModule } from '@angular/material';
 import{MatMenuModule} from '@angular/material/menu';
-import { FormsModule } from '@angular/forms'
-import { ProjectListComponent } from './project-list/project-list.component';
+import { FormsModule } from '@angular/forms';
+import { ProjectListComponent } from './project/project-list/project-list.component';
 @NgModule({
   declarations: [
     AppComponent,
