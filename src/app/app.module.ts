@@ -9,11 +9,13 @@ import { MatCardModule, MatButtonModule, MatIconModule } from '@angular/material
 import{MatMenuModule} from '@angular/material/menu';
 import { FormsModule } from '@angular/forms';
 import { ProjectListComponent } from './project/project-list/project-list.component';
+import { HeaderComponent } from './header/header.component';
 @NgModule({
   declarations: [
     AppComponent,
     ProjectAddComponent,
-    ProjectListComponent
+    ProjectListComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
