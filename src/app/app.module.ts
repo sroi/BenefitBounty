@@ -9,11 +9,13 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule } from '@angular/forms';
 import { ProjectListComponent } from './project/project-list/project-list.component';
+import { HeaderComponent } from './header/header.component';
 @NgModule({
   declarations: [
     AppComponent,
     ProjectAddComponent,
-    ProjectListComponent
+    ProjectListComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
