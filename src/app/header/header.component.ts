@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
       tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
    
-    event.currentTarget.className += " active";
+ //   event.currentTarget.className += " active";
   }
 
 }

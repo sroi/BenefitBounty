@@ -1,6 +1,7 @@
 import  {ContactPersons} from './contact-persons';
-export class Project {
-projectName:string;
+export class Project 
+{
+project_Name:string;
 area_Engagement:string;
 summary:string;
 startDate:Date;
