@@ -14,17 +14,14 @@ import { ContactPersons } from '../_model/contact-persons';
 export class ProjectAddComponent implements OnInit {
   date:Date=new Date();
   public project= new Project();
-  
-   //= { date: { year: this.date.getFullYear(), month:  this.date.getMonth()+1, day:  this.date.getDate() } };
- 
-  constructor(private _projectService:ProjectServiceService) {
-   //this.project.startDate= new Date(Date.now.toString());
-   //this.project.endDate= new Date(Date.now.toString());
-   
-    }
+  public isContactButtonVisible=false;
+  public isStakeHolderButtonVisible=false;
+  constructor(private _projectService:ProjectServiceService) { }
 
   ngOnInit() {
-    this.project.stakeHolders=new ContactPersons()[0];
+    this.project.startDate= new Date(Date.now.toString());
+    this.project.stakeHolders=[];
+    this.project.contactPerson=[];
   }
   public myDatePickerStartOptions: IMyDpOptions = {
     // other options...
@@ -68,11 +65,22 @@ public myDatePickerEndOptions: IMyDpOptions = {
 
   addStakeHolders()
   {
+    this.isStakeHolderButtonVisible=true;
     this.project.stakeHolders.push(new ContactPersons());
   }
  removeStakeHolders()
   {
     this.project.stakeHolders.pop();
+  }
+  addContactPersons()
+  {
+    this.isContactButtonVisible=true;
+    this.project.contactPerson.push(new ContactPersons());
+  }
+
+  removeContactPersons()
+  {
+    this.project.contactPerson.pop();
   }
   private getCopyOfOptions(): IMyDpOptions {
     return JSON.parse(JSON.stringify(this.myDatePickerStartOptions));
