@@ -5,8 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProjectAddComponent } from './project/index';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCardModule, MatButtonModule, MatIconModule } from '@angular/material';
-import{MatMenuModule} from '@angular/material/menu';
+
+
 import { FormsModule } from '@angular/forms';
 import { ProjectListComponent } from './project/project-list/project-list.component';
 @NgModule({
@@ -19,10 +19,7 @@ import { ProjectListComponent } from './project/project-list/project-list.compon
     BrowserModule,
     AppRoutingModule,
     NoopAnimationsModule,
- MatCardModule,
- MatButtonModule,
- MatMenuModule,
- MatIconModule,
+ 
  FormsModule
      
   ],
