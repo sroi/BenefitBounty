@@ -43,17 +43,6 @@ fetchProjects()
     )
   }
 
-  deleteProject(id)
-  {
-    this._httpClient.delete('http://localhost:8080/projects/delete/:id').subscribe(
-      data => {
-        
-        if(data == 0 )
-        {
-          console.log('deleted');
-        }
-      }
-    )
-  }
+  
 
 }

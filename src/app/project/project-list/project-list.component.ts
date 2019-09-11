@@ -39,6 +39,19 @@ export class ProjectListComponent implements OnInit {
     )
   }
 
+  deleteProject(id)
+  {
+    this.httpService.delete('http://localhost:8080/projects/delete/:id').subscribe(
+      data => {
+        
+        if(data == 0 )
+        {
+          console.log('deleted');
+        }
+      this.ngOnInit();
+      }
+    )
+  }
   
   showDetails()
   {
