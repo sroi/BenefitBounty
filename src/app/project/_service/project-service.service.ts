@@ -20,4 +20,40 @@ postProject(formData:FormData):Observable<Project>
  
     //catch(this.handleError<ResultResponse>());
 }
+
+arrJson: any=[];
+keys: any=[];
+
+fetchProjects()
+  {
+    this._httpClient.get('http://localhost:8080/projects').subscribe(
+      data => {
+        this.arrJson = data;
+        for(const key in this.arrJson[0])
+        {
+          if(key != null)
+          {
+            this.keys.push(key);
+          }
+        }
+      },
+      (err: HttpErrorResponse) => {
+        console.log();
+      }
+    )
+  }
+
+  deleteProject(id)
+  {
+    this._httpClient.delete('http://localhost:8080/projects/delete/:id').subscribe(
+      data => {
+        
+        if(data == 0 )
+        {
+          console.log('deleted');
+        }
+      }
+    )
+  }
+
 }
