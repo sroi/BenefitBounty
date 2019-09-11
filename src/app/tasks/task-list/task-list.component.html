@@ -1,0 +1,41 @@
+<table id="task">
+    <tr>
+      <th>Activity</th>
+      <th>Subtask</th>
+      <th>Duration</th>
+      <th>Location</th>
+      <th>Approver</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+    <tr (click) ="showDetails()" style="cursor:pointer;">
+      <td>Program Formalization</td>
+      <td>Identification</td>
+      <td>20</td>
+      <td>Goregaon</td>
+      <td>ABC</td>
+      <td [routerLink] ="'../add'" style="color: blue; cursor:pointer;">Edit Task</td>
+      <td [routerLink] ="'../add'" style="color: blue; cursor:pointer;">Delete Task</td>
+    </tr>
+    <tr (click) ="showDetails()" style="cursor:pointer;">
+        <td>Program Formalization</td>
+        <td>Identification</td>
+        <td>20</td>
+        <td>Goregaon</td>
+        <td>ABC</td>
+        <td [routerLink] ="'../add'" style="color: blue; cursor:pointer;">Edit Task</td>
+        <td [routerLink] ="'../add'" style="color: blue; cursor:pointer;">Delete Task</td>
+    </tr>
+    <tr (click) ="showDetails()" style="cursor:pointer;">
+        <td>Program Formalization</td>
+        <td>Identification</td>
+        <td>20</td>
+        <td>Goregaon</td>
+        <td>ABC</td>
+        <td [routerLink] ="'../add'" style="color: blue; cursor:pointer;">Edit Task</td>
+        <td [routerLink] ="'../add'" style="color: blue; cursor:pointer;">Delete Task</td>
+    </tr>
+    
+  </table>
+
+  <button type="button" class="button" [routerLink] ="'../add'">Create</button><br>

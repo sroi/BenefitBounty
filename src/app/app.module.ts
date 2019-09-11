@@ -8,12 +8,14 @@ import { ProjectListComponent } from './project/project-list/project-list.compon
 import { HeaderComponent } from './header/header.component';
 import { MyDatePickerModule } from 'mydatepicker';
 import { HttpClientModule } from '@angular/common/http';
+import { TaskListComponent } from './tasks/task-list/task-list.component';
 @NgModule({
   declarations: [
     AppComponent,
     ProjectAddComponent,
     ProjectListComponent,
-    HeaderComponent
+    HeaderComponent,
+    TaskListComponent
   ],
   imports: [
     BrowserModule,

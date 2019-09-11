@@ -3,8 +3,10 @@
     <th>Area</th>
     <th>Duration(Days)</th>
     <th>Status</th>
-    <th>Edit</th>
-    <th>Delete</th>
+    <th>Edit Project</th>
+    <th>Delete Project</th>
+    <th>Edit Task</th>
+    <th>Delete Task</th>
   </tr>
   <tr (click) ="showDetails()" style="cursor:pointer;">
     <td>Goregaon</td>
@@ -12,20 +14,26 @@
     <td>Active</td>
     <td [routerLink] ="'edit'" style="color: blue; cursor:pointer;">Edit Project</td>
     <td [routerLink] ="'edit'" style="color: blue; cursor:pointer;">Delete Project</td>
+    <td [routerLink] ="'task'" style="color: blue; cursor:pointer;">Edit Task</td>
+    <td [routerLink] ="'task'" style="color: blue; cursor:pointer;">Delete Task</td>
   </tr>
-  <tr>
-    <td>Malad</td>
-    <td>10</td>
+  <tr (click) ="showDetails()" style="cursor:pointer;">
+    <td>Goregaon</td>
+    <td>20</td>
     <td>Active</td>
-    <td>Edit Project</td>
-    <td>Delete Project</td>
+    <td [routerLink] ="'edit'" style="color: blue; cursor:pointer;">Edit Project</td>
+    <td [routerLink] ="'edit'" style="color: blue; cursor:pointer;">Delete Project</td>
+    <td [routerLink] ="'task'" style="color: blue; cursor:pointer;">Edit Task</td>
+    <td [routerLink] ="'task'" style="color: blue; cursor:pointer;">Delete Task</td>
   </tr>
-  <tr>
-    <td>Dadar</td>
-    <td>22</td>
+  <tr (click) ="showDetails()" style="cursor:pointer;">
+    <td>Goregaon</td>
+    <td>20</td>
     <td>Active</td>
-    <td>Edit Project</td>
-    <td>Delete Project</td>
+    <td [routerLink] ="'edit'" style="color: blue; cursor:pointer;">Edit Project</td>
+    <td [routerLink] ="'edit'" style="color: blue; cursor:pointer;">Delete Project</td>
+    <td [routerLink] ="'task'" style="color: blue; cursor:pointer;">Edit Task</td>
+    <td [routerLink] ="'task'" style="color: blue; cursor:pointer;">Delete Task</td>
   </tr>
   
 </table>
