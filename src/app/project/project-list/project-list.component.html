@@ -1,44 +1,82 @@
+<!--
 <table id="project">
   <tr>
     <th>Area</th>
     <th>Duration(Days)</th>
     <th>Status</th>
-    <th>Edit Project</th>
-    <th>Delete Project</th>
-    <th>Edit Task</th>
-    <th>Delete Task</th>
+    <th>Edit</th>
+    <th>Delete</th>
   </tr>
   <tr (click) ="showDetails()" style="cursor:pointer;">
     <td>Goregaon</td>
     <td>20</td>
     <td>Active</td>
-    <td [routerLink] ="'edit'" style="color: blue; cursor:pointer;">Edit Project</td>
-    <td [routerLink] ="'edit'" style="color: blue; cursor:pointer;">Delete Project</td>
-    <td [routerLink] ="'task'" style="color: blue; cursor:pointer;">Edit Task</td>
-    <td [routerLink] ="'task'" style="color: blue; cursor:pointer;">Delete Task</td>
+    <td [routerLink] ="'home'" style="color: blue; cursor:pointer;">Edit Project</td>
+    <td [routerLink] ="'home'" style="color: blue; cursor:pointer;">Delete Project</td>
   </tr>
-  <tr (click) ="showDetails()" style="cursor:pointer;">
-    <td>Goregaon</td>
-    <td>20</td>
+  <tr>
+    <td>Malad</td>
+    <td>10</td>
     <td>Active</td>
-    <td [routerLink] ="'edit'" style="color: blue; cursor:pointer;">Edit Project</td>
-    <td [routerLink] ="'edit'" style="color: blue; cursor:pointer;">Delete Project</td>
-    <td [routerLink] ="'task'" style="color: blue; cursor:pointer;">Edit Task</td>
-    <td [routerLink] ="'task'" style="color: blue; cursor:pointer;">Delete Task</td>
+    <td>Edit Project</td>
+    <td>Delete Project</td>
   </tr>
-  <tr (click) ="showDetails()" style="cursor:pointer;">
-    <td>Goregaon</td>
-    <td>20</td>
+  <tr>
+    <td>Dadar</td>
+    <td>22</td>
     <td>Active</td>
-    <td [routerLink] ="'edit'" style="color: blue; cursor:pointer;">Edit Project</td>
-    <td [routerLink] ="'edit'" style="color: blue; cursor:pointer;">Delete Project</td>
-    <td [routerLink] ="'task'" style="color: blue; cursor:pointer;">Edit Task</td>
-    <td [routerLink] ="'task'" style="color: blue; cursor:pointer;">Delete Task</td>
+    <td>Edit Project</td>
+    <td>Delete Project</td>
   </tr>
   
 </table>
+-->
+
+
+<!-- <p>reports works!</p> -->
+<div>
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="area">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Area </th>
+      <td mat-cell *matCellDef="let element" (click) ="showDetails()" style="cursor:pointer;"> {{element.area}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Project Name </th>
+      <td mat-cell *matCellDef="let element" (click) ="showDetails()" style="cursor:pointer;"> {{element.name}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="duration">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration </th>
+      <td mat-cell *matCellDef="let element" (click) ="showDetails()" style="cursor:pointer;"> {{element.duration}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+      <td mat-cell *matCellDef="let element" (click) ="showDetails()" style="cursor:pointer;"> {{element.status}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> EDIT </th>
+      <td mat-cell *matCellDef="let element" [routerLink] ="'edit'" style="color:cornflowerblue; cursor:pointer;"> EDIT PROJECT </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Delete </th>
+      <td mat-cell *matCellDef="let element" [routerLink] ="'edit'" style="color:cornflowerblue;cursor:pointer;"> DELETE PROJECT </td>
+    </ng-container>
+
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>  
 
 <button type="button" class="button" [routerLink] ="'edit'">Create</button><br>
+
 
 <div id="projectDetails" hidden>
   <h1>Project1</h1>
@@ -51,3 +89,4 @@
     <button type="button" class="button" (click) ="hideDetails()">Close</button><br>
   </p>
 </div>
+

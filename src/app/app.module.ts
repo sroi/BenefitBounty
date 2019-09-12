@@ -4,16 +4,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProjectAddComponent } from './project/index';
 import { FormsModule } from '@angular/forms';
-import { ProjectListComponent } from './project/project-list/project-list.component';
 import { HeaderComponent } from './header/header.component';
 import { MyDatePickerModule } from 'mydatepicker';
 import { HttpClientModule } from '@angular/common/http';
 import { TaskListComponent } from './tasks/task-list/task-list.component';
+import { ProjectListModule } from './project/project-list/project-list.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
   declarations: [
     AppComponent,
     ProjectAddComponent,
-    ProjectListComponent,
     HeaderComponent,
     TaskListComponent
   ],
@@ -22,7 +23,9 @@ import { TaskListComponent } from './tasks/task-list/task-list.component';
     AppRoutingModule,
     FormsModule,
     MyDatePickerModule,
-      HttpClientModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ProjectListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
