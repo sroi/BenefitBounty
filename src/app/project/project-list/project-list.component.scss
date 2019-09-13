@@ -23,9 +23,15 @@
   }
 
   #projectDetails {
-    border: 1px solid gray;
-    margin: 10%;
+    //border: 1px solid gray;
+    margin: 1%;
     margin-bottom: 2%;
+    width: 100%;
+  }
+  .row
+  {
+    width: 100%;
+    margin-right: 0px;
   }
   
   h1 {
@@ -36,12 +42,14 @@
   
   p {
     
-    text-align: justify;
+    text-align: left;
     letter-spacing: 3px;
+    font-size: 200%;
+    margin-top: 5%;
   }
 
   .button {
-    background-color: #4CAF50;
+    background-color: #5cb85c;
     border: none;
     color: white;
     padding: 5px 22px;
@@ -58,6 +66,37 @@
     width: 100%;
 }
 
+#projectTable
+{
+  margin-top: 5%;
+}
+
 th.mat-sort-header-sorted {
     color: black;
+}
+
+#task {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 5%;
+  margin-bottom:2%;
+  font-size: 150%;
+}
+
+#task td, #task th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#task tr:nth-child(even){background-color: #f2f2f2;}
+
+#task tr:hover {background-color: #ddd;}
+
+#task th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
 }
