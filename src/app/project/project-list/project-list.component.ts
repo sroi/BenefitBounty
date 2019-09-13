@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, QueryList, ViewChildren } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 
 
@@ -29,6 +29,29 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {area: "Malad", name: 'NGO11', duration: 10.811, status: 'Inactive'},
 ];
 
+export interface TaskElement
+{
+  activity: string;
+  task: string;
+  duration: number;
+  approver: string;
+}
+
+const taskData: TaskElement[] = [
+  {activity: "Identification", task:"Formation", duration: 12, approver: "NoOne"},
+  {activity: "Deployment", task:"Formation", duration: 12, approver: "NoOne"},
+  {activity: "Planning", task:"Formation", duration: 12, approver: "NoOne"},
+  {activity: "Identification", task:"Formation", duration: 12, approver: "NoOne"},
+  {activity: "Deployment", task:"Formation", duration: 12, approver: "NoOne"},
+  {activity: "Planning", task:"Formation", duration: 12, approver: "NoOne"},
+  {activity: "Identification", task:"Formation", duration: 12, approver: "NoOne"},
+  {activity: "Deployment", task:"Formation", duration: 12, approver: "NoOne"},
+];
+
+const tsk: TaskElement={
+  activity: "Identification", task:"Formation", duration: 12, approver: "NoOne"
+};
+
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
@@ -37,10 +60,18 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class ProjectListComponent implements OnInit {
 
   displayedColumns: string[] = ['area', 'name', 'duration', 'status', 'edit','delete'];
+  displayedTasks: string[] = ['activity','task','duration','approver','edit','delete'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  taskSource = new MatTableDataSource<TaskElement>(taskData);
   
-  @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
-  @ViewChild(MatSort,{static:true}) sort: MatSort;
+  // @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
+  // @ViewChild(MatSort,{static:true}) sort: MatSort;
+
+  // @ViewChild(MatPaginator,{static:true}) paginator2: MatPaginator;
+  // @ViewChild(MatSort,{static:true}) sort2: MatSort;
+
+  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
+  @ViewChildren(MatSort) sort = new QueryList<MatSort>();
 
   constructor(private httpService: HttpClient) {
     
@@ -49,10 +80,17 @@ export class ProjectListComponent implements OnInit {
   keys: any=[];
   ngOnInit() {
     
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    
   this.fetchProjects();
    
+  }
+
+  ngAfterViewInit()
+  {
+    this.dataSource.paginator = this.paginator.toArray()[0];
+    this.dataSource.sort = this.sort.toArray()[0];
+    this.taskSource.paginator = this.paginator.toArray()[1];
+    this.taskSource.sort = this.sort.toArray()[1];
   }
 
   fetchProjects()
