@@ -69,6 +69,15 @@
 #projectTable
 {
   margin-top: 5%;
+  // height: 300px;
+  // width: 100%;
+  // overflow-y: scroll;
+  // display: block;
+}
+
+#taskTable
+{
+  max-height: 300px;
 }
 
 th.mat-sort-header-sorted {

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
 import { ProjectListComponent } from './project-list.component';
 import { RouterModule } from '@angular/router';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -12,7 +12,9 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule,RouterModule
+    MatSortModule,
+    MatProgressSpinnerModule,
+    RouterModule
   ],
   exports: [
     ProjectListComponent
