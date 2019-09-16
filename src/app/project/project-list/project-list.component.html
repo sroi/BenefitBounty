@@ -58,16 +58,29 @@
       </ng-container>
 
       <ng-container matColumnDef="edit">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> EDIT </th>
-        <td mat-cell *matCellDef="let element" (click) = "editProject(element)" style="color:cornflowerblue; cursor:pointer;"> EDIT
-          PROJECT </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <button mat-icon-button matTooltip="Edit all" style="background: white;border:none;">
+                <mat-icon>edit_all</mat-icon>
+              </button>
+           </th>
+        <td mat-cell *matCellDef="let element" (click) = "editProject(element)" style="color:cornflowerblue; cursor:pointer;"> 
+            <button mat-icon-button matTooltip="Edit this score" style="background: white;border:none;">
+                <mat-icon>edit</mat-icon>
+              </button>  
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="delete">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Delete </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <button mat-icon-button matTooltip="Remove all" style="background: white;border:none;">
+                <mat-icon>clear_all</mat-icon>
+              </button>
+          </th>
         <td mat-cell *matCellDef="let element" (click) = "deleteProject(element)" style="color:cornflowerblue;cursor:pointer;">
-          DELETE
-          PROJECT </td>
+            <button mat-icon-button matTooltip="Remove this score" style="background: white;border:none;">
+                <mat-icon>clear</mat-icon>
+              </button>
+        </td>
       </ng-container>
 
 
@@ -142,15 +155,29 @@
           </ng-container>
 
           <ng-container matColumnDef="edit">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> EDIT </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> 
+                <button mat-icon-button matTooltip="Edit all" style="background: white;border:none;">
+                    <mat-icon>edit_all</mat-icon>
+                  </button>  
+            </th>
             <td mat-cell *matCellDef="let element1" (click) = "editTask(element1)" style="color:cornflowerblue; cursor:pointer;">
-              EDIT Task </td>
+                <button mat-icon-button matTooltip="Edit this score" style="background: white;border:none;">
+                    <mat-icon>edit</mat-icon>
+                  </button> 
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="delete">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Delete </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> 
+                <button mat-icon-button matTooltip="Remove all" style="background: white;border:none;">
+                   <mat-icon>clear_all</mat-icon>
+                </button>  
+            </th>
             <td mat-cell *matCellDef="let element1" (click) = "deleteTask(element1)" style="color:cornflowerblue;cursor:pointer;">
-              DELETE Task </td>
+                <button mat-icon-button matTooltip="Remove this score" style="background: white;border:none;">
+                    <mat-icon>clear</mat-icon>
+                  </button>  
+            </td>
           </ng-container>
 
 

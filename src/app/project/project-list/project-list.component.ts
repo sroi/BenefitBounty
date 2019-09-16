@@ -206,7 +206,11 @@ export class ProjectListComponent implements OnInit {
 
   deleteProject(temp)
   {
+    console.log(this.dataSource.data);
     console.log(temp);
+    // const index = this.dataSource.data.indexOf(temp);
+    // this.dataSource.data.splice(index,1);
+    // console.log(this.dataSource.data);
     this.router.navigate(['./add']);
   }
 
