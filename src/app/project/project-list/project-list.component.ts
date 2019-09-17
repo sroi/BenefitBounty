@@ -122,6 +122,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   fetchProjects() {
+    this.tableData = [];
     this.httpService.get('http://localhost:8080/project/all').subscribe(
       data => {
         this.arrJson = data;
@@ -167,7 +168,8 @@ export class ProjectListComponent implements OnInit {
     let url = 'http://localhost:8080/project/tasks?pr_id='+id;
     this.projectDetails = temp;
     console.log(url);
-    
+    console.log(id);
+    this.taskData = [];
     this.httpService.get(url).subscribe(
       data => {
 
