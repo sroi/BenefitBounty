@@ -1,36 +1,3 @@
-<!--
-<table id="project">
-  <tr>
-    <th>Area</th>
-    <th>Duration(Days)</th>
-    <th>Status</th>
-    <th>Edit</th>
-    <th>Delete</th>
-  </tr>
-  <tr (click) ="showDetails()" style="cursor:pointer;">
-    <td>Goregaon</td>
-    <td>20</td>
-    <td>Active</td>
-    <td [routerLink] ="'home'" style="color: blue; cursor:pointer;">Edit Project</td>
-    <td [routerLink] ="'home'" style="color: blue; cursor:pointer;">Delete Project</td>
-  </tr>
-  <tr>
-    <td>Malad</td>
-    <td>10</td>
-    <td>Active</td>
-    <td>Edit Project</td>
-    <td>Delete Project</td>
-  </tr>
-  <tr>
-    <td>Dadar</td>
-    <td>22</td>
-    <td>Active</td>
-    <td>Edit Project</td>
-    <td>Delete Project</td>
-  </tr>
-  
-</table>
--->
 
 <div [hidden]="!isLoaded1">
 
@@ -38,7 +5,7 @@
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" id="projectTable">
       <ng-container matColumnDef="area">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Area </th>
-        <td mat-cell *matCellDef="let element" (click)="showDetails(element)" style="cursor:pointer;"> {{element.area}} </td>
+        <td mat-cell *matCellDef="let element" (click)="showDetails(element)" style="cursor:pointer;"> {{element.areaOfEngagement}} </td>
       </ng-container>
 
       <ng-container matColumnDef="name">
@@ -46,16 +13,21 @@
         <td mat-cell *matCellDef="let element" (click)="showDetails(element)" style="cursor:pointer;"> {{element.name}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="duration">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration </th>
-        <td mat-cell *matCellDef="let element" (click)="showDetails(element)" style="cursor:pointer;"> {{element.duration}}
+      <ng-container matColumnDef="budget">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Budget </th>
+        <td mat-cell *matCellDef="let element" (click)="showDetails(element)" style="cursor:pointer;"> {{element.budget}}
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-        <td mat-cell *matCellDef="let element" (click)="showDetails(element)" style="cursor:pointer;"> {{element.status}} </td>
+      <ng-container matColumnDef="location">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
+        <td mat-cell *matCellDef="let element" (click)="showDetails(element)" style="cursor:pointer;"> {{element.location}} </td>
       </ng-container>
+
+      <ng-container matColumnDef="duration">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration </th>
+          <td mat-cell *matCellDef="let element" (click)="showDetails(element)" style="cursor:pointer;"> {{element.startDate | date: 'dd/MM/yyyy'}} - {{element.endDate | date: 'dd/MM/yyyy'}}</td>
+        </ng-container>
 
       <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> 
@@ -99,17 +71,24 @@
 
   <div class="container-fluid" id="projectDetails" [hidden]="!isLoaded">
     <div class="row">
-      <div class="col-lg-12" *ngIf="isTempTask">
-        <h1>{{tempTask.name}}</h1>
+      <div class="col-lg-12" *ngIf="isProject">
+        <h1>{{projectDetails.name}}</h1>
       </div>
 
-      <div class="col-lg-6" *ngIf="isTempTask">
+      <div class="col-lg-6" *ngIf="isProject">
         <p>
-          Area : {{tempTask.area}} <br>
-          Duration : {{tempTask.duration}} <br>
-          Status : {{tempTask.status}} <br>
-          Project Name: {{tempTask.name}}
+          Area : {{projectDetails.areaOfEngagement}} <br>
+          Budget : {{projectDetails.budget}} <br>
+          Project Name: {{projectDetails.name}} <br>
+          Corporate Entity : {{projectDetails.associatedCorporateEntity}} <br>
+          Duration : {{projectDetails.startDate | date: 'dd/MM/yyyy'}} - {{projectDetails.endDate | date: 'dd/MM/yyyy'}} <br>
+          Location : {{projectDetails.location}} <br>
+          Point Of Contacts : {{projectDetails.pointOfContacts}} <br>
+          Stakeholders : {{projectDetails.stakeholders}} <br>
+          Summary : {{projectDetails.summary}} <br>
         </p>
+
+        
         <!-- <p *ngIf="isTempTask">
           {{tempTask.area}}
         </p> -->
@@ -136,22 +115,22 @@
         <table mat-table [dataSource]="taskSource" matSort class="mat-elevation-z8" id="taskTable">
           <ng-container matColumnDef="activity">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Activity </th>
-            <td mat-cell *matCellDef="let element1" style="cursor:pointer;"> {{element1.activity}} </td>
+            <td mat-cell *matCellDef="let element1" style="cursor:pointer;"> {{element1.activityLabel}} </td>
           </ng-container>
 
           <ng-container matColumnDef="task">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Task </th>
-            <td mat-cell *matCellDef="let element1" style="cursor:pointer;"> {{element1.task}} </td>
+            <td mat-cell *matCellDef="let element1" style="cursor:pointer;"> {{element1.name}} </td>
           </ng-container>
 
           <ng-container matColumnDef="duration">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration </th>
-            <td mat-cell *matCellDef="let element1" style="cursor:pointer;"> {{element1.duration}} </td>
+            <td mat-cell *matCellDef="let element1" style="cursor:pointer;"> {{element1.startDate | date: 'dd/MM/yyyy'}} -  {{element1.endDate | date: 'dd/MM/yyyy'}}</td>
           </ng-container>
 
           <ng-container matColumnDef="approver">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Approver </th>
-            <td mat-cell *matCellDef="let element1" style="cursor:pointer;"> {{element1.approver}} </td>
+            <td mat-cell *matCellDef="let element1" style="cursor:pointer;"> {{element1.approver.name}} </td>
           </ng-container>
 
           <ng-container matColumnDef="edit">
