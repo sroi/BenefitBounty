@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTableModule, MatPaginatorModule, MatSortModule, MatIconModule } from '@angular/material';
+import { MatTableModule, MatPaginatorModule, MatSortModule, MatIconModule, MatInputModule, MatFormFieldModule } from '@angular/material';
 import { ProjectListComponent } from './project-list.component';
 import { RouterModule } from '@angular/router';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
@@ -15,7 +16,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatSortModule,
     MatProgressSpinnerModule,
     RouterModule,
-    MatIconModule
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FlexLayoutModule
   ],
   exports: [
     ProjectListComponent

@@ -78,7 +78,7 @@ export interface TaskElement {
 export class ProjectListComponent implements OnInit {
 
 
-  displayedColumns: string[] = ['area', 'name', 'budget', 'location', 'duration', 'edit', 'delete'];
+  displayedColumns: string[] = ['areaOfEngagement', 'name', 'budget', 'location', 'duration', 'edit', 'delete'];
   displayedTasks: string[] = ['activity', 'task', 'duration', 'approver','view','edit', 'delete'];
   // dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   // taskSource = new MatTableDataSource<TaskElement>(taskData);
@@ -164,6 +164,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   showDetails(temp) {
+    this.isTaskLoaded = false;
     this.isLoaded = false;
     this.isSpinnerEnabled = true;
     let id = temp.projectId;
@@ -213,10 +214,16 @@ export class ProjectListComponent implements OnInit {
     this.volunteer = temp.volunteers;
     console.log(this.volunteer);
     this.isTaskLoaded = true;
+    this.isLoaded = false;
   }
   hideTaskDetails()
   {
     this.isTaskLoaded = false;
+    this.isLoaded = true;
+  }
+
+  public doFilter = (value: string) => {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
 
   fetchProjects1() {

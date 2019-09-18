@@ -28,6 +28,11 @@
     margin-bottom: 2%;
     width: 95%;
   }
+
+  .taskDetails
+  {
+    
+  }
   .row
   {
     width: 100%;
@@ -76,12 +81,22 @@
 
 #projectTable
 {
-  margin-top: 5%;
-  // height: 300px;
+  margin-top: 2%;
+  position: relative;
+  max-height: 400px;
+  overflow: auto;
   // width: 100%;
   // overflow-y: scroll;
   // display: block;
 }
+
+.mat-elevation-z8-container
+{
+  // position: relative;
+  // max-height: 400px;
+  // overflow: auto;
+}
+
 
 #taskTable
 {
