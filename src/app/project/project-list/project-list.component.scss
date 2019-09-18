@@ -23,10 +23,10 @@
   }
 
   #projectDetails {
-    //border: 1px solid gray;
+    border: 1px solid gray;
     margin: 1%;
     margin-bottom: 2%;
-    width: 100%;
+    width: 95%;
   }
   .row
   {
@@ -42,6 +42,14 @@
   
   p {
     
+    text-align: left;
+    letter-spacing: 3px;
+    font-size: 200%;
+    
+  }
+
+  .para
+  {
     text-align: left;
     letter-spacing: 3px;
     font-size: 200%;

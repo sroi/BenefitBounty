@@ -76,17 +76,19 @@
       </div>
 
       <div class="col-lg-6" *ngIf="isProject">
-        <p>
-          Area : {{projectDetails.areaOfEngagement}} <br>
-          Budget : {{projectDetails.budget}} <br>
-          Project Name: {{projectDetails.name}} <br>
-          Corporate Entity : {{projectDetails.associatedCorporateEntity}} <br>
-          Duration : {{projectDetails.startDate | date: 'dd/MM/yyyy'}} - {{projectDetails.endDate | date: 'dd/MM/yyyy'}} <br>
-          Location : {{projectDetails.location}} <br>
-          Point Of Contacts : {{projectDetails.pointOfContacts}} <br>
-          Stakeholders : {{projectDetails.stakeholders}} <br>
-          Summary : {{projectDetails.summary}} <br>
-        </p>
+        <div class="para">
+            Area : {{projectDetails.areaOfEngagement}} <br>
+            Budget : {{projectDetails.budget}} <br>
+            Project Name: {{projectDetails.name}} <br>
+            Corporate Entity : {{projectDetails.associatedCorporateEntity}} <br>
+            Duration : {{projectDetails.startDate | date: 'dd/MM/yyyy'}} - {{projectDetails.endDate | date: 'dd/MM/yyyy'}} <br>
+            Location : {{projectDetails.location}} <br>
+            Point Of Contacts : <p *ngFor="let poc of projectDetails.pointOfContacts" style="font-size: 100%;">{{poc.name}}</p>  <br>
+            Stakeholders :<p *ngFor="let sh of projectDetails.stakeholders" style="font-size: 100%;">{{sh.name}}</p> <br>
+            Summary : {{projectDetails.summary}} <br>
+        </div>>
+          
+        
 
         
         <!-- <p *ngIf="isTempTask">
@@ -133,6 +135,19 @@
             <td mat-cell *matCellDef="let element1" style="cursor:pointer;"> {{element1.approver.name}} </td>
           </ng-container>
 
+          <ng-container matColumnDef="view">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> 
+                  <button mat-icon-button matTooltip="View all" style="background: white;border:none;">
+                      <mat-icon>inventory</mat-icon>
+                    </button>  
+              </th>
+              <td mat-cell *matCellDef="let element1" (click) = "showTaskDetails(element1)" style="color:cornflowerblue; cursor:pointer;">
+                  <button mat-icon-button matTooltip="View this score" style="background: white;border:none;">
+                      <mat-icon>inbox</mat-icon>
+                    </button> 
+              </td>
+            </ng-container>
+
           <ng-container matColumnDef="edit">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> 
                 <button mat-icon-button matTooltip="Edit all" style="background: white;border:none;">
@@ -169,6 +184,53 @@
       </div>
 
 
+    </div>
+
+    <div class="row" *ngIf="isTaskLoaded">
+      <div class="col-lg-3">
+
+      </div>
+      <div class="col-lg-6" [hidden]="!isTaskLoaded">
+          <div class="para">
+              Activity : {{taskDetails.activityLabel}} <br>
+              Description : {{taskDetails.description}} <br>
+              Task Name: {{taskDetails.name}} <br>
+              Duration : {{taskDetails.startDate | date: 'dd/MM/yyyy'}} - {{taskDetails.endDate | date: 'dd/MM/yyyy'}} <br>
+              Location : {{taskDetails.location}} <br>
+              Approver : {{taskDetails.approver.name}} <br>
+              Volunteers : <p *ngFor="let v of volunteer" style="font-size: 100%;">{{v.name}}</p> <br>
+              Created By : {{taskDetails.createdBy}} <br>
+              Created Time : {{taskDetails.createdTime | date: 'dd/MM/yyyy'}} <br>
+              Updated By : {{taskDetails.updatedBy}} <br>
+              Updated Time : {{taskDetails.updatedTime | date: 'dd/MM/yyyy'}} <br>
+          </div>>
+              
+           
+    
+           
+            
+            <!-- <p *ngIf="isTempTask">
+              {{tempTask.area}}
+            </p> -->
+    
+            <div class="row">
+              <div class="class-lg-4">
+                <button type="button" class="button" [routerLink]="'edit'">Edit</button><br>
+    
+              </div>
+              <div class="class-lg-4">
+                <button type="button" class="button" [routerLink]="'edit'">Delete</button><br>
+    
+              </div>
+              <div class="class-lg-4">
+                <button type="button" class="button" (click)="hideTaskDetails()">Close</button><br>
+    
+              </div>
+            </div>
+      </div>
+      <div class="col-lg-3">
+
+      </div>
     </div>
 
   </div>

@@ -79,17 +79,20 @@ export class ProjectListComponent implements OnInit {
 
 
   displayedColumns: string[] = ['area', 'name', 'budget', 'location', 'duration', 'edit', 'delete'];
-  displayedTasks: string[] = ['activity', 'task', 'duration', 'approver', 'edit', 'delete'];
+  displayedTasks: string[] = ['activity', 'task', 'duration', 'approver','view','edit', 'delete'];
   // dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   // taskSource = new MatTableDataSource<TaskElement>(taskData);
   dataSource = new MatTableDataSource<Projects>();
   taskSource = new MatTableDataSource<Tasks>();
   isLoaded: boolean = false;
   isLoaded1: boolean = false;
+  isTaskLoaded: boolean = false;
   isSpinnerEnabled: boolean = false;
   taskData1: TaskElement[];
   taskData: Tasks[] = [];
   projectDetails: Projects;
+  volunteer: Volunteers[] = [];
+  taskDetails: Tasks;
   isProject: boolean = false;
   // tableData: PeriodicElement[];
   tableData: Projects[] = [];
@@ -179,7 +182,7 @@ export class ProjectListComponent implements OnInit {
 
           this.taskData[i] = this.taskJson[i];
           console.log(this.taskData[i]);
-
+          this.taskDetails = this.taskData[i];
         }
 
 
@@ -190,6 +193,7 @@ export class ProjectListComponent implements OnInit {
         this.projectDetails = temp;
         this.isProject = true;
       
+        
 
 
         this.ngAfterViewInit();
@@ -201,6 +205,18 @@ export class ProjectListComponent implements OnInit {
         console.log();
       }
     );
+  }
+
+  showTaskDetails(temp)
+  {
+    this.taskDetails = temp;
+    this.volunteer = temp.volunteers;
+    console.log(this.volunteer);
+    this.isTaskLoaded = true;
+  }
+  hideTaskDetails()
+  {
+    this.isTaskLoaded = false;
   }
 
   fetchProjects1() {
