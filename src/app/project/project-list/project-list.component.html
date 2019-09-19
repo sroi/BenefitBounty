@@ -100,8 +100,13 @@
           Point Of Contacts : <p *ngFor="let poc of projectDetails.pointOfContacts" style="font-size: 100%;">
             {{poc.name}}</p> <br>
           Stakeholders :<p *ngFor="let sh of projectDetails.stakeholders" style="font-size: 100%;">{{sh.name}}</p> <br>
-          Summary : {{projectDetails.summary}} <br>
         </div>>
+        <div *ngIf="!isSummary" class="para">
+            Summary : {{projectDetails.summary | slice:0:20}}<a (click)="showSummary()">...</a> <br>
+        </div>
+        <div *ngIf="isSummary" class="para">
+          Summary : {{projectDetails.summary}} <br>
+        </div>
 
 
 

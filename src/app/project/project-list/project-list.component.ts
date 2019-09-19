@@ -88,6 +88,7 @@ export class ProjectListComponent implements OnInit {
   isLoaded1: boolean = false;
   isTaskLoaded: boolean = false;
   isSpinnerEnabled: boolean = false;
+  isSummary: boolean = false;
   taskData1: TaskElement[];
   taskData: Tasks[] = [];
   projectDetails: Projects;
@@ -164,6 +165,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   showDetails(temp) {
+    this.isSummary = false;
     this.isTaskLoaded = false;
     this.isLoaded = false;
     this.isSpinnerEnabled = true;
@@ -224,6 +226,11 @@ export class ProjectListComponent implements OnInit {
 
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
+  showSummary()
+  {
+    this.isSummary = true;
   }
 
   fetchProjects1() {
