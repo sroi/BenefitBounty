@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild, QueryList, ViewChildren } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 export interface PointOfContacts {
   name: string;
@@ -82,6 +83,12 @@ export class ProjectListComponent implements OnInit {
   displayedTasks: string[] = ['activity', 'task', 'duration', 'approver','view','edit', 'delete'];
   // dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   // taskSource = new MatTableDataSource<TaskElement>(taskData);
+
+  areaFilter = new FormControl();
+  nameFilter = new FormControl();
+
+  filteredValues = { areaOfEngagement:'', name:'',budget:'',location:'',duration:''};
+
   dataSource = new MatTableDataSource<Projects>();
   taskSource = new MatTableDataSource<Tasks>();
   isLoaded: boolean = false;
@@ -96,6 +103,7 @@ export class ProjectListComponent implements OnInit {
   taskDetails: Tasks;
   isProject: boolean = false;
   isImage: boolean = false;
+  image: string = "./../../../assets/angularLogo.svg";
   // tableData: PeriodicElement[];
   tableData: Projects[] = [];
   // @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
@@ -116,7 +124,39 @@ export class ProjectListComponent implements OnInit {
   keys: any = [];
   ngOnInit() {
 
+    console.log("before fetch projects");
     this.fetchProjects();
+    console.log("after fetch projects");
+    this.areaFilter.valueChanges.subscribe((areaFilterValue)        => {
+      this.filteredValues['areaOfEngagement'] = areaFilterValue;
+      this.dataSource.filter = JSON.stringify(this.filteredValues);
+      });
+      console.log("after area filter");
+      this.nameFilter.valueChanges.subscribe((nameFilterValue) => {
+        this.filteredValues['name'] = nameFilterValue;
+        this.dataSource.filter = JSON.stringify(this.filteredValues);
+      });
+      console.log("after name filter");
+  
+    this.dataSource.filterPredicate = this.customFilterPredicate();
+    console.log(this.dataSource.filterPredicate)
+    
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
+    console.log(filterValue);
+  }
+
+  customFilterPredicate() {
+    const myFilterPredicate = function(data:Projects,        filter:string) :boolean {
+      let searchString = JSON.parse(filter);
+      return data.areaOfEngagement.toString().trim().indexOf      (searchString.areaOfEngagement) !== -1 && 
+    data.name.toString().trim().toLowerCase().indexOf(searchString.name.toLowerCase()) !== -1;
+    }
+    console.log("gi");
+    return myFilterPredicate;
   }
 
   ngAfterViewInit() {
