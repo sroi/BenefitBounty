@@ -29,9 +29,12 @@
     width: 95%;
   }
 
-  .taskDetails
+  #taskDetails
   {
-    
+    border: 1px solid gray;
+    margin: 1%;
+    margin-bottom: 2%;
+    width: 95%;
   }
   .row
   {
@@ -58,7 +61,7 @@
     text-align: left;
     letter-spacing: 3px;
     font-size: 200%;
-    
+    margin-top: 5%;
   }
 
   .button {

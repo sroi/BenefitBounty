@@ -95,6 +95,7 @@ export class ProjectListComponent implements OnInit {
   volunteer: Volunteers[] = [];
   taskDetails: Tasks;
   isProject: boolean = false;
+  isImage: boolean = false;
   // tableData: PeriodicElement[];
   tableData: Projects[] = [];
   // @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
@@ -165,6 +166,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   showDetails(temp) {
+    this.isImage = false;
     this.isSummary = false;
     this.isTaskLoaded = false;
     this.isLoaded = false;
@@ -231,6 +233,15 @@ export class ProjectListComponent implements OnInit {
   showSummary()
   {
     this.isSummary = true;
+  }
+
+  showImage()
+  {
+    this.isImage = true;
+  }
+  hideImage()
+  {
+    this.isImage = false;
   }
 
   fetchProjects1() {
