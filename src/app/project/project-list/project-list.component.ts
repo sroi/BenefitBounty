@@ -32,14 +32,14 @@ export interface Projects {
   summary: string;
 }
 
-export interface Volunteers{
+export interface Volunteers {
   name: string;
   emailId: string;
   phoneNo: number;
   role: string;
 }
 
-export interface Approver{
+export interface Approver {
   name: string;
   emailId: string;
   phoneNo: number;
@@ -80,14 +80,16 @@ export class ProjectListComponent implements OnInit {
 
 
   displayedColumns: string[] = ['areaOfEngagement', 'name', 'budget', 'location', 'duration', 'edit', 'delete'];
-  displayedTasks: string[] = ['activity', 'task', 'duration', 'approver','view','edit', 'delete'];
+  displayedTasks: string[] = ['activity', 'task', 'duration', 'approver', 'view', 'edit', 'delete'];
   // dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   // taskSource = new MatTableDataSource<TaskElement>(taskData);
 
   areaFilter = new FormControl();
   nameFilter = new FormControl();
+  budgetFilter = new FormControl();
+  locationFilter = new FormControl();
 
-  filteredValues = { areaOfEngagement:'', name:'',budget:'',location:'',duration:''};
+  filteredValues = { areaOfEngagement: '', name: '', budget: '', location: '', duration: '' };
 
   dataSource = new MatTableDataSource<Projects>();
   taskSource = new MatTableDataSource<Tasks>();
@@ -124,23 +126,32 @@ export class ProjectListComponent implements OnInit {
   keys: any = [];
   ngOnInit() {
 
-    console.log("before fetch projects");
+    
     this.fetchProjects();
-    console.log("after fetch projects");
-    this.areaFilter.valueChanges.subscribe((areaFilterValue)        => {
+
+    this.areaFilter.valueChanges.subscribe((areaFilterValue) => {
       this.filteredValues['areaOfEngagement'] = areaFilterValue;
       this.dataSource.filter = JSON.stringify(this.filteredValues);
-      });
-      console.log("after area filter");
-      this.nameFilter.valueChanges.subscribe((nameFilterValue) => {
-        this.filteredValues['name'] = nameFilterValue;
-        this.dataSource.filter = JSON.stringify(this.filteredValues);
-      });
-      console.log("after name filter");
-  
+    });
+
+    this.nameFilter.valueChanges.subscribe((nameFilterValue) => {
+      this.filteredValues['name'] = nameFilterValue;
+      this.dataSource.filter = JSON.stringify(this.filteredValues);
+    });
+
+    this.locationFilter.valueChanges.subscribe((locationFilterValue) => {
+      this.filteredValues['location'] = locationFilterValue;
+      this.dataSource.filter = JSON.stringify(this.filteredValues);
+    });
+
+    this.budgetFilter.valueChanges.subscribe((budgetFilterValue) => {
+      this.filteredValues['budget'] = budgetFilterValue;
+      this.dataSource.filter = JSON.stringify(this.filteredValues);
+    });
+
     this.dataSource.filterPredicate = this.customFilterPredicate();
     console.log(this.dataSource.filterPredicate)
-    
+
   }
 
   applyFilter(filterValue: string) {
@@ -150,10 +161,12 @@ export class ProjectListComponent implements OnInit {
   }
 
   customFilterPredicate() {
-    const myFilterPredicate = function(data:Projects,        filter:string) :boolean {
+    const myFilterPredicate = function (data: Projects, filter: string): boolean {
       let searchString = JSON.parse(filter);
-      return data.areaOfEngagement.toString().trim().indexOf      (searchString.areaOfEngagement) !== -1 && 
-    data.name.toString().trim().toLowerCase().indexOf(searchString.name.toLowerCase()) !== -1;
+      return data.areaOfEngagement.toString().trim().indexOf(searchString.areaOfEngagement) !== -1 &&
+        data.name.toString().trim().toLowerCase().indexOf(searchString.name.toLowerCase()) !== -1 &&
+        data.budget.toString().trim().toLowerCase().indexOf(searchString.budget.toLowerCase()) !== -1 &&
+        data.location.toString().trim().toLowerCase().indexOf(searchString.location.toLowerCase()) !== -1;
     }
     console.log("gi");
     return myFilterPredicate;
@@ -173,23 +186,10 @@ export class ProjectListComponent implements OnInit {
         this.arrJson = data;
         this.tableData.push(this.arrJson);
         for (let i = 0; i < this.arrJson.length; i++) {
-          // this.tableData[i].projectId = this.arrJson[i].projectId;
-          // this.tableData[i].name = this.arrJson[i].name;
-          // this.tableData[i].areaOfEngagement = this.arrJson[i].areaOfEngagement;
-          // this.tableData[i].associatedCorporateEntity = this.arrJson[i].associatedCorporateEntity;
-          // this.tableData[i].budget = this.arrJson[i].budget;
-          // this.tableData[i].endDate = this.arrJson[i].endDate;
-          // this.tableData[i].startDate = this.arrJson[i].startDate;
-          // this.tableData[i].location = this.arrJson[i].location;
-          // this.tableData[i].pointOfContacts = this.arrJson[i].pointOfContacts;
-          // this.tableData[i].stakeholders = this.arrJson[i].stakeholders;
-          // this.tableData[i].summary = this.arrJson[i].summary;
           this.tableData[i] = this.arrJson[i];
-
         }
 
         this.isLoaded1 = true;
-        // this.isSpinnerEnabled = false;
         this.dataSource = new MatTableDataSource<Projects>(this.tableData);
 
         this.ngAfterViewInit();
@@ -212,8 +212,8 @@ export class ProjectListComponent implements OnInit {
     this.isLoaded = false;
     this.isSpinnerEnabled = true;
     let id = temp.projectId;
-    
-    let url = 'http://localhost:8080/project/tasks?pr_id='+id;
+
+    let url = 'http://localhost:8080/project/tasks?pr_id=' + id;
     this.projectDetails = temp;
     console.log(url);
     console.log(id);
@@ -237,14 +237,11 @@ export class ProjectListComponent implements OnInit {
 
         this.projectDetails = temp;
         this.isProject = true;
-      
-        
+
+
 
 
         this.ngAfterViewInit();
-        // console.log(this.taskJson.length);
-        // // console.log(this.tableData);
-        // console.log(this.taskData[0].name);
       },
       (err: HttpErrorResponse) => {
         console.log();
@@ -252,16 +249,14 @@ export class ProjectListComponent implements OnInit {
     );
   }
 
-  showTaskDetails(temp)
-  {
+  showTaskDetails(temp) {
     this.taskDetails = temp;
     this.volunteer = temp.volunteers;
     console.log(this.volunteer);
     this.isTaskLoaded = true;
     this.isLoaded = false;
   }
-  hideTaskDetails()
-  {
+  hideTaskDetails() {
     this.isTaskLoaded = false;
     this.isLoaded = true;
   }
@@ -270,17 +265,14 @@ export class ProjectListComponent implements OnInit {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
 
-  showSummary()
-  {
+  showSummary() {
     this.isSummary = true;
   }
 
-  showImage()
-  {
+  showImage() {
     this.isImage = true;
   }
-  hideImage()
-  {
+  hideImage() {
     this.isImage = false;
   }
 
@@ -362,10 +354,17 @@ export class ProjectListComponent implements OnInit {
   deleteProject(temp) {
     console.log(this.dataSource.data);
     console.log(temp);
+
+    this.httpService.post('http://localhost:8080/project/delete',temp.projectId).subscribe(
+      data => {
+
+      }
+
+    );
     // const index = this.dataSource.data.indexOf(temp);
     // this.dataSource.data.splice(index,1);
     // console.log(this.dataSource.data);
-    this.router.navigate(['./add']);
+    this.refresh();
   }
 
   editTask(temp) {
@@ -375,7 +374,18 @@ export class ProjectListComponent implements OnInit {
 
   deleteTask(temp) {
     console.log(temp);
-    this.router.navigate(['./add']);
+    this.httpService.post('http://localhost:8080/project/delete',temp.taskId).subscribe(
+      data => {
+
+      }
+
+    );
+    this.refresh();
+  }
+
+  refresh()
+  {
+    window.location.reload();
   }
 
 }
