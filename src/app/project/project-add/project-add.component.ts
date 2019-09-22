@@ -5,6 +5,7 @@ import { ProjectServiceService } from '../_service/project-service.service';
 import { resource } from 'selenium-webdriver/http';
 import {IMyDpOptions, IMyDateModel} from 'mydatepicker';
 import { ContactPersons } from '../_model/contact-persons';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-project-add',
   templateUrl: './project-add.component.html',
@@ -16,13 +17,20 @@ export class ProjectAddComponent implements OnInit {
   public project= new Project();
   public isContactButtonVisible=false;
   public isStakeHolderButtonVisible=false;
-  constructor(private _projectService:ProjectServiceService) { }
+  constructor(private _projectService:ProjectServiceService,private _route: ActivatedRoute, private _router: Router) { }
 
   ngOnInit() {
     this.project.startDate= new Date(Date.now.toString());
     this.project.stakeHolders=[];
     this.project.contactPerson=[];
+
+    this._route.paramMap.subscribe(parameterMap => {
+      const id = +parameterMap.get('id');
+     this.getProjectById(id);
+  });
+
   }
+    
   public myDatePickerStartOptions: IMyDpOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',
@@ -36,19 +44,17 @@ public myDatePickerEndOptions: IMyDpOptions = {
   onSubmit(form:NgForm) { 
    
     console.log( form.value );
-
-    
   this._projectService.postProject(form.value).subscribe(
     (response:Project)=>{
       debugger
       console.log(JSON.stringify("success"+response));
-      
     },
-    
     err=>{
       if(err.status == 400){
       console.log( JSON.parse( JSON.stringify(err.error )));}
     });
+  
+    
   }
 
   onDateChanged(event: IMyDateModel) {
@@ -99,6 +105,28 @@ public myDatePickerEndOptions: IMyDpOptions = {
 
     }
 
- 
+    getProjectById(id:number) {
+      console.log(id);
+    return  this._projectService.getProjectById(id).subscribe(
+        (response:Project)=>{
+         this.project.project_Name= response.project_Name;
+         this.project.area_Engagement= response.area_Engagement;
+         this.project.corporate_Assosciate= response.corporate_Assosciate;
+         this.project.budget_estimate= response.budget_estimate;
+         this.project.location= response.location;
+         this.project.project_id= response.project_id;
+         this.project.startDate= response.startDate;
+         this.project.endDate= response.endDate;
+         this.project.summary= response.summary;
+         this.project.stakeHolders= response.stakeHolders;
+         this.project.contactPerson=response.contactPerson;
+        },
+        
+        err=>{
+          if(err.status == 400){
+          console.log( JSON.parse( JSON.stringify(err.error )));}
+        });
+      
+    }
   
 }

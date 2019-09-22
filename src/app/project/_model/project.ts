@@ -2,6 +2,7 @@ import  {ContactPersons} from './contact-persons';
 export class Project 
 {
 project_Name:string;
+project_id:number;
 area_Engagement:string;
 summary:string;
 startDate:Date;

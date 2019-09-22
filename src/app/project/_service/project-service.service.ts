@@ -10,15 +10,14 @@ import {  HttpClient, HttpErrorResponse } from '@angular/common/http';
 export class ProjectServiceService {
 
   constructor(private _httpClient:HttpClient) { }
-  private baseUrl:string="http://localhost:56967/api";//"http://10.254.5.241:90/api";//this.config.getConfiguration().apiUrl;//
-  private Paramlist:string=this.baseUrl+"/Parameter/GetParameterSets";
-  private ParamuploadFile:string=this.baseUrl+"/Parameter/UploadFile";
+  private baseUrl:string="http://localhost:8080";
+  private projectAddUpdate:string=this.baseUrl+"/saveOrUpdate";
+  
 
 postProject(formData:FormData):Observable<Project>
 {
-  return this._httpClient.post<Project>(this.ParamuploadFile,formData);
+  return this._httpClient.post<Project>(this.projectAddUpdate,formData);
  
-    //catch(this.handleError<ResultResponse>());
 }
 
 arrJson: any=[];
@@ -43,6 +42,15 @@ fetchProjects()
     )
   }
 
+  getProjectById(id:number):Observable<Project>
+  {
+    const projectAddUpdate= `${this.projectAddUpdate}?id=${id}`;
+    
+    return this._httpClient.get<Project>(this.projectAddUpdate);
+   
+  } 
+  
+  
   
 
 }

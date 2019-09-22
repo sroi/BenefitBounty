@@ -8,7 +8,7 @@ import { TaskListComponent } from './tasks/task-list/task-list.component';
 const routes: Routes = [
   {path:'project', component:ProjectListComponent},
   {path:'add', component:ProjectAddComponent},
-  {path:'project/edit', redirectTo:'add',pathMatch:'full'},
+  {path:'project/edit:id', redirectTo:'add',pathMatch:'full'},
   {path:'task', component:TaskListComponent},
   {path:'project/task',redirectTo:'task',pathMatch:'full'}
 ];

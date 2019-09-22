@@ -3,6 +3,8 @@ import { Component, OnInit, ViewChild, QueryList, ViewChildren } from '@angular/
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
+import { ProjectServiceService } from '../_service/project-service.service';
+import { Project } from '../_model';
 
 export interface PointOfContacts {
   name: string;
@@ -106,6 +108,8 @@ export class ProjectListComponent implements OnInit {
   image: string = "./../../../assets/angularLogo.svg";
   // tableData: PeriodicElement[];
   tableData: Projects[] = [];
+  project:Project;
+
   // @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
   // @ViewChild(MatSort,{static:true}) sort: MatSort;
 
@@ -116,7 +120,7 @@ export class ProjectListComponent implements OnInit {
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
 
 
-  constructor(private httpService: HttpClient, private router: Router) {
+  constructor(private httpService: HttpClient, private router: Router, private _projectService:ProjectServiceService) {
 
   }
   arrJson: any = [];
@@ -354,9 +358,8 @@ export class ProjectListComponent implements OnInit {
     document.getElementById("projectDetails").hidden = true;
   }
 
-  editProject(temp) {
-    console.log(temp);
-    this.router.navigate(['./add']);
+  editProject(temp){
+    this.router.navigate(['./add?id='+temp.id]);
   }
 
   deleteProject(temp) {

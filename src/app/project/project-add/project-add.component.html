@@ -5,6 +5,7 @@
             <div class="form-group col-md-6">
             <label for="project_Name">Project Name</label>
             <input type="text" class="form-control" name="project_Name"  [(ngModel)]="project.project_Name" #trackName="ngModel" required>
+            <input type="hidden"  name="project_id"  [(ngModel)]="project.project_id">
             <p class="alert" *ngIf="!trackName.valid && trackName.touched">The Project Name is required</p>
           </div>
           <div class="form-group col-md-6">
