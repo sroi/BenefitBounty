@@ -217,7 +217,7 @@ export class ProjectListComponent implements OnInit {
     this.isSpinnerEnabled = true;
     let id = temp.projectId;
 
-    let url = 'http://localhost:8080/project/tasks?pr_id=' + id;
+    let url = 'http://localhost:8080/project/tasks?pid=' + id;
     this.projectDetails = temp;
     console.log(url);
     console.log(id);
