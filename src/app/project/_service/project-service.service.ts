@@ -11,11 +11,12 @@ export class ProjectServiceService {
 
   constructor(private _httpClient:HttpClient) { }
   private baseUrl:string="http://localhost:8080";
-  private projectAddUpdate:string=this.baseUrl+"/saveOrUpdate";
+  private projectAddUpdate:string=this.baseUrl+"/project/create";
   
 
 postProject(formData:FormData):Observable<Project>
 {
+  this.projectAddUpdate = this.projectAddUpdate+'/'+formData;
   return this._httpClient.post<Project>(this.projectAddUpdate,formData);
  
 }
