@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProjectAddComponent } from './project';
 import { ProjectListComponent } from './project/project-list/project-list.component';
 import { TaskListComponent } from './tasks/task-list/task-list.component';
+import { LoginComponent } from './login/login.component';
 
 
 const routes: Routes = [
@@ -10,6 +11,7 @@ const routes: Routes = [
   {path:'add', component:ProjectAddComponent},
   {path:'project/edit:id', redirectTo:'add',pathMatch:'full'},
   {path:'task', component:TaskListComponent},
+  {path:'login', component:LoginComponent},
   {path:'project/task',redirectTo:'task',pathMatch:'full'}
 ];
 

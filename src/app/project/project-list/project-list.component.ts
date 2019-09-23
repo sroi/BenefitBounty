@@ -379,20 +379,19 @@ export class ProjectListComponent implements OnInit {
   deleteProject(temp) {
     console.log(this.dataSource.data);
     console.log(temp);
-    // this.dataSource.data = this.dataSource.data.filter(row => row!=this.selection.select(row));
+    this.dataSource.data = this.dataSource.data.filter((project: Projects)=>{
+      return project.projectId !=temp.projectId;
+    })
     
-    let url = 'http://localhost:8080/project/delete?pid=' + temp.projectId;
+    // let url = 'http://localhost:8080/project/delete?pid=' + temp.projectId;
 
-    this.httpService.delete(url, temp.projectId).subscribe(
-      data => {
-        console.log(data);
-      }
+    // this.httpService.delete(url, temp.projectId).subscribe(
+    //   data => {
+    //     console.log(data);
+    //   }
 
-    );
-    // const index = this.dataSource.data.indexOf(temp);
-    // this.dataSource.data.splice(index,1);
-    // console.log(this.dataSource.data);
-    this.fetchProjects();
+    // );
+    
   }
 
   editTask(temp) {
@@ -402,6 +401,9 @@ export class ProjectListComponent implements OnInit {
 
   deleteTask(temp) {
     console.log(temp);
+    this.taskSource.data = this.taskSource.data.filter((task: Tasks)=>{
+      return task.taskId !=temp.taskId;
+    })
     let url = 'http://localhost:8080/project/deleteTask?tid=' + temp.taskId;
 
     this.httpService.delete(url, temp.taskId).subscribe(
@@ -410,7 +412,6 @@ export class ProjectListComponent implements OnInit {
       }
 
     );
-      this.showDetails(this.currentProject);
   }
 
   changeStatusValue(statusValue)
@@ -431,6 +432,7 @@ export class ProjectListComponent implements OnInit {
       }
 
     );
+    location.reload();
   }
 
   refresh() {
