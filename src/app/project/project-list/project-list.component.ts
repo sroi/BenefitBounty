@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { ProjectServiceService } from '../_service/project-service.service';
 import { Project } from '../_model';
+import { SelectionModel } from '@angular/cdk/collections';
 
 export interface PointOfContacts {
   name: string;
@@ -26,12 +27,14 @@ export interface Projects {
   areaOfEngagement: string;
   associatedCorporateEntity: string;
   budget: number;
+  status: string;
   endDate: Date;
   startDate: Date;
   location: string;
   pointOfContacts: PointOfContacts[];
   stakeholders: Stakeholders[];
   summary: string;
+
 }
 
 export interface Volunteers {
@@ -72,6 +75,10 @@ export interface TaskElement {
   duration: number;
   approver: string;
 }
+export interface ProjectStatus {
+  value: string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-project-list',
@@ -81,10 +88,16 @@ export interface TaskElement {
 export class ProjectListComponent implements OnInit {
 
 
-  displayedColumns: string[] = ['areaOfEngagement', 'name', 'budget', 'location', 'duration', 'edit', 'delete'];
+  displayedColumns: string[] = ['areaOfEngagement', 'name', 'budget','status', 'location', 'duration','changeStatus', 'edit', 'delete'];
   displayedTasks: string[] = ['activity', 'task', 'duration', 'approver', 'view', 'edit', 'delete'];
   // dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   // taskSource = new MatTableDataSource<TaskElement>(taskData);
+
+  projectStatus: ProjectStatus[] = [
+    {value: 'InProgress', viewValue: 'InProgress'},
+    {value: 'OnHold', viewValue: 'OnHold'},
+    {value: 'Closed', viewValue: 'Closed'}
+  ];
 
   areaFilter = new FormControl();
   nameFilter = new FormControl();
@@ -103,14 +116,16 @@ export class ProjectListComponent implements OnInit {
   taskData1: TaskElement[];
   taskData: Tasks[] = [];
   projectDetails: Projects;
+  currentProject: Projects;
   volunteer: Volunteers[] = [];
   taskDetails: Tasks;
   isProject: boolean = false;
   isImage: boolean = false;
+  statusToUpdate: string;
   image: string = "./../../../assets/angularLogo.svg";
   // tableData: PeriodicElement[];
   tableData: Projects[] = [];
-  project:Project;
+  project: Project;
 
   // @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
   // @ViewChild(MatSort,{static:true}) sort: MatSort;
@@ -122,15 +137,16 @@ export class ProjectListComponent implements OnInit {
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
 
 
-  constructor(private httpService: HttpClient, private router: Router, private _projectService:ProjectServiceService) {
+  constructor(private httpService: HttpClient, private router: Router, private _projectService: ProjectServiceService) {
 
   }
   arrJson: any = [];
   taskJson: any = [];
   keys: any = [];
+  selection = new SelectionModel<Projects>(true, []);
   ngOnInit() {
 
-    
+
     this.fetchProjects();
 
     this.areaFilter.valueChanges.subscribe((areaFilterValue) => {
@@ -184,6 +200,11 @@ export class ProjectListComponent implements OnInit {
   }
 
   fetchProjects() {
+    this.isLoaded1 = false;
+    this.isLoaded = false;
+    this.isTaskLoaded = false;
+    this.isSpinnerEnabled = false;
+    this.isSummary = false;
     this.tableData = [];
     this.httpService.get('http://localhost:8080/project/all').subscribe(
       data => {
@@ -216,6 +237,7 @@ export class ProjectListComponent implements OnInit {
     this.isLoaded = false;
     this.isSpinnerEnabled = true;
     let id = temp.projectId;
+    this.currentProject = temp;
 
     let url = 'http://localhost:8080/project/tasks?pid=' + id;
     this.projectDetails = temp;
@@ -350,24 +372,27 @@ export class ProjectListComponent implements OnInit {
     document.getElementById("projectDetails").hidden = true;
   }
 
-  editProject(temp){
-    this.router.navigate(['./add?id='+temp.id]);
+  editProject(temp) {
+    this.router.navigate(['./add?id=' + temp.id]);
   }
 
   deleteProject(temp) {
     console.log(this.dataSource.data);
     console.log(temp);
+    // this.dataSource.data = this.dataSource.data.filter(row => row!=this.selection.select(row));
+    
+    let url = 'http://localhost:8080/project/delete?pid=' + temp.projectId;
 
-    this.httpService.post('http://localhost:8080/project/delete',temp.projectId).subscribe(
+    this.httpService.delete(url, temp.projectId).subscribe(
       data => {
-
+        console.log(data);
       }
 
     );
     // const index = this.dataSource.data.indexOf(temp);
     // this.dataSource.data.splice(index,1);
     // console.log(this.dataSource.data);
-    this.refresh();
+    this.fetchProjects();
   }
 
   editTask(temp) {
@@ -377,17 +402,38 @@ export class ProjectListComponent implements OnInit {
 
   deleteTask(temp) {
     console.log(temp);
-    this.httpService.post('http://localhost:8080/project/delete',temp.taskId).subscribe(
+    let url = 'http://localhost:8080/project/deleteTask?tid=' + temp.taskId;
+
+    this.httpService.delete(url, temp.taskId).subscribe(
       data => {
 
       }
 
     );
-    this.refresh();
+      this.showDetails(this.currentProject);
   }
 
-  refresh()
+  changeStatusValue(statusValue)
   {
+    this.statusToUpdate = statusValue;
+  }
+
+  changeStatus(project,statusValue)
+  {
+    console.log(project);
+    console.log(statusValue);
+
+    let url = 'http://localhost:8080/project/updateStatus?pid=' + project.projectId + '&status=' + statusValue;
+
+    this.httpService.post(url, statusValue).subscribe(
+      data => {
+        console.log(data);
+      }
+
+    );
+  }
+
+  refresh() {
     window.location.reload();
   }
 
