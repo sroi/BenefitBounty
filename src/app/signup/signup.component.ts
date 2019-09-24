@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
-
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.scss']
 })
-export class LoginComponent implements OnInit {
+
+export class SignupComponent implements OnInit {
   private loggedInStatus=JSON.parse(localStorage.getItem('loggedIn')||'false');
 
   loginForm: FormGroup;
@@ -21,6 +21,8 @@ export class LoginComponent implements OnInit {
   isUsernamePresent: boolean = false;
   isPasswordPresent: boolean = false;
   isUsernameEntered: boolean = false;
+  isPasswordMatched: boolean = true;
+  usernameFromLocalStorage: string;
 
   constructor(private httpClient:HttpClient, private router:Router) { 
     if(this.loggedInStatus)
@@ -33,11 +35,13 @@ export class LoginComponent implements OnInit {
 
     // localStorage.clear();
     this.loginForm=new FormGroup({
-      username: new FormControl('',Validators.required),
+      username: new FormControl(),
       password: new FormControl('',Validators.required),
-      roleName: new FormControl('',Validators.required)
+      confirmPassword: new FormControl('',Validators.required)
     });
 
+    this.usernameFromLocalStorage = localStorage.getItem("username");
+    this.loginForm.patchValue({username:this.usernameFromLocalStorage});
 
   }
   get f() { return this.loginForm.controls; }
@@ -50,8 +54,14 @@ export class LoginComponent implements OnInit {
 
 
   loginUser() {
-    console.log("yes");
+    let usernameFromLocal = localStorage.getItem("username");
+    console.log("yes"+' '+usernameFromLocal);
     this.submitted = true;
+    if(this.loginForm.get('password').value != this.loginForm.get('confirmPassword').value)
+    {
+      this.isPasswordMatched = false;
+      return;
+    }
     if (this.loginForm.invalid) {
       return;
     }
@@ -69,16 +79,7 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm.get('username').value);
     this.isUsernameEntered = true;
     this.isUsernamePresent = true;
-    this.isPasswordPresent = false;
-    localStorage.setItem("username",this.loginForm.get('username').value);
-    if(this.isUsernameEntered && this.isUsernamePresent && !this.isPasswordPresent)
-    {
-      this.router.navigate(['../signup']);
-    }
-    if(this.isUsernameEntered && !this.isUsernamePresent)
-    {
-      console.log("Username not present");
-    }
+    this.isPasswordPresent = true;
   }
 
 
@@ -86,15 +87,15 @@ export class LoginComponent implements OnInit {
     let dataToSend = {
       username: this.loginForm.get('username').value,
       pass_word: this.loginForm.get('password').value,
-      role: this.loginForm.get('roleName').value
+      confirm_password: this.loginForm.get('confirmPassword').value
     }
-    console.log(dataToSend.username+' '+dataToSend.pass_word+' '+dataToSend.role);
+    console.log(dataToSend.username+' '+dataToSend.pass_word+' '+dataToSend.confirm_password);
 
     let serializedForm = JSON.stringify(dataToSend);
 
     let h = new HttpHeaders({'Content-Type':'application/json'});
 
-    this.router.navigate(['../project']);
+    this.router.navigate(['../login']);
    
     // this.httpClient.post("http://localhost:8080/login",serializedForm,{headers:h})
     // .subscribe(

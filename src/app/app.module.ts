@@ -11,6 +11,7 @@ import { TaskListComponent } from './tasks/task-list/task-list.component';
 import { ProjectListModule } from './project/project-list/project-list.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { LoginComponent } from './login/login.component';
     ProjectAddComponent,
     HeaderComponent,
     TaskListComponent,
-    LoginComponent
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,

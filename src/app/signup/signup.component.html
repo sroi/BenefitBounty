@@ -1,0 +1,64 @@
+<div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+    
+            </div>
+    
+            <div class="col-lg-4">
+                <h1>Set Up Your Account</h1>
+                <div class="loginFormClass">
+                    <form [formGroup]="loginForm" (submit)="loginUser()">
+                        <div class="panel-heading" *ngIf="!correctDetails && submitted">
+                            <font color="red" size="3.5">Invalid Login credentails</font>
+                        </div>
+    
+                            
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Email ID" formControlName="username"
+                                [ngClass]="{ 'is-invalid': submitted && f.username.errors }" title="Username" /><br />
+                            <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                                <div *ngIf="f.username.errors.required">
+                                    <font color="red" size="2.5">Username is required</font>
+                                </div>
+                            </div> -->
+                        </div>
+    
+                        
+    
+    
+                        <div class="form-group">
+                            <input type="password" class="form-control" formControlName="password" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.password.errors }" placeholder="Password"
+                                title="Password"><br />
+                            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                <div *ngIf="f.password.errors.required">
+                                    <font color="red" size="2.5">Password is required</font>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                                <input type="password" class="form-control" formControlName="confirmPassword" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" placeholder="Confirm Password"
+                                    title="Confirm Password"><br />
+                                <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                                    <div *ngIf="f.confirmPassword.errors.required">
+                                        <font color="red" size="2.5">Password is required</font>
+                                    </div>
+                                </div>
+                            </div>
+    
+                        <button class="btn btn-primary login-btn">Submit</button>
+                    </form>
+                    
+                </div>
+    
+            </div>
+    
+            <div class="col-lg-4">
+    
+            </div>
+    
+        </div>
+    
+    </div>
