@@ -10,7 +10,7 @@ import { SignupComponent } from './signup/signup.component';
 const routes: Routes = [
   {path:'project', component:ProjectListComponent},
   {path:'add', component:ProjectAddComponent},
-  {path:'project/edit:id', redirectTo:'add',pathMatch:'full'},
+  {path:'project/edit', redirectTo:'add',pathMatch:'full'},
   {path:'task', component:TaskListComponent},
   {path:'login', component:LoginComponent},
   {path:'signup', component:SignupComponent},

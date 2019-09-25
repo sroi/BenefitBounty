@@ -373,7 +373,8 @@ export class ProjectListComponent implements OnInit {
   }
 
   editProject(temp) {
-    this.router.navigate(['./add?id=' + temp.id]);
+    localStorage.setItem("currentProject",temp.name);
+    this.router.navigate(['./add']);
   }
 
   deleteProject(temp) {
