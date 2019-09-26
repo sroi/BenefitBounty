@@ -12,6 +12,7 @@ import { ProjectListModule } from './project/project-list/project-list.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { TaskListModule } from './volunteer/task-list/task-list.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { SignupComponent } from './signup/signup.component';
     HttpClientModule,
     BrowserAnimationsModule,
     ProjectListModule,
+    TaskListModule,
     ReactiveFormsModule
   ],
   providers: [],
