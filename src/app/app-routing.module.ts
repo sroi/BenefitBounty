@@ -7,6 +7,7 @@ import { SignupComponent } from './signup/signup.component';
 import { TaskListComponent } from './volunteer/task-list/task-list.component';
 import { StakeholderProjectListComponent } from './stakeholders/stakeholder-project-list/stakeholder-project-list.component';
 import { StakeholderProjectDetailComponent } from './stakeholders/stakeholder-project-detail/stakeholder-project-detail.component';
+import { TaskEditComponent } from './volunteer/task-edit/task-edit.component';
 
 
 const routes: Routes = [
@@ -15,6 +16,8 @@ const routes: Routes = [
   {path:'add', component:ProjectAddComponent},
   {path:'project/edit', redirectTo:'add',pathMatch:'full'},
   {path:'task', component:TaskListComponent},
+  {path:'taskEdit',component:TaskEditComponent},
+  {path:'task/edit',redirectTo:'taskEdit',pathMatch:'full'},
   {path:'login', component:LoginComponent},
   {path:'signup', component:SignupComponent},
   {path:'project/task',redirectTo:'task',pathMatch:'full'},

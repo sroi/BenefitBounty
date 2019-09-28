@@ -5,6 +5,37 @@ import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
+
+export interface PointOfContacts {
+  name: string;
+  phoneNo: number;
+  emailId: string;
+  role: string;
+}
+
+export interface Stakeholders {
+  name: string;
+  phoneNo: number;
+  emailId: string;
+  role: string;
+}
+
+export interface Projects {
+  projectId: string;
+  name: string;
+  areaOfEngagement: string;
+  associatedCorporateEntity: string;
+  budget: number;
+  status: string;
+  endDate: Date;
+  startDate: Date;
+  location: string;
+  pointOfContacts: PointOfContacts[];
+  stakeholders: Stakeholders[];
+  summary: string;
+
+}
+
 export interface Volunteers {
   name: string;
   emailId: string;
@@ -49,11 +80,11 @@ export interface ProjectStatus {
 export class TaskListComponent implements OnInit {
 
 
-  displayedTasks: string[] = ['activity', 'task', 'duration', 'approver'];
+  displayedTasks: string[] = ['activity', 'area', 'task', 'duration', 'approver', 'approver_comments', 'volunteer', 'volunteer_comments', 'uploads', 'time_estimated', 'audit_timestamp', 'status', 'edit'];
   projectStatus: ProjectStatus[] = [
-    {value: 'InProgress', viewValue: 'InProgress'},
-    {value: 'OnHold', viewValue: 'OnHold'},
-    {value: 'Closed', viewValue: 'Closed'}
+    { value: 'InProgress', viewValue: 'InProgress' },
+    { value: 'OnHold', viewValue: 'OnHold' },
+    { value: 'Closed', viewValue: 'Closed' }
   ];
 
   taskSource = new MatTableDataSource<Tasks>();
@@ -64,14 +95,18 @@ export class TaskListComponent implements OnInit {
   isSummary: boolean = false;
   taskData: Tasks[] = [];
   volunteer: Volunteers[] = [];
+  pointOfContacts: PointOfContacts[] = [];
+  stakeholders: Stakeholders[] = [];
+  summary: string;
   taskDetails: Tasks;
   isProject: boolean = false;
   isImage: boolean = false;
   statusToUpdate: string;
+  projectDetails: Projects;
   image: string = "./../../../assets/angularLogo.svg";
 
-  @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
-  @ViewChild(MatSort,{static:true}) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   // @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   // @ViewChildren(MatSort) sort = new QueryList<MatSort>();
@@ -87,11 +122,10 @@ export class TaskListComponent implements OnInit {
 
 
     this.showDetails("volunteer");
-        
+
   }
 
-  ngAfterViewInit()
-  {
+  ngAfterViewInit() {
     console.log("ngafter");
     this.taskSource.paginator = this.paginator;
     this.taskSource.sort = this.sort;
@@ -104,7 +138,7 @@ export class TaskListComponent implements OnInit {
   }
 
 
-  
+
 
   showDetails(temp) {
     this.isImage = false;
@@ -116,7 +150,7 @@ export class TaskListComponent implements OnInit {
     console.log("showDetails loaded");
 
     let url = 'http://localhost:8080/project/tasks?pid=5d7f8af91c9d44000096629e';
-  
+
     this.taskData = [];
     this.httpService.get(url).subscribe(
       data => {
@@ -126,7 +160,7 @@ export class TaskListComponent implements OnInit {
         for (let i = 0; i < this.taskJson.length; i++) {
 
           this.taskData[i] = this.taskJson[i];
-          
+
           this.taskDetails = this.taskData[i];
         }
 
@@ -135,7 +169,7 @@ export class TaskListComponent implements OnInit {
         this.isSpinnerEnabled = false;
         this.taskSource = new MatTableDataSource<Tasks>(this.taskData);
 
-     
+
         this.isProject = true;
         this.ngAfterViewInit();
 
@@ -148,10 +182,22 @@ export class TaskListComponent implements OnInit {
 
   showTaskDetails(temp) {
     console.log(temp);
-    this.taskDetails = temp;
-    this.volunteer = temp.volunteers;
-    this.isTaskLoaded = true;
-    this.isLoaded = false;
+    let url = 'http://localhost:8080/project/get?pid=' + temp.projectId;
+    this.httpService.get(url).subscribe(
+      data => {
+        this.isTaskLoaded = true;
+        this.arrJson = data;
+        this.projectDetails = this.arrJson;
+        console.log(this.projectDetails);
+        this.taskDetails = temp;
+        this.volunteer = temp.volunteers;
+        this.pointOfContacts = this.projectDetails.pointOfContacts;
+        this.stakeholders = this.projectDetails.stakeholders;
+        this.summary = this.projectDetails.summary;
+        this.isLoaded = false;
+      }
+    );
+
   }
   hideTaskDetails() {
     this.isTaskLoaded = false;
@@ -177,13 +223,15 @@ export class TaskListComponent implements OnInit {
 
   editTask(temp) {
     console.log(temp);
-    this.router.navigate(['./add']);
+    localStorage.setItem("currentTask", JSON.stringify(temp));
+    //this.taskDetails = JSON.parse(localStorage.getItem('currentTask'));
+    this.router.navigate(['../taskEdit']);
   }
 
   deleteTask(temp) {
     console.log(temp);
-    this.taskSource.data = this.taskSource.data.filter((task: Tasks)=>{
-      return task.taskId !=temp.taskId;
+    this.taskSource.data = this.taskSource.data.filter((task: Tasks) => {
+      return task.taskId != temp.taskId;
     })
     let url = 'http://localhost:8080/project/deleteTask?tid=' + temp.taskId;
 
