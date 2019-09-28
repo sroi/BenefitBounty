@@ -1,0 +1,45 @@
+<div class="mat-elevation-z8-container">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" id="projectTable">
+        <ng-container *ngFor="let column of projectColumnsConfig" [matColumnDef]="column.id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column.name}}<br>
+            <div>
+              <mat-form-field>
+                <input matInput class="form-field" [formControl]="column.filterControl" (keyup)="applyFilter($event.target.value)" placeholder="{{column.placeholder}}">
+              </mat-form-field>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let element" (click)="showProjectDetails(element)" style="cursor:pointer;">
+            {{element[column['id']]}} </td>
+        </ng-container>
+        <ng-container matColumnDef="approve">
+            <th mat-header-cell mat-sort-header *matHeaderCellDef> Approve</th>
+            <td mat-cell *matCellDef="let element" style="cursor:pointer;">
+                <a href="#" class="approve">Approve</a>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="reject">
+            <th mat-header-cell mat-sort-header *matHeaderCellDef >
+                Reject
+            </th>
+            <td mat-cell *matCellDef="let element" style="cursor:pointer;">
+                <a href="#" class="reject">Reject</a>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="rating">
+            <th mat-header-cell mat-sort-header *matHeaderCellDef> Rating</th>
+            <td mat-cell *matCellDef="let element" style="cursor:pointer;">
+                <mat-form-field>
+                    <mat-select  [value]="element.rating" (selectionChange)="onRatingChange(element,$event.value)">
+                        <mat-option *ngFor="let rating of [1,2,3,4,5]" [value]="rating">
+                            {{rating}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>             
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnHeaders"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnHeaders;"></tr>
+    </table>
+    <mat-paginator [length]="tableData.length" [pageSizeOptions]="[1,2,3]" showFirstLastButtons #matPaginator></mat-paginator>
+</div>
+<router-outlet></router-outlet>

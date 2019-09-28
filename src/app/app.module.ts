@@ -13,6 +13,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { TaskListModule } from './volunteer/task-list/task-list.module';
+import { StakeholderProjectListComponent } from './stakeholders/stakeholder-project-list/stakeholder-project-list.component';
+import { StakeHoldersModule } from './stakeholders/stakeholders.module';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { TaskListModule } from './volunteer/task-list/task-list.module';
     BrowserAnimationsModule,
     ProjectListModule,
     TaskListModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StakeHoldersModule
   ],
   providers: [],
   bootstrap: [AppComponent]

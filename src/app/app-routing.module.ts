@@ -5,6 +5,8 @@ import { ProjectListComponent } from './project/project-list/project-list.compon
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { TaskListComponent } from './volunteer/task-list/task-list.component';
+import { StakeholderProjectListComponent } from './stakeholders/stakeholder-project-list/stakeholder-project-list.component';
+import { StakeholderProjectDetailComponent } from './stakeholders/stakeholder-project-detail/stakeholder-project-detail.component';
 
 
 const routes: Routes = [
@@ -15,7 +17,10 @@ const routes: Routes = [
   {path:'task', component:TaskListComponent},
   {path:'login', component:LoginComponent},
   {path:'signup', component:SignupComponent},
-  {path:'project/task',redirectTo:'task',pathMatch:'full'}
+  {path:'project/task',redirectTo:'task',pathMatch:'full'},
+  { path: 'stakeholders/projects', component: StakeholderProjectListComponent, children: [
+    { path: ':id', component: StakeholderProjectDetailComponent}
+  ]} 
 ];
 
 @NgModule({
