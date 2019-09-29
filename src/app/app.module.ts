@@ -16,6 +16,7 @@ import { TaskListModule } from './volunteer/task-list/task-list.module';
 import { StakeholderProjectListComponent } from './stakeholders/stakeholder-project-list/stakeholder-project-list.component';
 import { StakeHoldersModule } from './stakeholders/stakeholders.module';
 import { TaskEditComponent } from './volunteer/task-edit/task-edit.component';
+import { VolunteerHeaderComponent } from './volunteer/volunteer-header/volunteer-header.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { TaskEditComponent } from './volunteer/task-edit/task-edit.component';
     TaskListComponent,
     LoginComponent,
     SignupComponent,
-    TaskEditComponent
+    TaskEditComponent,
+    VolunteerHeaderComponent
   ],
   imports: [
     BrowserModule,

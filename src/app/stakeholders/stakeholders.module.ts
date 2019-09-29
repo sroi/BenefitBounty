@@ -10,10 +10,11 @@ import {MatSelectModule} from '@angular/material/select'
 import { StakeholderProjectListComponent } from './stakeholder-project-list/stakeholder-project-list.component';
 import { StakeholderProjectDetailComponent } from './stakeholder-project-detail/stakeholder-project-detail.component';
 import { StakeHolderService } from './stakeholder.service';
+import { StakeholdersHeaderComponent } from './stakeholders-header/stakeholders-header.component';
 
 
 @NgModule({
-  declarations: [StakeholderProjectListComponent, StakeholderProjectDetailComponent],
+  declarations: [StakeholderProjectListComponent, StakeholderProjectDetailComponent, StakeholdersHeaderComponent],
   imports: [
     CommonModule,
     MatTableModule,
