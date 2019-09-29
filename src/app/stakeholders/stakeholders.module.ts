@@ -32,6 +32,7 @@ import { StakeholdersHeaderComponent } from './stakeholders-header/stakeholders-
     MatSelectModule
   ],
   exports: [
+    StakeholdersHeaderComponent
   ],
   providers: [DatePipe, StakeHolderService]
 })

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { CommonService } from './shared/common.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -8,4 +10,19 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'SROIBenefitBounty';
+  role: string = null;
+  constructor(private commonService: CommonService,private router:Router) {}
+  ngOnInit() {
+    if(this.role===null)
+    {
+      this.router.navigate(['login']);
+
+    }
+    this.commonService.roleChanged.subscribe(role=> {
+      this.role = role;
+    })
+    
+    
+  }
+  
 }

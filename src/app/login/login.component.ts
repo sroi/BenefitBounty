@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
+import { CommonService } from '../shared/common.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
   isPasswordPresent: boolean = false;
   isUsernameEntered: boolean = false;
 
-  constructor(private httpClient:HttpClient, private router:Router) { 
+  constructor(private httpClient:HttpClient, private router:Router, private commonService: CommonService) { 
     if(this.loggedInStatus)
     {
           this.router.navigate(['home']);
@@ -69,7 +70,7 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm.get('username').value);
     this.isUsernameEntered = true;
     this.isUsernamePresent = true;
-    this.isPasswordPresent = false;
+    this.isPasswordPresent = true;
     localStorage.setItem("username",this.loginForm.get('username').value);
     if(this.isUsernameEntered && this.isUsernamePresent && !this.isPasswordPresent)
     {
@@ -93,8 +94,10 @@ export class LoginComponent implements OnInit {
     let serializedForm = JSON.stringify(dataToSend);
 
     let h = new HttpHeaders({'Content-Type':'application/json'});
+    localStorage.setItem("role",dataToSend.role);
+    this.commonService.roleChanged.next(dataToSend.role);
 
-    this.router.navigate(['../project']);
+    this.router.navigate(['../home']);
    
     // this.httpClient.post("http://localhost:8080/login",serializedForm,{headers:h})
     // .subscribe(

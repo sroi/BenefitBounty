@@ -17,6 +17,8 @@ import { StakeholderProjectListComponent } from './stakeholders/stakeholder-proj
 import { StakeHoldersModule } from './stakeholders/stakeholders.module';
 import { TaskEditComponent } from './volunteer/task-edit/task-edit.component';
 import { VolunteerHeaderComponent } from './volunteer/volunteer-header/volunteer-header.component';
+import { CommonService } from './shared/common.service';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { VolunteerHeaderComponent } from './volunteer/volunteer-header/volunteer
     LoginComponent,
     SignupComponent,
     TaskEditComponent,
-    VolunteerHeaderComponent
+    VolunteerHeaderComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,7 @@ import { VolunteerHeaderComponent } from './volunteer/volunteer-header/volunteer
     ReactiveFormsModule,
     StakeHoldersModule
   ],
-  providers: [],
+  providers: [CommonService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

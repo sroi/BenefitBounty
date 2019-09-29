@@ -68,6 +68,7 @@ export class TaskEditComponent implements OnInit {
   ngOnInit() {
 
     this.currentTask = JSON.parse(localStorage.getItem('currentTask'));
+    console.log(this.currentTask.name);
     var newApprover = JSON.stringify(this.currentTask.approver);
     newApprover = JSON.parse(newApprover);
     newApprover = JSON.parse(newApprover);

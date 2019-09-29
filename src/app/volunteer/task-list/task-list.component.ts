@@ -128,7 +128,6 @@ export class TaskListComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    console.log("ngafter");
     this.taskSource.paginator = this.paginator;
     this.taskSource.sort = this.sort;
   }
@@ -136,7 +135,7 @@ export class TaskListComponent implements OnInit {
   applyFilter(filterValue: string) {
     this.taskSource.filter = filterValue.trim().toLowerCase();
     this.taskSource.filter = filterValue;
-    console.log(filterValue);
+   
   }
 
   onFileSelected(event)
@@ -148,10 +147,10 @@ export class TaskListComponent implements OnInit {
   {
     const fd = new FormData();
     fd.append('image',this.selectedFile,this.taskDetails.taskId);
-    console.log(this.taskDetails.taskId);
+   
     this.httpClient.post('someurl',fd).subscribe(
       res => {
-        console.log(res);
+        
       }
     )
 
@@ -167,7 +166,6 @@ export class TaskListComponent implements OnInit {
     this.isLoaded = false;
     this.isSpinnerEnabled = true;
     let id = temp.projectId;
-    console.log("showDetails loaded");
 
     let url = 'http://localhost:8080/project/tasks?pid=5d80e02e1c9d44000001d863';
 
@@ -176,7 +174,6 @@ export class TaskListComponent implements OnInit {
       data => {
 
         this.taskJson = data;
-        console.log(this.taskJson);
         for (let i = 0; i < this.taskJson.length; i++) {
 
           this.taskData[i] = this.taskJson[i];
@@ -195,20 +192,19 @@ export class TaskListComponent implements OnInit {
 
       },
       (err: HttpErrorResponse) => {
-        console.log();
+        
       }
     );
   }
 
   showTaskDetails(temp) {
-    console.log(temp);
+    
     let url = 'http://localhost:8080/project/get?pid=' + temp.projectId;
     this.httpService.get(url).subscribe(
       data => {
         this.isTaskLoaded = true;
         this.arrJson = data;
         this.projectDetails = this.arrJson;
-        console.log(this.projectDetails);
         this.taskDetails = temp;
         this.volunteer = temp.volunteers;
         this.pointOfContacts = this.projectDetails.pointOfContacts;
@@ -249,7 +245,6 @@ export class TaskListComponent implements OnInit {
   }
 
   deleteTask(temp) {
-    console.log(temp);
     this.taskSource.data = this.taskSource.data.filter((task: Tasks) => {
       return task.taskId != temp.taskId;
     })
