@@ -175,12 +175,16 @@
                       </p> -->
 
             <div class="row" style="margin-top:1%;">
-                
+
                 <div class="class-lg-12">
-                    <div class="form-group">
-                        <label for="file">Choose File</label>
-                        <input type="file" id="file" (change)="handleFileInput($event.target.files)">
+                    <div class="col-lg-6">
+                        <input type="file" (change)="onFileSelected($event)">
                     </div>
+                    <div class="col-lg-6">
+                        <button (click)="onUpload()" class="button">Upload</button>
+                    </div>
+
+
                 </div>
             </div>
             <div class="row" style="margin-top:1%;">

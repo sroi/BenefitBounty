@@ -79,6 +79,7 @@ export interface ProjectStatus {
 })
 export class TaskListComponent implements OnInit {
 
+  
 
   displayedTasks: string[] = ['activity', 'area', 'task', 'duration', 'approver', 'approver_comments', 'volunteer', 'volunteer_comments', 'uploads', 'time_estimated', 'audit_timestamp', 'status', 'edit'];
   projectStatus: ProjectStatus[] = [
@@ -104,6 +105,7 @@ export class TaskListComponent implements OnInit {
   statusToUpdate: string;
   projectDetails: Projects;
   image: string = "./../../../assets/angularLogo.svg";
+  selectedFile: File = null;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -112,7 +114,7 @@ export class TaskListComponent implements OnInit {
   // @ViewChildren(MatSort) sort = new QueryList<MatSort>();
 
 
-  constructor(private httpService: HttpClient, private router: Router) {
+  constructor(private httpService: HttpClient, private router: Router, private httpClient: HttpClient) {
 
   }
   arrJson: any = [];
@@ -137,6 +139,24 @@ export class TaskListComponent implements OnInit {
     console.log(filterValue);
   }
 
+  onFileSelected(event)
+  {
+    this.selectedFile = event.target.files[0];
+
+  }
+  onUpload()
+  {
+    const fd = new FormData();
+    fd.append('image',this.selectedFile,this.taskDetails.taskId);
+    console.log(this.taskDetails.taskId);
+    this.httpClient.post('someurl',fd).subscribe(
+      res => {
+        console.log(res);
+      }
+    )
+
+  }
+
 
 
 
@@ -149,7 +169,7 @@ export class TaskListComponent implements OnInit {
     let id = temp.projectId;
     console.log("showDetails loaded");
 
-    let url = 'http://localhost:8080/project/tasks?pid=5d7f8af91c9d44000096629e';
+    let url = 'http://localhost:8080/project/tasks?pid=5d80e02e1c9d44000001d863';
 
     this.taskData = [];
     this.httpService.get(url).subscribe(
