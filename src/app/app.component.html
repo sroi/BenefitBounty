@@ -15,5 +15,7 @@
 <button type="button" class="button" [routerLink]="'project'">Project-List</button>
 -->
 
-<app-header></app-header>
+<app-header *ngIf="role==='Admin'"></app-header>
+<app-volunteer-header *ngIf="role==='Volunteer'"></app-volunteer-header>
+<app-stakeholders-header *ngIf="role==='Stakeholder'"></app-stakeholders-header>
 <router-outlet></router-outlet>
