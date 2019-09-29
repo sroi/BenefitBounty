@@ -6,7 +6,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AgGridModule } from 'ag-grid-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatSelectModule} from '@angular/material/select'
+import {MatSelectModule} from '@angular/material/select';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
+
 import { StakeholderProjectListComponent } from './stakeholder-project-list/stakeholder-project-list.component';
 import { StakeholderProjectDetailComponent } from './stakeholder-project-detail/stakeholder-project-detail.component';
 import { StakeHolderService } from './stakeholder.service';
@@ -28,7 +31,8 @@ import { StakeHolderService } from './stakeholder.service';
     AgGridModule.withComponents([]),
     FormsModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTooltipModule
   ],
   exports: [
   ],

@@ -7,14 +7,7 @@ import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { StakeHolderService } from '../stakeholder.service';
-
-
-interface ColumnConfig {
-  id: string;
-  name: string;
-  placeholder: string;
-  filterControl: FormControl;
-}
+import { PROJECT_COLUMN_CONFIG , ProjectColumnConfig} from '../config';
 
 @Component({
   selector: 'app-stakeholder-project-list',
@@ -26,43 +19,7 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Projects>();
   columnHeaders: string[] = [];
   tableData: Array<any> = [];
-  projectColumnsConfig: Array<ColumnConfig> = [
-    {
-      id: 'name',
-      name: 'Project Name',
-      filterControl: new FormControl(null),
-      placeholder: 'Project Filter'
-
-    },
-    {
-      id: 'areaOfEngagement',
-      name: 'Area of Engagement',
-      filterControl: new FormControl(null),
-      placeholder: 'Area Filter'
-
-    },
-    {
-      id: 'location',
-      name: 'Task Area/Location',
-      filterControl: new FormControl(null),
-      placeholder: 'Location Filter'
-
-    },
-    {
-      id: 'duration',
-      name: 'Duration',
-      filterControl: new FormControl(null),
-      placeholder: 'Duraration Filter'
-
-    },
-    {
-      id: 'status',
-      name: 'Status',
-      filterControl: new FormControl(null),
-      placeholder: 'Status Filter'
-    },
-
-  ];
+  projectColumnsConfig: Array<ProjectColumnConfig> = PROJECT_COLUMN_CONFIG;
   constructor(
     private http: HttpClient,
     private datePipe: DatePipe,
@@ -78,6 +35,7 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
     this.columnHeaders.push('approve');
     this.columnHeaders.push('reject');
     this.columnHeaders.push('rating');
+    this.stakeHolderService.fetchProjects();
     this.stakeHolderService.projectsLoadedEvent.subscribe(projects => {
       this.dataSource.data = projects;
     })
