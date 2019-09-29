@@ -124,6 +124,8 @@ export class TaskListComponent implements OnInit {
 
 
     this.showDetails("volunteer");
+    this.taskSource.paginator = this.paginator;
+    this.taskSource.sort = this.sort;
 
   }
 

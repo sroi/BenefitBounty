@@ -88,7 +88,7 @@ export interface ProjectStatus {
 export class ProjectListComponent implements OnInit {
 
 
-  displayedColumns: string[] = ['areaOfEngagement', 'name', 'budget','status', 'location', 'duration','changeStatus', 'edit', 'delete'];
+  displayedColumns: string[] = ['areaOfEngagement', 'name', 'budget','status', 'location', 'duration','changeStatus','update', 'edit', 'delete'];
   displayedTasks: string[] = ['activity', 'task', 'duration', 'approver', 'view', 'edit', 'delete'];
   // dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   // taskSource = new MatTableDataSource<TaskElement>(taskData);
@@ -227,6 +227,11 @@ export class ProjectListComponent implements OnInit {
         console.log();
       }
     );
+
+  }
+  updateTask(element)
+  {
+
 
   }
 

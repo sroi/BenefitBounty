@@ -71,8 +71,8 @@ export class TaskEditComponent implements OnInit {
     console.log(this.currentTask.name);
     var newApprover = JSON.stringify(this.currentTask.approver);
     newApprover = JSON.parse(newApprover);
-    newApprover = JSON.parse(newApprover);
-    console.log(newApprover['name']);
+    //newApprover = JSON.parse(newApprover);
+    console.log(newApprover);
     
     
     // localStorage.clear();
@@ -87,7 +87,7 @@ export class TaskEditComponent implements OnInit {
       task: new FormControl({value: this.currentTask.name, disabled: true},Validators.required),
       startDate: new FormControl({value: this.currentTask.startDate, disabled: true},Validators.required),
       endDate: new FormControl({value: this.currentTask.endDate, disabled: true},Validators.required),
-      approver: new FormControl({value: newApprover['name'], disabled: true},Validators.required),
+      approver: new FormControl({value: newApprover, disabled: true},Validators.required),
       volunteerComments: new FormControl('',Validators.required),
       timeEntered: new FormControl('',Validators.required),
       uploads: new FormControl('',Validators.required),

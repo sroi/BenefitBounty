@@ -47,7 +47,7 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-primary login-btn" *ngIf="isUsernamePresent && isPasswordPresent">Submit</button>
+                    <button class="btn btn-primary login-btn" *ngIf="isUsernamePresent && isPasswordPresent" [disabled]="!isUsernameEntered || !isUsernamePresent || !isPasswordPresent">Submit</button>
                 </form>
                 <button class="btn btn-primary" (click)="checkUsername()" *ngIf="!isPasswordPresent">Next</button>
 
