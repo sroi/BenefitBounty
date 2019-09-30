@@ -6,7 +6,7 @@ export interface ProjectColumnConfig {
     placeholder: string;
     filterControl: FormControl;
 }
-export const TASK_CONFIG_COLUMNS: Array<{id: string, label: string, type?: string}> = [
+export const TASK_CONFIG_COLUMNS: Array<{id: string, label: string, type?: string, displayedId?: string}> = [
     {
       id: 'location',
       label: 'Task Area/Location',
@@ -26,6 +26,8 @@ export const TASK_CONFIG_COLUMNS: Array<{id: string, label: string, type?: strin
     {
       id: 'approver',
       label: 'Approver',
+      type: 'object',
+      displayedId: 'name'
     },
     {
       id: 'approverAction',
@@ -39,6 +41,7 @@ export const TASK_CONFIG_COLUMNS: Array<{id: string, label: string, type?: strin
       id: 'volunteers',
       label: 'volunteers',
       type: 'array',
+      displayedId: 'name'
     },
     {
       id: 'volunteersComments',

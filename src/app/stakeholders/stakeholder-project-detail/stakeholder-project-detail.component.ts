@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StakeHolderService } from '../stakeholder.service';
 import { MatTableDataSource } from '@angular/material';
 import { Projects, Tasks } from 'src/app/project/project-list/project-list.component';
@@ -23,13 +23,15 @@ export class StakeholderProjectDetailComponent implements OnInit {
   isLoaded: boolean = true;
   isImage: boolean = false;
   image: string = "./../../../assets/angularLogo.svg";
-  constructor(private route: ActivatedRoute, private stakeHolderService: StakeHolderService) {
+  constructor(private route: ActivatedRoute, private stakeHolderService: StakeHolderService, private router: Router) {
    }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.projectId = params['id'];
-      this.project = this.stakeHolderService.getProject(this.projectId);
+      this.stakeHolderService.getProject(this.projectId).subscribe(project => {
+        this.project = project;
+      })
       this.stakeHolderService.fetchTasks(this.projectId);
       this.stakeHolderService.tasksloadedEvent.subscribe(tasks => {
         this.tableData = tasks;
@@ -39,7 +41,6 @@ export class StakeholderProjectDetailComponent implements OnInit {
     this.columnHeaders = this.tasksColumnsConfig.map(taskColumn => {
       return taskColumn.id;
     });
-    // this.columnHeaders.push('delete');
   }
 
   showTaskDetails(temp) {
@@ -64,6 +65,9 @@ export class StakeholderProjectDetailComponent implements OnInit {
   
   deleteTask(temp: any) {
     this.stakeHolderService.deleteTask(temp);
+  }
+  onCloseProject() {
+    this.router.navigate(['stakeholders/projects']);
   }
 
 }

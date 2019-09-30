@@ -19,7 +19,7 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Projects>();
   columnHeaders: string[] = [];
   tableData: Array<any> = [];
-  projectColumnsConfig: Array<ProjectColumnConfig> = PROJECT_COLUMN_CONFIG;
+  projectColumnsConfig: Array<ProjectColumnConfig> ;
   constructor(
     private http: HttpClient,
     private datePipe: DatePipe,
@@ -29,6 +29,7 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
 
   }
   ngOnInit() {
+    this.projectColumnsConfig = PROJECT_COLUMN_CONFIG;
     this.columnHeaders = this.projectColumnsConfig.map(column => {
       return column.id;
     });
@@ -38,7 +39,7 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
     this.stakeHolderService.fetchProjects();
     this.stakeHolderService.projectsLoadedEvent.subscribe(projects => {
       this.dataSource.data = projects;
-    })
+    });
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

@@ -35,9 +35,12 @@ export class StakeHolderService {
         return this.projects;
     }
     getProject(projectId: string) {
-        return this.projects.filter(project => {
-            return projectId === project['projectId'];
-        })[0];
+        // return this.projects.filter(project => {
+        //     return projectId === project['projectId'];
+        // })[0];
+        return this.http.get<any>('http://localhost:8080/project/get', {
+            params: new HttpParams().set('pid', projectId) 
+          });
     }
     fetchTasks(projectId: string) {
         this.http.get<any>('http://localhost:8080/project/tasks', {
