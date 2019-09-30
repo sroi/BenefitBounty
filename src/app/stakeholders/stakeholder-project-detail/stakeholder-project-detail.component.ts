@@ -21,6 +21,8 @@ export class StakeholderProjectDetailComponent implements OnInit {
   volunteer: Volunteers;
   isTaskLoaded: boolean = false;
   isLoaded: boolean = true;
+  isImage: boolean = false;
+  image: string = "./../../../assets/angularLogo.svg";
   constructor(private route: ActivatedRoute, private stakeHolderService: StakeHolderService) {
    }
 
@@ -51,6 +53,13 @@ export class StakeholderProjectDetailComponent implements OnInit {
   hideTaskDetails() {
     this.isTaskLoaded = false;
     this.isLoaded = true;
+  }
+
+  showImage() {
+    this.isImage = true;
+  }
+  hideImage() {
+    this.isImage = false;
   }
   
   deleteTask(temp: any) {
