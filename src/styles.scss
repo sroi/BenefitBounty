@@ -1,12 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+// @import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+// @import "~@angular/material/prebuilt-themes/purple-green.css";
+// @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
+.example-fill-remaining-space {
+    /* This fills the remaining space, by using flexbox. 
+       Every toolbar row uses a flexbox row layout. */
+    flex: 1 1 auto;
+  }
+
+  .example-card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 40%;
+    margin:auto;
+    // vertical-align:middle;
+  }
+  .main-div {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .example-card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+
+  /* Add some padding inside the card container */
+.container {
+    padding: 2px 16px;
+  }
+  
+  
 /* for sidenav to take a whole page */
-html, body { 
-    margin: 5px;
-    height: 100%;
-}
+// html, body { 
+//     margin: 5px;
+//     height: 100%;
+// }
 
-.mat-button-font {
-    font-weight:750;
-}
+// .mat-button-font {
+//     font-weight:750;
+// }
