@@ -13,11 +13,11 @@ export class AppComponent {
   role: string = null;
   constructor(private commonService: CommonService,private router:Router) {}
   ngOnInit() {
-    if(this.role===null)
-    {
-      this.router.navigate(['login']);
+    // if(this.role===null)
+    // {
+    //   this.router.navigate(['login']);
 
-    }
+    // }
     this.commonService.roleChanged.subscribe(role=> {
       this.role = role;
     })
