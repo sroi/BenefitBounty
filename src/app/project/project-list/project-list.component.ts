@@ -1,11 +1,15 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild, QueryList, ViewChildren } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { ProjectServiceService } from '../_service/project-service.service';
 import { Project } from '../_model';
 import { SelectionModel } from '@angular/cdk/collections';
+import { DataService } from 'src/app/services/data.service';
+import { EditDialogComponent } from 'src/app/dialogs/edit/edit.dialog.component';
+import { DeleteDialogComponent } from 'src/app/dialogs/delete/delete.dialog.component';
+import { Issue } from 'src/app/models/issue';
 
 
 //https://github.com/marinantonio/angular-mat-table-crud
@@ -126,6 +130,7 @@ export class ProjectListComponent implements OnInit {
   isProject: boolean = false;
   isImage: boolean = false;
   statusToUpdate: string;
+  exampleDatabase: DataService | null;
   image: string = "./../../../assets/angularLogo.svg";
   // tableData: PeriodicElement[];
   tableData: Projects[] = [];
@@ -141,13 +146,22 @@ export class ProjectListComponent implements OnInit {
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
 
 
-  constructor(private httpService: HttpClient, private router: Router, private _projectService: ProjectServiceService) {
+  constructor(private httpService: HttpClient, private router: Router, private _projectService: ProjectServiceService,public dialog: MatDialog,public dataService: DataService) {
 
   }
   arrJson: any = [];
   taskJson: any = [];
   keys: any = [];
+  index: number;
+  id: number;
+  i: number = 10;
   selection = new SelectionModel<Projects>(true, []);
+  row: Issue = {id: 12,
+    title: "testing",
+    state: "Maharashtra",
+    url: "someurl",
+    created_at: "pune",
+    updated_at: "mumbai"};
   ngOnInit() {
 
 
@@ -182,6 +196,52 @@ export class ProjectListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
     this.dataSource.filter = filterValue;
     console.log(filterValue);
+  }
+
+  startEdit(i: number, id: number, title: string, state: string, url: string, created_at: string, updated_at: string) {
+    this.id = id;
+    // index row is used just for debugging proposes and can be removed
+    this.index = i;
+    console.log(this.index);
+    const dialogRef = this.dialog.open(EditDialogComponent, {
+      data: {id: id, title: title, state: state, url: url, created_at: created_at, updated_at: updated_at}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        // When using an edit things are little different, firstly we find record inside DataService by id
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
+        // Then you update that record using data from dialogData (values you enetered)
+        this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
+        // And lastly refresh table
+        this.refreshTable();
+      }
+    });
+  }
+
+  deleteItem(i: number, id: number, title: string, state: string, url: string) {
+    this.index = i;
+    this.id = id;
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {id: id, title: title, state: state, url: url}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
+        // for delete we use splice in order to remove single object from DataService
+        this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+        this.refreshTable();
+      }
+    });
+  }
+
+
+  private refreshTable() {
+    // Refreshing table using paginator
+    // Thanks yeager-j for tips
+    // https://github.com/marinantonio/angular-mat-table-crud/issues/12
+    this.fetchProjects();
   }
 
   customFilterPredicate() {

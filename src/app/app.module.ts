@@ -19,6 +19,11 @@ import { TaskEditComponent } from './volunteer/task-edit/task-edit.component';
 import { VolunteerHeaderComponent } from './volunteer/volunteer-header/volunteer-header.component';
 import { CommonService } from './shared/common.service';
 import { HomeComponent } from './home/home.component';
+import {DataService} from './services/data.service';
+import {AddDialogComponent} from './dialogs/add/add.dialog.component';
+import {EditDialogComponent} from './dialogs/edit/edit.dialog.component';
+import {DeleteDialogComponent} from './dialogs/delete/delete.dialog.component';
+import { MatInputModule, MatFormFieldModule, MatDialogModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -30,7 +35,10 @@ import { HomeComponent } from './home/home.component';
     SignupComponent,
     TaskEditComponent,
     VolunteerHeaderComponent,
-    HomeComponent
+    HomeComponent,
+    AddDialogComponent,
+    EditDialogComponent,
+    DeleteDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -42,9 +50,17 @@ import { HomeComponent } from './home/home.component';
     ProjectListModule,
     TaskListModule,
     ReactiveFormsModule,
-    StakeHoldersModule
+    StakeHoldersModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatDialogModule
   ],
-  providers: [CommonService],
+  entryComponents: [
+    AddDialogComponent,
+    EditDialogComponent,
+    DeleteDialogComponent
+  ],
+  providers: [CommonService,DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
