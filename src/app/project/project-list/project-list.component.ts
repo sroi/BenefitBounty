@@ -7,6 +7,10 @@ import { ProjectServiceService } from '../_service/project-service.service';
 import { Project } from '../_model';
 import { SelectionModel } from '@angular/cdk/collections';
 
+
+//https://github.com/marinantonio/angular-mat-table-crud
+
+
 export interface PointOfContacts {
   name: string;
   phoneNo: number;
@@ -244,7 +248,7 @@ export class ProjectListComponent implements OnInit {
     let id = temp.projectId;
     this.currentProject = temp;
 
-    let url = 'http://localhost:8080/project/tasks?pid=' + id;
+    let url = 'http://localhost:8080/task/tasks?pid=' + id;
     this.projectDetails = temp;
     console.log(url);
     console.log(id);
@@ -410,7 +414,7 @@ export class ProjectListComponent implements OnInit {
     this.taskSource.data = this.taskSource.data.filter((task: Tasks)=>{
       return task.taskId !=temp.taskId;
     })
-    let url = 'http://localhost:8080/project/deleteTask?tid=' + temp.taskId;
+    let url = 'http://localhost:8080/task/delete?tid=' + temp.taskId;
 
     this.httpService.delete(url, temp.taskId).subscribe(
       data => {
