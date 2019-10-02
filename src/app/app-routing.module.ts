@@ -9,7 +9,7 @@ import { StakeholderProjectListComponent } from './stakeholders/stakeholder-proj
 import { StakeholderProjectDetailComponent } from './stakeholders/stakeholder-project-detail/stakeholder-project-detail.component';
 import { TaskEditComponent } from './volunteer/task-edit/task-edit.component';
 import { HomeComponent } from './home/home.component';
-
+import { TaskList1Component } from './approver/task-list/task-list.component';
 
 const routes: Routes = [
   {path:'project', component:ProjectListComponent},
@@ -19,6 +19,7 @@ const routes: Routes = [
   {path:'task', component:TaskListComponent},
   {path:'taskEdit',component:TaskEditComponent},
   {path:'task/edit',redirectTo:'taskEdit',pathMatch:'full'},
+  {path:'approver/task', component:TaskList1Component},
   {path:'login', component:LoginComponent},
   {path:'signup', component:SignupComponent},
   {path:'project/task',redirectTo:'task',pathMatch:'full'},

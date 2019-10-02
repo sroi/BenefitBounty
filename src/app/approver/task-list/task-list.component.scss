@@ -1,0 +1,137 @@
+#project {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 5%;
+  }
+  
+  #project td, #project th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #project tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #project tr:hover {background-color: #ddd;}
+  
+  #project th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+  }
+
+  #projectDetails {
+    border: 1px solid gray;
+    margin: 1%;
+    margin-bottom: 2%;
+    width: 95%;
+  }
+
+  #taskDetails
+  {
+    border: 1px solid gray;
+    margin: 1%;
+    margin-bottom: 2%;
+    width: 95%;
+  }
+  .row
+  {
+    width: 100%;
+    margin-right: 0px;
+  }
+  
+  h1 {
+    text-align: center;
+    text-transform: uppercase;
+    color: #4CAF50;
+  }
+  
+  p {
+    
+    text-align: left;
+    letter-spacing: 3px;
+    font-size: 200%;
+    
+  }
+
+  .para
+  {
+    text-align: left;
+    letter-spacing: 3px;
+    font-size: 200%;
+    margin-top: 5%;
+  }
+
+  .button {
+    background-color: #5cb85c;
+    border: none;
+    color: white;
+    padding: 5px 22px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    width: 100px;
+  }
+
+  table {
+    width: 100%;
+}
+
+#projectTable
+{
+  margin-top: 2%;
+  position: relative;
+  max-height: 400px;
+  overflow: auto;
+  // width: 100%;
+  // overflow-y: scroll;
+  // display: block;
+}
+
+.mat-elevation-z8-container
+{
+  // position: relative;
+  // max-height: 400px;
+  // overflow: auto;
+}
+
+
+#taskTable
+{
+  max-height: 300px;
+}
+
+th.mat-sort-header-sorted {
+    color: black;
+}
+
+#task {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 5%;
+  margin-bottom:2%;
+  font-size: 150%;
+}
+
+#task td, #task th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#task tr:nth-child(even){background-color: #f2f2f2;}
+
+#task tr:hover {background-color: #ddd;}
+
+#task th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
