@@ -12,6 +12,8 @@ import { DeleteDialogComponent } from 'src/app/dialogs/delete/delete.dialog.comp
 import { Issue } from 'src/app/models/issue';
 import { PhotoComponent } from 'src/app/shared/photo/photo.component';
 import { element } from 'protractor';
+import { EditTaskComponent } from 'src/app/dialogs/edit-task/edit-task.component';
+import { DeleteTaskComponent } from 'src/app/dialogs/delete-task/delete-task.component';
 
 
 //https://github.com/marinantonio/angular-mat-table-crud
@@ -260,7 +262,27 @@ export class ProjectListComponent implements OnInit {
         // And lastly refresh table
         this.refreshTable();
       }
-      this.refreshTable();
+      
+    });
+
+  }
+
+  taskEdit(element: Tasks)
+  {
+    console.log(element);
+    const dialogRef = this.dialog.open(EditTaskComponent, {
+      data: element
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        // When using an edit things are little different, firstly we find record inside DataService by id
+         //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.projectId === element.projectId);
+        // Then you update that record using data from dialogData (values you enetered)
+         //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
+        // And lastly refresh table
+        this.refreshTable();
+      }
       
     });
 
@@ -281,7 +303,24 @@ export class ProjectListComponent implements OnInit {
             //this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
           this.refreshTable();
         }
-        this.refreshTable();
+        
+      });
+    }
+
+    taskDelete(element: Tasks) {
+      
+      const dialogRef = this.dialog.open(DeleteTaskComponent, {
+        data: element
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 1) {
+           //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
+          // for delete we use splice in order to remove single object from DataService
+            //this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+          this.refreshTable();
+        }
+        
       });
     }
 
@@ -383,6 +422,7 @@ export class ProjectListComponent implements OnInit {
     this.isSpinnerEnabled = true;
     let id = temp.projectId;
     this.currentProject = temp;
+    console.log(temp);
 
     let url = 'http://localhost:8080/task/tasks?pid=' + id;
     this.projectDetails = temp;
@@ -419,6 +459,14 @@ export class ProjectListComponent implements OnInit {
       }
     );
   }
+
+  hideDetails() {
+    document.getElementById("projectDetails").hidden = true;
+    this.isLoaded = false;
+    this.isProject = false;
+  }
+
+  
 
   showTaskDetails(temp) {
     this.taskDetails = temp;
@@ -482,9 +530,7 @@ export class ProjectListComponent implements OnInit {
 
   }
 
-  hideDetails() {
-    document.getElementById("projectDetails").hidden = true;
-  }
+  
 
   editProject(temp) {
     localStorage.setItem("currentProject",temp.name);
@@ -532,7 +578,7 @@ export class ProjectListComponent implements OnInit {
   changeStatusValue(statusValue,element)
   {
     this.statusToUpdate = statusValue;
-    
+    this.changeStatus(element,statusValue);
   }
 
   changeStatus(project,statusValue)
@@ -542,13 +588,13 @@ export class ProjectListComponent implements OnInit {
 
     let url = 'http://localhost:8080/project/updateStatus?pid=' + project.projectId + '&status=' + statusValue;
 
-    this.httpService.post(url, statusValue).subscribe(
+    this.httpService.post(url, project.projectId, statusValue).subscribe(
       data => {
         console.log(data);
+        this.refreshTable();
       }
 
     );
-    location.reload();
   }
 
   refresh() {

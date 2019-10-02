@@ -101,12 +101,15 @@
 
   <div >
     <div id="projectDetails" [hidden]="!isLoaded">
+      
       <div  *ngIf="isProject">
+          <button mat-flat-button color="warn" (click)="hideDetails()">Close</button>
         <h1>{{projectDetails.name}}</h1>
       </div>
 
       <div style="display:flex;" *ngIf="isProject">
         <div style="display:flex;">
+          
           <mat-card class="example-card">
             <mat-card-header color="primary">
               <mat-card-title>Project Details</mat-card-title>
@@ -192,6 +195,7 @@
             <mat-card-actions>
               <button style="margin-right:10px;" mat-flat-button color="accent" (click)="projectEdit(projectDetails)">Edit</button>
               <button mat-flat-button color="warn" (click)="projectDelete(projectDetails)">Delete</button>
+
             </mat-card-actions>
           </mat-card>
         </div>
@@ -244,10 +248,10 @@
                         <mat-icon>inbox</mat-icon>
                       </button>
         
-                      <button mat-icon-button matTooltip="Edit this score" (click)="startEdit(i, row.id, row.title, row.state, row.url, row.created_at, row.updated_at)" color="accent" style="background: white;border:none;">
+                      <button mat-icon-button matTooltip="Edit this score" (click)="taskEdit(element1)" color="accent" style="background: white;border:none;">
                           <mat-icon>edit</mat-icon>
                         </button>
-                        <button mat-icon-button matTooltip="Remove this score" (click)="deleteItem(i, row.id, row.title, row.state, row.url)" color="accent" style="background: white;border:none;">
+                        <button mat-icon-button matTooltip="Remove this score" (click)="taskDelete(element1)" color="accent" style="background: white;border:none;">
                             <mat-icon>delete</mat-icon>
                           </button>
                 </mat-cell>
@@ -297,7 +301,7 @@
 
    
       <div *ngIf="isTaskLoaded" id="taskDetails">
-
+          <button mat-flat-button color="warn" (click)="hideTaskDetails()">Close</button>
           <div style="display:flex;">
               <div style="display:flex;">
                 <mat-card class="example-card">
@@ -400,8 +404,8 @@
                    
                   </mat-card-content>
                   <mat-card-actions>
-                    <button style="margin-right:10px;" mat-flat-button color="accent">Edit</button>
-                    <button mat-flat-button color="warn">Delete</button>
+                    <button style="margin-right:10px;" mat-flat-button color="accent" (click)="taskEdit(taskDetails)">Edit</button>
+                    <button mat-flat-button color="warn" (click)="taskDelete(taskDetails)">Delete</button>
                   </mat-card-actions>
                 </mat-card>
               </div>

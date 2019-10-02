@@ -37,3 +37,34 @@ export interface Projects {
   summary: string;
 
 }
+
+export interface Volunteers {
+  name: string;
+  emailId: string;
+  phoneNo: number;
+  role: string;
+}
+
+export interface Approver {
+  name: string;
+  emailId: string;
+  phoneNo: number;
+  role: string;
+}
+
+export interface Tasks {
+  activityLabel: string;
+  taskId: string;
+  name: string;
+  description: string;
+  projectId: string;
+  startDate: Date;
+  endDate: Date;
+  location: string;
+  approver: Approver;
+  volunteers: Volunteers[];
+  createdBy: string;
+  createdTime: Date;
+  updatedBy: string;
+  updatedTime: Date;
+}
