@@ -45,11 +45,16 @@ export class DataService {
       data => {
        console.log("updated"+ ' ' + issue.projectId); 
       }
-    )
+    );
   }
 
-  deleteIssue (issue: Projects): void {
+  deleteIssue (issue): void {
     console.log(issue);
+    this.httpClient.delete('http://localhost:8080/project/delete?pid='+issue.projectId).subscribe(
+      data => {
+       console.log("Deleted"+ ' ' + issue.projectId); 
+      }
+    )
   }
 }
 

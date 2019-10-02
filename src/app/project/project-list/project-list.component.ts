@@ -266,6 +266,25 @@ export class ProjectListComponent implements OnInit {
 
   }
 
+  projectDelete(element: Projects) {
+      
+      const dialogRef = this.dialog.open(DeleteDialogComponent, {
+        data: {projectId:element.projectId, name: element.name, areaOfEngagement: element.areaOfEngagement, corporate: element.corporate, budget: element.budget, status: element.status,
+          startDate: element.startDate,endDate: element.endDate,location: element.location,stakeholders:element.stakeholders,
+         pointOfContacts: element.pointOfContacts,summary:element.summary}
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 1) {
+           //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
+          // for delete we use splice in order to remove single object from DataService
+            //this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+          this.refreshTable();
+        }
+        this.refreshTable();
+      });
+    }
+
   // deleteItem(i: number, id: number, title: string, state: string, url: string) {
   //   this.index = i;
   //   this.id = id;
@@ -429,39 +448,7 @@ export class ProjectListComponent implements OnInit {
     this.isImage = false;
   }
 
-  fetchProjects1() {
-    // this.isLoaded1 = false;
-    // this.isSpinnerEnabled = true;
-
-    // setTimeout(() => {
-    //   this.tableData = [
-    //     { area: "Goregaon", name: 'Utkarsh', duration: 1.0079, status: 'active' },
-    //     { area: "Goregaon", name: 'NGO', duration: 4.0026, status: 'active' },
-    //     { area: "Malad", name: 'NGO2', duration: 6.941, status: 'active' },
-    //     { area: "Malad", name: 'Utkarsh2', duration: 9.0122, status: 'active' },
-    //     { area: "Goregaon", name: 'NGO3', duration: 10.811, status: 'Inactive' },
-    //     { area: "Goregaon", name: 'NGO5', duration: 12.0107, status: 'Inactive' },
-    //     { area: "Malad", name: 'NGO4', duration: 14.0067, status: 'Inactive' },
-    //     { area: "Malad", name: 'Utkarsh3', duration: 15.9994, status: 'active' },
-    //     { area: "Andheri", name: 'NGO7', duration: 18.9984, status: 'Inactive' },
-    //     { area: "Goregaon", name: 'NGO9', duration: 20.1797, status: 'Inactive' },
-    //     { area: "Andheri", name: 'Utkarsh4', duration: 1.0079, status: 'active' },
-    //     { area: "Andheri", name: 'Utkarsh5', duration: 4.0026, status: 'Inactive' },
-    //     { area: "Malad", name: 'NGO10', duration: 6.941, status: 'Inactive' },
-    //     { area: "Malad", name: 'Utkarsh6', duration: 9.0122, status: 'Inactive' },
-    //     { area: "Malad", name: 'NGO11', duration: 10.811, status: 'Inactive' },
-    //   ];
-
-    //   this.isLoaded1 = true;
-    //   // this.isSpinnerEnabled = false;
-    //   this.dataSource = new MatTableDataSource<PeriodicElement>(this.tableData);
-
-    //   this.ngAfterViewInit();
-    //   //this.taskSource = this.taskSource1;
-    //   // document.getElementById("projectDetails").hidden = false;
-
-    // }, 1000);
-  }
+  
 
 
   showDetails1(temp) {
