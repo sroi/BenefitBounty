@@ -18,7 +18,7 @@
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: #4CAF50;
+    background-color: rgb(37, 39, 37);
     color: white;
   }
 
@@ -26,7 +26,8 @@
     border: 1px solid gray;
     margin: 1%;
     margin-bottom: 2%;
-    width: 95%;
+    width: calc(100% -20px);
+    background-color: white !important;
   }
 
   #taskDetails
@@ -34,7 +35,8 @@
     border: 1px solid gray;
     margin: 1%;
     margin-bottom: 2%;
-    width: 95%;
+    width: calc(100% -20px);
+    background-color: white !important;
   }
   .row
   {
@@ -84,7 +86,7 @@
 
 #projectTable
 {
-  margin-top: 2%;
+  margin-top: 0%;
   position: relative;
   max-height: 400px;
   overflow: auto;
@@ -134,4 +136,88 @@ th.mat-sort-header-sorted {
   text-align: left;
   background-color: #4CAF50;
   color: white;
+}
+
+
+
+/* Structure */
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Toolbar */
+.spacer {
+  flex: 1 1 auto;
+}
+
+/* Filter */
+.form {
+  min-height: 56px;
+  max-height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 8px 24px 0;
+  font-size: 20px;
+  justify-content: space-between;
+  border-bottom: 1px solid transparent;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  flex-grow: 1;
+  margin-top: 8px;
+}
+
+/* Mat table */
+.no-results {
+  display: flex;
+  justify-content: center;
+  padding: 14px;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.mat-cell:nth-child(1),
+.mat-header-cell:nth-child(1){
+  flex: 0 0 6%;
+}
+
+.mat-cell:nth-child(2),
+.mat-header-cell:nth-child(2){
+  flex: 0 0 30%;
+}
+
+.mat-cell:nth-child(3),
+.mat-header-cell:nth-child(3){
+  flex: 0 0 6%;
+}
+
+.mat-cell:nth-child(7),
+.mat-header-cell:nth-child(7){
+  flex: 0 0 7%;
+}
+
+.mat-card-header{
+  background-color: lightgrey;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+img {
+  border: 1px solid #ddd; /* Gray border */
+  border-radius: 4px;  /* Rounded border */
+  padding: 5px; /* Some padding */
+  width: 150px;
+  height:150px; /* Set a small width */
+
+}
+
+/* Add a hover effect (blue shadow) */
+img:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+  cursor: pointer;
 }

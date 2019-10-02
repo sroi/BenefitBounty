@@ -23,7 +23,9 @@ import {DataService} from './services/data.service';
 import {AddDialogComponent} from './dialogs/add/add.dialog.component';
 import {EditDialogComponent} from './dialogs/edit/edit.dialog.component';
 import {DeleteDialogComponent} from './dialogs/delete/delete.dialog.component';
-import { MatInputModule, MatFormFieldModule, MatDialogModule } from '@angular/material';
+import { MatInputModule,MatIconModule, MatFormFieldModule, MatDialogModule, MatToolbarModule, MatSidenavModule, MatListModule, MatButtonModule, MatCardModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { PhotoComponent } from './shared/photo/photo.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { MatInputModule, MatFormFieldModule, MatDialogModule } from '@angular/ma
     HomeComponent,
     AddDialogComponent,
     EditDialogComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    PhotoComponent
   ],
   imports: [
     BrowserModule,
@@ -53,12 +56,16 @@ import { MatInputModule, MatFormFieldModule, MatDialogModule } from '@angular/ma
     StakeHoldersModule,
     MatInputModule,
     MatFormFieldModule,
-    MatDialogModule
+    MatDialogModule,MatButtonModule,
+    MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule,
+    FlexLayoutModule,
+    MatCardModule
   ],
   entryComponents: [
     AddDialogComponent,
     EditDialogComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    PhotoComponent
   ],
   providers: [CommonService,DataService],
   bootstrap: [AppComponent]

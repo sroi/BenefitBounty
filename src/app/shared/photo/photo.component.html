@@ -1,0 +1,8 @@
+<div style="width:100%;height:100%;overflow:auto;display:flex;flex-direction: column">
+
+    <span style="display:flex;background-color: lightgrey;padding: 2px;">{{image.name}}</span>
+    <img mat-card-image [src]="image.url" [alt]="image.name" style="display:flex;">
+
+    <button mat-raised-button color="accent" style="display:flex;max-width:10%;" (click)="onNoClick()">close</button>
+
+</div>

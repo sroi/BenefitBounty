@@ -1,0 +1,18 @@
+.mat-card-header{
+    background-color: orange;
+    padding:0px !important;
+    margin-bottom:5px;
+  }
+  mat-card{
+      padding:0px !important;
+  }
+
+  .mat-card{
+    padding:0px !important;
+}
+
+img{
+  height:calc(100% - 10px);
+  max-height: 600px;
+  width: calc(100% + 15px);
+}

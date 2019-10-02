@@ -25,11 +25,11 @@ const routes: Routes = [
   { path: 'stakeholders/projects', component: StakeholderProjectListComponent, children: [
     { path: ':id', component: StakeholderProjectDetailComponent}
   ]} ,
-  { path: '', component: LoginComponent}
+  { path: '**', component: LoginComponent}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

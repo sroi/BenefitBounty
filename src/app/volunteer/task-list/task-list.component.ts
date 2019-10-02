@@ -24,7 +24,7 @@ export interface Projects {
   projectId: string;
   name: string;
   areaOfEngagement: string;
-  associatedCorporateEntity: string;
+  corporate: string;
   budget: number;
   status: string;
   endDate: Date;

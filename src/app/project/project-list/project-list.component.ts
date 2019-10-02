@@ -10,6 +10,8 @@ import { DataService } from 'src/app/services/data.service';
 import { EditDialogComponent } from 'src/app/dialogs/edit/edit.dialog.component';
 import { DeleteDialogComponent } from 'src/app/dialogs/delete/delete.dialog.component';
 import { Issue } from 'src/app/models/issue';
+import { PhotoComponent } from 'src/app/shared/photo/photo.component';
+import { element } from 'protractor';
 
 
 //https://github.com/marinantonio/angular-mat-table-crud
@@ -33,7 +35,7 @@ export interface Projects {
   projectId: string;
   name: string;
   areaOfEngagement: string;
-  associatedCorporateEntity: string;
+  corporate: string;
   budget: number;
   status: string;
   endDate: Date;
@@ -96,15 +98,16 @@ export interface ProjectStatus {
 export class ProjectListComponent implements OnInit {
 
 
-  displayedColumns: string[] = ['areaOfEngagement', 'name', 'budget','status', 'location', 'duration','changeStatus','update', 'edit', 'delete'];
-  displayedTasks: string[] = ['activity', 'task', 'duration', 'approver', 'view', 'edit', 'delete'];
+  displayedColumns: string[] = ['areaOfEngagement', 'name', 'budget','status', 'location', 'duration','changeStatus', 'actions'];
+  displayedTasks: string[] = ['activity', 'task', 'duration', 'approver', 'actions'];
   // dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   // taskSource = new MatTableDataSource<TaskElement>(taskData);
 
   projectStatus: ProjectStatus[] = [
     {value: 'InProgress', viewValue: 'InProgress'},
-    {value: 'OnHold', viewValue: 'OnHold'},
-    {value: 'Closed', viewValue: 'Closed'}
+    {value: 'On Hold', viewValue: 'On Hold'},
+    {value: 'Closed', viewValue: 'Closed'},
+    {value: 'Created', viewValue: 'Created'}
   ];
 
   areaFilter = new FormControl();
@@ -131,7 +134,11 @@ export class ProjectListComponent implements OnInit {
   isImage: boolean = false;
   statusToUpdate: string;
   exampleDatabase: DataService | null;
-  image: string = "./../../../assets/angularLogo.svg";
+  images: any[]=[{name:'photo1', url:'https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/024/113/slideshow/2fb751a9d79c2bef5963210204348238/austria-hallstatt-daytime-mountains.jpg'},
+  {name:'photo1', url:'https://st2.depositphotos.com/1004221/8723/i/950/depositphotos_87237724-stock-photo-hallstatt-mountain-village-alps-austria.jpg'},
+  {name:'photo1', url:'https://travelpassionate.com/wp-content/uploads/2019/04/Scenic-view-of-famous-Hallstatt-village-in-the-Austrian-Alps.-Image-min.jpg'},
+  {name:'photo1', url:'https://www.travelshelper.com/wp-content/uploads/2017/07/AUSTRIA-TRAVEL-GUIDE-Travel-S-Helper-800x600.jpg'},
+  {name:'photo1', url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXVUCXTNgcJrfF7VluwC-GxtTqSgIbn7Vh6x9cedft9rOgxJfN'}];
   // tableData: PeriodicElement[];
   tableData: Projects[] = [];
   project: Project;
@@ -198,43 +205,82 @@ export class ProjectListComponent implements OnInit {
     console.log(filterValue);
   }
 
-  startEdit(i: number, id: number, title: string, state: string, url: string, created_at: string, updated_at: string) {
-    this.id = id;
-    // index row is used just for debugging proposes and can be removed
-    this.index = i;
-    console.log(this.index);
+  // startEdit(i: number, id: number, title: string, state: string, url: string, created_at: string, updated_at: string) {
+  //   this.id = id;
+  //   // index row is used just for debugging proposes and can be removed
+  //   this.index = i;
+  //   console.log(this.index);
+  //   const dialogRef = this.dialog.open(EditDialogComponent, {
+  //     data: {id: id, title: title, state: state, url: url, created_at: created_at, updated_at: updated_at}
+  //   });
+
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result === 1) {
+  //       // When using an edit things are little different, firstly we find record inside DataService by id
+  //       const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
+  //       // Then you update that record using data from dialogData (values you enetered)
+  //       this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
+  //       // And lastly refresh table
+  //       this.refreshTable();
+  //     }
+  //   });
+  // }
+
+  // export interface Projects {
+  //   projectId: string;
+  //   name: string;
+  //   areaOfEngagement: string;
+  //   associatedCorporateEntity: string;
+  //   budget: number;
+  //   status: string;
+  //   endDate: Date;
+  //   startDate: Date;
+  //   location: string;
+  //   pointOfContacts: PointOfContacts[];
+  //   stakeholders: Stakeholders[];
+  //   summary: string;
+  
+  // }
+
+  projectEdit(element: Projects)
+  {
+    console.log(element);
     const dialogRef = this.dialog.open(EditDialogComponent, {
-      data: {id: id, title: title, state: state, url: url, created_at: created_at, updated_at: updated_at}
+      data: {name: element.name, area: element.areaOfEngagement, corpEntity: element.corporate, budget: element.budget, status: element.status,
+         startDate: element.startDate,endDate: element.endDate,location: element.location,stakeholders:element.stakeholders,
+        pointOfContacts: element.pointOfContacts,summary:element.summary}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
         // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.projectId === element.projectId);
         // Then you update that record using data from dialogData (values you enetered)
         this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
         this.refreshTable();
       }
-    });
-  }
-
-  deleteItem(i: number, id: number, title: string, state: string, url: string) {
-    this.index = i;
-    this.id = id;
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: {id: id, title: title, state: state, url: url}
+      
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
-        // for delete we use splice in order to remove single object from DataService
-        this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-        this.refreshTable();
-      }
-    });
   }
+
+  // deleteItem(i: number, id: number, title: string, state: string, url: string) {
+  //   this.index = i;
+  //   this.id = id;
+  //   const dialogRef = this.dialog.open(DeleteDialogComponent, {
+  //     data: {id: id, title: title, state: state, url: url}
+  //   });
+
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result === 1) {
+  //       const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
+  //       // for delete we use splice in order to remove single object from DataService
+  //       this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+  //       this.refreshTable();
+  //     }
+  //   });
+  // }
 
 
   private refreshTable() {
@@ -298,7 +344,17 @@ export class ProjectListComponent implements OnInit {
 
 
   }
+  openImage(image:any)
+  {
+    const dialogRef = this.dialog.open(PhotoComponent, {
+      data: image
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      
+    });
+  }
+  
   showDetails(temp) {
     this.isImage = false;
     this.isSummary = false;
@@ -349,7 +405,8 @@ export class ProjectListComponent implements OnInit {
     this.volunteer = temp.volunteers;
     console.log(this.volunteer);
     this.isTaskLoaded = true;
-    this.isLoaded = false;
+    console.log(this.isTaskLoaded);
+    // this.isLoaded = false;
   }
   hideTaskDetails() {
     this.isTaskLoaded = false;
@@ -484,9 +541,10 @@ export class ProjectListComponent implements OnInit {
     );
   }
 
-  changeStatusValue(statusValue)
+  changeStatusValue(statusValue,element)
   {
     this.statusToUpdate = statusValue;
+    
   }
 
   changeStatus(project,statusValue)
