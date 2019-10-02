@@ -19,6 +19,7 @@ import { TaskEditComponent } from './volunteer/task-edit/task-edit.component';
 import { VolunteerHeaderComponent } from './volunteer/volunteer-header/volunteer-header.component';
 import { CommonService } from './shared/common.service';
 import { HomeComponent } from './home/home.component';
+import { TaskList1Component } from './approver/task-list/task-list.component';
 import {DataService} from './services/data.service';
 import {AddDialogComponent} from './dialogs/add/add.dialog.component';
 import {EditDialogComponent} from './dialogs/edit/edit.dialog.component';
@@ -26,6 +27,9 @@ import {DeleteDialogComponent} from './dialogs/delete/delete.dialog.component';
 import { MatInputModule,MatIconModule, MatFormFieldModule, MatDialogModule, MatToolbarModule, MatSidenavModule, MatListModule, MatButtonModule, MatCardModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PhotoComponent } from './shared/photo/photo.component';
+
+
+import { TaskList1Module } from './approver/task-list/task-list.module';
 
 @NgModule({
   declarations: [
@@ -59,7 +63,9 @@ import { PhotoComponent } from './shared/photo/photo.component';
     MatDialogModule,MatButtonModule,
     MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule,
     FlexLayoutModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule,
+    TaskList1Module
   ],
   entryComponents: [
     AddDialogComponent,
