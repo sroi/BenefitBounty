@@ -5,7 +5,7 @@
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput #input class="form-control" placeholder="Area" [(ngModel)]="data.area" name="area" required >
+        <input matInput #input class="form-control" placeholder="Area" [(ngModel)]="data.areaOfEngagement" name="area" required >
         <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
@@ -13,7 +13,7 @@
     <!--Textarea for demo purposes-->
     <div class="form">
       <mat-form-field color="accent">
-        <textarea matInput #input class="form-control" placeholder="Corporate" [(ngModel)]="data.corpEntity" name="corpEntity" required ></textarea>
+        <textarea matInput #input class="form-control" placeholder="Corporate" [(ngModel)]="data.corporate" name="corpEntity" required ></textarea>
         <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>

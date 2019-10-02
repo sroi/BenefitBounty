@@ -40,6 +40,7 @@ export class DataService {
 
   updateIssue (issue: Projects): void {
     this.dialogData = issue;
+    console.log(issue);
     this.httpClient.post('http://localhost:8080/project/create',issue).subscribe(
       data => {
        console.log("updated"+ ' ' + issue.projectId); 

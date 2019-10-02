@@ -246,7 +246,7 @@ export class ProjectListComponent implements OnInit {
   {
     console.log(element);
     const dialogRef = this.dialog.open(EditDialogComponent, {
-      data: {name: element.name, area: element.areaOfEngagement, corpEntity: element.corporate, budget: element.budget, status: element.status,
+      data: {projectId:element.projectId, name: element.name, areaOfEngagement: element.areaOfEngagement, corporate: element.corporate, budget: element.budget, status: element.status,
          startDate: element.startDate,endDate: element.endDate,location: element.location,stakeholders:element.stakeholders,
         pointOfContacts: element.pointOfContacts,summary:element.summary}
     });
@@ -254,12 +254,13 @@ export class ProjectListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
         // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.projectId === element.projectId);
+         //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.projectId === element.projectId);
         // Then you update that record using data from dialogData (values you enetered)
-        this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
+         //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
         this.refreshTable();
       }
+      this.refreshTable();
       
     });
 
