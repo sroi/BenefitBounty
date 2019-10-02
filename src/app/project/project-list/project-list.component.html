@@ -190,8 +190,8 @@
              
             </mat-card-content>
             <mat-card-actions>
-              <button style="margin-right:10px;" mat-flat-button color="accent">Edit</button>
-              <button mat-flat-button color="warn">Delete</button>
+              <button style="margin-right:10px;" mat-flat-button color="accent" (click)="projectEdit(projectDetails)">Edit</button>
+              <button mat-flat-button color="warn" (click)="projectDelete(projectDetails)">Delete</button>
             </mat-card-actions>
           </mat-card>
         </div>

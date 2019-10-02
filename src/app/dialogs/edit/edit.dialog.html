@@ -5,7 +5,7 @@
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput #input class="form-control" placeholder="Area" [(ngModel)]="data.areaOfEngagement" name="area" required >
+        <input matInput #input class="form-control" placeholder="Area" [(ngModel)]="data.areaOfEngagement" name="area" [disabled]="data.status!='Created'" required >
         <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
@@ -21,40 +21,36 @@
     <!--Contains mat-hint for characters count and has maxLengt set-->
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput #inputstate class="form-control" placeholder="Budget" [(ngModel)]="data.budget" name="budget" maxlength="10" required >
+        <input matInput #inputstate class="form-control" placeholder="Budget" [(ngModel)]="data.budget" name="budget" maxlength="10" [disabled]="data.status!='Created'" required >
         <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
               </mat-form-field>
     </div>
 
     <div class="form">
         <mat-form-field color="accent">
-          <input matInput placeholder="Status" [(ngModel)]="data.status" name="status">
+          <input matInput placeholder="Status" [(ngModel)]="data.status" name="status" disabled>
         </mat-form-field>
     </div>
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput placeholder="Start Date" [(ngModel)]="data.startDate" name="startDate">
+        <input matInput placeholder="Start Date" [(ngModel)]="data.startDate" [disabled]="data.status!='Created'" name="startDate">
       </mat-form-field>
     </div>
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput placeholder="End Date" [(ngModel)]="data.endDate" name="endDate">
+        <input matInput placeholder="End Date" [(ngModel)]="data.endDate" [disabled]="data.status!='Created'" name="endDate">
       </mat-form-field>
     </div>
 
     <div class="form">
         <mat-form-field color="accent">
-          <input matInput placeholder="Location" [(ngModel)]="data.location" name="location">
+          <input matInput placeholder="Location" [(ngModel)]="data.location" name="location" [disabled]="data.status!='Created'">
         </mat-form-field>
       </div>
 
-      <div class="form">
-          <mat-form-field color="accent">
-            <input matInput placeholder="End Date" [(ngModel)]="data.endDate" name="enddate">
-          </mat-form-field>
-        </div>
+      
 
     <div mat-dialog-actions>
       <button mat-button [type]="submit" [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
