@@ -38,6 +38,7 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
     this.stakeHolderService.fetchProjects();
     this.stakeHolderService.projectsLoadedEvent.subscribe(projects => {
       this.dataSource.data = projects;
+      this.dataSource.paginator = this.paginator;
     });
   }
 
