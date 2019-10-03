@@ -43,7 +43,7 @@ export class StakeHolderService {
           });
     }
     fetchTasks(projectId: string) {
-        this.http.get<any>('http://localhost:8080/project/tasks', {
+        this.http.get<any>('http://localhost:8080/task/tasks', {
           params: new HttpParams().set('pid', projectId) 
         }).subscribe(tasks => {
             this.currentTasks = tasks;

@@ -18,7 +18,7 @@ export class DeleteTaskComponent {
     }
   
     confirmDelete(): void {
-      this.dataService.deleteIssue(this.data);
+      this.dataService.deleteTask(this.data);
     }
 
 }

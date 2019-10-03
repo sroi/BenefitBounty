@@ -66,16 +66,16 @@ export class DataService {
     console.log(issue);
     this.httpClient.delete('http://localhost:8080/project/delete?pid='+issue.projectId).subscribe(
       data => {
-       console.log("Deleted"+ ' ' + issue.projectId); 
+       console.log("Deleted Project"+ ' ' + issue.projectId); 
       }
     )
   }
 
   deleteTask (issue): void {
     console.log(issue);
-    this.httpClient.delete('http://localhost:8080/task/delete?pid='+issue.taskId).subscribe(
+    this.httpClient.delete('http://localhost:8080/task/delete?tid='+issue.taskId).subscribe(
       data => {
-       console.log("Deleted"+ ' ' + issue.taskId); 
+       console.log("Deleted Task"+ ' ' + issue.taskId); 
       }
     )
   }

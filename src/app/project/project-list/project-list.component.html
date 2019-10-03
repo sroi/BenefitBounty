@@ -113,7 +113,6 @@
           <mat-card class="example-card">
             <mat-card-header color="primary">
               <mat-card-title>Project Details</mat-card-title>
-              <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
             </mat-card-header>
             <mat-card-content>
               <table>
@@ -220,22 +219,10 @@
 
             <ng-container matColumnDef="approver">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Approver </th>
-              <td mat-cell *matCellDef="let element1" style="cursor:pointer;"> {{element1.approver.name}} </td>
+              <td mat-cell *matCellDef="let element1" style="cursor:pointer;"> {{element1.approver}} </td>
             </ng-container>
 
-            <!-- <ng-container matColumnDef="view">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                <button mat-icon-button matTooltip="View all" style="background: white;border:none;">
-                  <mat-icon>inventory</mat-icon>
-                </button>
-              </th>
-              <td mat-cell *matCellDef="let element1" (click)="showTaskDetails(element1)"
-                style="color:cornflowerblue; cursor:pointer;">
-                <button mat-icon-button matTooltip="View this score" style="background: white;border:none;">
-                  <mat-icon>inbox</mat-icon>
-                </button>
-              </td>
-            </ng-container> -->
+            
             <ng-container matColumnDef="actions">
                 <mat-header-cell *matHeaderCellDef>
                   <button mat-icon-button color="primary" [routerLink]="'../add'">
@@ -256,33 +243,7 @@
                           </button>
                 </mat-cell>
               </ng-container>
-            <!-- <ng-container matColumnDef="edit">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                <button mat-icon-button matTooltip="Edit all" style="background: white;border:none;">
-                  <mat-icon>edit_all</mat-icon>
-                </button>
-              </th>
-              <td mat-cell *matCellDef="let element1" (click)="editTask(element1)"
-                style="color:cornflowerblue; cursor:pointer;">
-                <button mat-icon-button matTooltip="Edit this score" style="background: white;border:none;">
-                  <mat-icon>edit</mat-icon>
-                </button>
-              </td>
-            </ng-container>
-
-            <ng-container matColumnDef="delete">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                <button mat-icon-button matTooltip="Remove all" style="background: white;border:none;">
-                  <mat-icon>delete_sweep</mat-icon>
-                </button>
-              </th>
-              <td mat-cell *matCellDef="let element1" (click)="deleteTask(element1)"
-                style="color:cornflowerblue;cursor:pointer;">
-                <button mat-icon-button matTooltip="Remove this score" style="background: white;border:none;">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </td>
-            </ng-container> -->
+            
 
 
             <tr mat-header-row *matHeaderRowDef="displayedTasks"></tr>
@@ -357,7 +318,7 @@
                             Approver :
                         </td>
                         <td>
-                            {{taskDetails.approver.name}}
+                            {{taskDetails.approver}}
                         </td>
                       </tr>
                       <tr>
@@ -365,7 +326,7 @@
                             Volunteers :
                         </td>
                         <td>
-                            <p *ngFor="let v of volunteer" style="font-size: 100%;">{{v.name}}</p>
+                            {{taskDetails.volunteer}}
                         </td>
                       </tr>
                       <tr>

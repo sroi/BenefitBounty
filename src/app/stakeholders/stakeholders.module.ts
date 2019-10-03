@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { MatTableModule, MatPaginatorModule, MatSortModule, MatIconModule, MatInputModule, MatFormFieldModule } from '@angular/material';
+import { MatTableModule, MatPaginatorModule, MatSortModule, MatIconModule, MatInputModule, MatFormFieldModule, MatCardModule, MatButtonModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -33,7 +33,9 @@ import { StakeholdersHeaderComponent } from './stakeholders-header/stakeholders-
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatButtonModule,
+    MatCardModule
   ],
   exports: [
     StakeholdersHeaderComponent

@@ -169,7 +169,7 @@ export class TaskListComponent implements OnInit {
     this.isSpinnerEnabled = true;
     let id = temp.projectId;
 
-    let url = 'http://localhost:8080/project/tasks?pid=5d7f601f8fe5fd0e6451e2ac';
+    let url = 'http://localhost:8080/task/tasks?pid=5d7f8af91c9d44000096629e';
 
     this.taskData = [];
     this.httpService.get(url).subscribe(
