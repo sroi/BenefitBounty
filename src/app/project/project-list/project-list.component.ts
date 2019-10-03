@@ -471,6 +471,7 @@ export class ProjectListComponent implements OnInit {
   showTaskDetails(temp) {
     this.taskDetails = temp;
     this.volunteer = temp.volunteers;
+    console.log("volunteer new");
     console.log(this.volunteer);
     this.isTaskLoaded = true;
     console.log(this.isTaskLoaded);
