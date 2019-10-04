@@ -14,6 +14,7 @@ import { PhotoComponent } from 'src/app/shared/photo/photo.component';
 import { element } from 'protractor';
 import { EditTaskComponent } from 'src/app/dialogs/edit-task/edit-task.component';
 import { DeleteTaskComponent } from 'src/app/dialogs/delete-task/delete-task.component';
+import { AddDialogComponent } from 'src/app/dialogs/add/add.dialog.component';
 
 
 //https://github.com/marinantonio/angular-mat-table-crud
@@ -144,7 +145,7 @@ export class ProjectListComponent implements OnInit {
   // tableData: PeriodicElement[];
   tableData: Projects[] = [];
   project: Project;
-
+  addProject:Project;
   // @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
   // @ViewChild(MatSort,{static:true}) sort: MatSort;
 
@@ -251,6 +252,34 @@ export class ProjectListComponent implements OnInit {
       data: {projectId:element.projectId, name: element.name, areaOfEngagement: element.areaOfEngagement, corporate: element.corporate, budget: element.budget, status: element.status,
          startDate: element.startDate,endDate: element.endDate,location: element.location,stakeholders:element.stakeholders,
         pointOfContacts: element.pointOfContacts,summary:element.summary}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        // When using an edit things are little different, firstly we find record inside DataService by id
+         //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.projectId === element.projectId);
+        // Then you update that record using data from dialogData (values you enetered)
+         //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
+        // And lastly refresh table
+        this.refreshTable();
+      }
+      
+    });
+
+  }
+
+  projectAdd()
+  {
+    
+    // const dialogRef = this.dialog.open(EditDialogComponent, {
+    //   data: {projectId:element.projectId, name: element.name, areaOfEngagement: element.areaOfEngagement, corporate: element.corporate, budget: element.budget, status: element.status,
+    //      startDate: element.startDate,endDate: element.endDate,location: element.location,stakeholders:element.stakeholders,
+    //     pointOfContacts: element.pointOfContacts,summary:element.summary}
+    // });
+    this.addProject=new Project();
+    const _addproject=this.addProject;
+    const dialogRef = this.dialog.open(AddDialogComponent, {
+      data: _addproject
     });
 
     dialogRef.afterClosed().subscribe(result => {
