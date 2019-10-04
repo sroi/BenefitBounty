@@ -142,6 +142,10 @@ export class ProjectListComponent implements OnInit {
   isProject: boolean = false;
   isImage: boolean = false;
   statusToUpdate: string;
+  isApprover: boolean;
+  isVolunteer: boolean;
+  isStakeholder: boolean;
+  isPOC: boolean;
   exampleDatabase: DataService | null;
   images: any[]=[{name:'photo1', url:'https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/024/113/slideshow/2fb751a9d79c2bef5963210204348238/austria-hallstatt-daytime-mountains.jpg'},
   {name:'photo1', url:'https://st2.depositphotos.com/1004221/8723/i/950/depositphotos_87237724-stock-photo-hallstatt-mountain-village-alps-austria.jpg'},
@@ -445,6 +449,8 @@ export class ProjectListComponent implements OnInit {
   }
   
   showDetails(temp) {
+    this.isStakeholder = true;
+    this.isPOC = true;
     this.isImage = false;
     this.isSummary = false;
     this.isTaskLoaded = false;
@@ -452,6 +458,14 @@ export class ProjectListComponent implements OnInit {
     this.isSpinnerEnabled = true;
     let id = temp.projectId;
     this.currentProject = temp;
+    if(temp.stakeholders==null)
+    {
+      this.isStakeholder = false;
+    }
+    if(temp.pointOfContacts==null)
+    {
+      this.isPOC = false;
+    }
     console.log(temp);
 
     let url = 'http://localhost:8080/task/tasks?pid=' + id;
@@ -494,6 +508,7 @@ export class ProjectListComponent implements OnInit {
     document.getElementById("projectDetails").hidden = true;
     this.isLoaded = false;
     this.isProject = false;
+    this.isTaskLoaded = false;
   }
 
   
@@ -501,6 +516,16 @@ export class ProjectListComponent implements OnInit {
   showTaskDetails(temp) {
     this.taskDetails = temp;
     this.volunteer = temp.volunteers;
+    this.isApprover = true;
+    this.isVolunteer = true;
+    if(temp.approver==null)
+    {
+      this.isApprover = false;
+    }
+    if(temp.volunteer==null)
+    {
+      this.isVolunteer = false;
+    }
     console.log("volunteer new");
     console.log(this.volunteer);
     this.isTaskLoaded = true;

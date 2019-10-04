@@ -165,18 +165,18 @@
                   </td>
                 </tr>
                 <tr>
-                  <td>
+                  <td *ngIf = "isPOC">
                     Point Of Contacts :
                   </td>
-                  <td>
+                  <td *ngIf = "isPOC">
                     <p *ngFor="let poc of projectDetails.pointOfContacts" style="font-size: 100%;">{{poc.name}}</p>
                   </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td *ngIf = "isStakeholder">
                       Stakeholders :
                     </td>
-                    <td>
+                    <td *ngIf = "isStakeholder">
                       <p *ngFor="let sh of projectDetails.stakeholders" style="font-size: 100%;">{{sh.name}}</p>
                     </td>
                   </tr>
@@ -314,18 +314,18 @@
                         </td>
                       </tr>
                       <tr>
-                        <td>
+                        <td *ngIf = "isApprover">
                             Approver :
                         </td>
-                        <td>
+                        <td *ngIf = "isApprover">
                             {{taskDetails.approver}}
                         </td>
                       </tr>
                       <tr>
-                        <td>
+                        <td *ngIf = "isVolunteer">
                             Volunteers :
                         </td>
-                        <td>
+                        <td *ngIf = "isVolunteer">
                             {{taskDetails.volunteer}}
                         </td>
                       </tr>
