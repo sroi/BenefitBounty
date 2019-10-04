@@ -33,6 +33,7 @@ import { TaskList1Module } from './approver/task-list/task-list.module';
 import { AddTaskComponent } from './dialogs/add-task/add-task.component';
 import { DeleteTaskComponent } from './dialogs/delete-task/delete-task.component';
 import { EditTaskComponent } from './dialogs/edit-task/edit-task.component';
+import { CommentComponent } from './dialogs/comment/comment.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { EditTaskComponent } from './dialogs/edit-task/edit-task.component';
     PhotoComponent,
     AddTaskComponent,
     DeleteTaskComponent,
-    EditTaskComponent
+    EditTaskComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +82,8 @@ import { EditTaskComponent } from './dialogs/edit-task/edit-task.component';
     PhotoComponent,
     AddTaskComponent,
     EditTaskComponent,
-    DeleteTaskComponent
+    DeleteTaskComponent,
+    CommentComponent
   ],
   providers: [CommonService,DataService],
   bootstrap: [AppComponent]

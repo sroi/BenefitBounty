@@ -68,3 +68,9 @@ export interface Tasks {
   updatedBy: string;
   updatedTime: Date;
 }
+
+export interface Comment {
+  userId: string;
+  comment: string;
+  projectId: string;
+}

@@ -14,6 +14,7 @@ import { PhotoComponent } from 'src/app/shared/photo/photo.component';
 import { element } from 'protractor';
 import { EditTaskComponent } from 'src/app/dialogs/edit-task/edit-task.component';
 import { DeleteTaskComponent } from 'src/app/dialogs/delete-task/delete-task.component';
+import { CommentComponent } from 'src/app/dialogs/comment/comment.component';
 
 
 //https://github.com/marinantonio/angular-mat-table-crud
@@ -92,6 +93,12 @@ export interface ProjectStatus {
   viewValue: string;
 }
 
+export interface Comment {
+  userId: string;
+  comment: string;
+  projectId: string;
+}
+
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
@@ -144,6 +151,7 @@ export class ProjectListComponent implements OnInit {
   // tableData: PeriodicElement[];
   tableData: Projects[] = [];
   project: Project;
+  dataToSend: Comment;
 
   // @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
   // @ViewChild(MatSort,{static:true}) sort: MatSort;
@@ -251,6 +259,28 @@ export class ProjectListComponent implements OnInit {
       data: {projectId:element.projectId, name: element.name, areaOfEngagement: element.areaOfEngagement, corporate: element.corporate, budget: element.budget, status: element.status,
          startDate: element.startDate,endDate: element.endDate,location: element.location,stakeholders:element.stakeholders,
         pointOfContacts: element.pointOfContacts,summary:element.summary}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        // When using an edit things are little different, firstly we find record inside DataService by id
+         //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.projectId === element.projectId);
+        // Then you update that record using data from dialogData (values you enetered)
+         //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
+        // And lastly refresh table
+        this.refreshTable();
+      }
+      
+    });
+
+  }
+
+  projectComment(element: Projects)
+  {
+    //console.log(element);
+    this.dataToSend = {userId: '123', comment:'',projectId:'345'};
+    const dialogRef = this.dialog.open(CommentComponent, {
+      data: this.dataToSend
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -579,20 +609,21 @@ export class ProjectListComponent implements OnInit {
   changeStatusValue(statusValue,element)
   {
     this.statusToUpdate = statusValue;
+    this.projectComment(element);
     this.changeStatus(element,statusValue);
   }
 
   changeStatus(project,statusValue)
   {
-    console.log(project);
-    console.log(statusValue);
+    //console.log(project);
+    //console.log(statusValue);
 
     let url = 'http://localhost:8080/project/updateStatus?pid=' + project.projectId + '&status=' + statusValue;
 
     this.httpService.post(url, project.projectId, statusValue).subscribe(
       data => {
-        console.log(data);
-        this.refreshTable();
+        //console.log(data);
+        //this.refreshTable();
       }
 
     );
