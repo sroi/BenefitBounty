@@ -4,6 +4,7 @@ import {DataService} from '../../services/data.service';
 import {FormControl, Validators} from '@angular/forms';
 import {Issue, Projects} from '../../models/issue';
 import { IMyDateModel, IMyDpOptions } from 'mydatepicker';
+import { Project } from 'src/app/project/_model/project';
 
 @Component({
   selector: 'app-add.dialog',
@@ -13,7 +14,7 @@ import { IMyDateModel, IMyDpOptions } from 'mydatepicker';
 
 export class AddDialogComponent {
   constructor(public dialogRef: MatDialogRef<AddDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: Projects,
+              @Inject(MAT_DIALOG_DATA) public data: Project,
               public dataService: DataService) { }
 
   formControl = new FormControl('', [
@@ -36,7 +37,8 @@ export class AddDialogComponent {
   }
 
   public confirmAdd(): void {
-    this.dataService.updateIssue(this.data);
+    console.log(this.data);
+    this.dataService.addIssue(this.data);
   }
 
 

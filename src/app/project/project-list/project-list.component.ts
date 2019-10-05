@@ -15,6 +15,9 @@ import { element } from 'protractor';
 import { EditTaskComponent } from 'src/app/dialogs/edit-task/edit-task.component';
 import { DeleteTaskComponent } from 'src/app/dialogs/delete-task/delete-task.component';
 import { AddDialogComponent } from 'src/app/dialogs/add/add.dialog.component';
+import { ContactPersons } from '../_model/contact-persons';
+import { AddTaskComponent } from 'src/app/dialogs/add-task/add-task.component';
+import { Task } from '../_model/task';
 
 
 //https://github.com/marinantonio/angular-mat-table-crud
@@ -44,8 +47,8 @@ export interface Projects {
   endDate: Date;
   startDate: Date;
   location: string;
-  pointOfContacts: PointOfContacts[];
-  stakeholders: Stakeholders[];
+  pointOfContacts: PointOfContacts;
+  stakeholders: Stakeholders;
   summary: string;
 
 }
@@ -146,6 +149,7 @@ export class ProjectListComponent implements OnInit {
   tableData: Projects[] = [];
   project: Project;
   addProject:Project;
+  addTasks:Tasks;
   // @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
   // @ViewChild(MatSort,{static:true}) sort: MatSort;
 
@@ -271,12 +275,9 @@ export class ProjectListComponent implements OnInit {
   projectAdd()
   {
     
-    // const dialogRef = this.dialog.open(EditDialogComponent, {
-    //   data: {projectId:element.projectId, name: element.name, areaOfEngagement: element.areaOfEngagement, corporate: element.corporate, budget: element.budget, status: element.status,
-    //      startDate: element.startDate,endDate: element.endDate,location: element.location,stakeholders:element.stakeholders,
-    //     pointOfContacts: element.pointOfContacts,summary:element.summary}
-    // });
     this.addProject=new Project();
+    this.addProject.stakeHolders= new ContactPersons();
+    this.addProject.pointOfContact= new ContactPersons();
     const _addproject=this.addProject;
     const dialogRef = this.dialog.open(AddDialogComponent, {
       data: _addproject
@@ -295,7 +296,7 @@ export class ProjectListComponent implements OnInit {
     });
 
   }
-
+  
   taskEdit(element: Tasks)
   {
     console.log(element);
@@ -316,6 +317,30 @@ export class ProjectListComponent implements OnInit {
     });
 
   }
+
+
+  taskAdd()
+  {
+    this.addTasks= new Task();
+    const dialogRef = this.dialog.open(AddTaskComponent, {
+      data: this.addTasks
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        // When using an edit things are little different, firstly we find record inside DataService by id
+         //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.projectId === element.projectId);
+        // Then you update that record using data from dialogData (values you enetered)
+         //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
+        // And lastly refresh table
+        this.refreshTable();
+      }
+      
+    });
+
+  }
+
+
 
   projectDelete(element: Projects) {
       

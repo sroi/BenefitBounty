@@ -21,8 +21,8 @@ export class ProjectAddComponent implements OnInit {
 
   ngOnInit() {
     this.project.startDate = new Date(Date.now.toString());
-    this.project.stakeHolders = [];
-    this.project.contactPerson = [];
+   // this.project.stakeHolders = [];
+    //this.project.contactPerson = [];
 
     this._route.paramMap.subscribe(parameterMap => {
       const id = +parameterMap.get('id');
@@ -72,21 +72,21 @@ export class ProjectAddComponent implements OnInit {
 
   }
 
-  addStakeHolders() {
-    this.isStakeHolderButtonVisible = true;
-    this.project.stakeHolders.push(new ContactPersons());
-  }
-  removeStakeHolders() {
-    this.project.stakeHolders.pop();
-  }
-  addContactPersons() {
-    this.isContactButtonVisible = true;
-    this.project.contactPerson.push(new ContactPersons());
-  }
+  // addStakeHolders() {
+  //   this.isStakeHolderButtonVisible = true;
+  //   this.project.stakeHolders.push(new ContactPersons());
+  // }
+  // removeStakeHolders() {
+  //   this.project.stakeHolders.pop();
+  // }
+  // addContactPersons() {
+  //   this.isContactButtonVisible = true;
+  //   this.project.contactPerson.push(new ContactPersons());
+  // }
 
-  removeContactPersons() {
-    this.project.contactPerson.pop();
-  }
+  // removeContactPersons() {
+  //   this.project.contactPerson.pop();
+  // }
   private getCopyOfOptions(): IMyDpOptions {
     return JSON.parse(JSON.stringify(this.myDatePickerStartOptions));
   }
@@ -117,7 +117,7 @@ export class ProjectAddComponent implements OnInit {
         this.project.endDate = response.endDate;
         this.project.summary = response.summary;
         this.project.stakeHolders = response.stakeHolders;
-        this.project.contactPerson = response.contactPerson;
+     //   this.project.contactPerson = response.contactPerson;
       },
 
       err => {

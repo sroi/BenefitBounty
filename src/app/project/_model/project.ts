@@ -10,6 +10,7 @@ endDate:Date;
 budget_estimate:number;
 corporate_Assosciate:string;
 location:string;
-contactPerson:ContactPersons[];
-stakeHolders:ContactPersons[];
+pointOfContact:ContactPersons;
+stakeHolders:ContactPersons;
+projectId:number;
 }

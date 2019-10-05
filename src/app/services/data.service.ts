@@ -34,8 +34,14 @@ export class DataService {
   }
 
   // DEMO ONLY, you can find working methods below
-  addIssue (issue: Projects): void {
+  addIssue (issue: Project): void {
     this.dialogData = issue;
+    console.log(issue);
+    this.httpClient.post('http://localhost:8080/project/create',issue).subscribe(
+      data => {
+       console.log("updated"+ ' ' + issue.projectId); 
+      }
+    );
   }
 
   addTask (issue: Tasks): void {

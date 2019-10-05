@@ -1,8 +1,14 @@
 <div class="container">
-  <h3 mat-dialog-title>Project: {{data.name}}</h3>
-
+ 
+  
   <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
-
+    
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #input class="form-control" placeholder="Project Name" [(ngModel)]="data.name" name="name"  required >
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </div>
     <div class="form">
       <mat-form-field color="accent">
         <input matInput #input class="form-control" placeholder="Area" [(ngModel)]="data.areaOfEngagement" name="area"  required >
@@ -50,22 +56,22 @@
         </mat-form-field>
       </div>
 
-      <div ngModelGroup="stakeHolder">
+      <div ngModelGroup="stakeHolders">
         <div class="form">
           <mat-form-field color="accent">
-            <input matInput placeholder="StakeHolderName" [(ngModel)]="data.stakeHolder.name" name="name" >
+            <input matInput placeholder="StakeHolderName" [(ngModel)]="data.stakeHolders.name" name="name" >
           </mat-form-field>
         </div>
         
         <div class="form">
           <mat-form-field color="accent">
-            <input matInput placeholder="StakeholderPhone" [(ngModel)]="data.stakeholder.phoneNo" name="phoneNo">
+            <input matInput placeholder="StakeholderPhone" [(ngModel)]="data.stakeHolders.phoneNo" name="phoneNo">
           </mat-form-field>
         </div>
   
         <div class="form">
           <mat-form-field color="accent">
-            <input matInput placeholder="StakeHolderEmail" [(ngModel)]="data.stakeholder.email" name="email" required >
+            <input matInput placeholder="StakeHolderEmail" [(ngModel)]="data.stakeHolders.email" name="email" required >
           </mat-form-field>
         </div>
       </div>

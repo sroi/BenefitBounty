@@ -23,7 +23,7 @@
         <td>20</td>
         <td>Goregaon</td>
         <td>ABC</td>
-        <td [routerLink] ="'../add'" style="color: blue; cursor:pointer;">Edit Task</td>
+        <td (click)="edittask()" style="color: blue; cursor:pointer;">Edit Task</td>
         <td [routerLink] ="'../add'" style="color: blue; cursor:pointer;">Delete Task</td>
     </tr>
     <tr (click) ="showDetails()" style="cursor:pointer;">
