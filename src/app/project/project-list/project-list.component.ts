@@ -1,3 +1,4 @@
+/* #region Import */
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild, QueryList, ViewChildren } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/material';
@@ -22,7 +23,9 @@ import { AddDialogComponent } from 'src/app/dialogs/add/add.dialog.component';
 
 //https://github.com/marinantonio/angular-mat-table-crud
 
+/* #endregion */
 
+/* #region Interface */
 export interface PointOfContacts {
   name: string;
   phoneNo: number;
@@ -101,6 +104,8 @@ export interface Comment {
   comment: string;
   projectId: string;
 }
+/* #endregion */
+
 
 @Component({
   selector: 'app-project-list',
@@ -109,7 +114,7 @@ export interface Comment {
 })
 export class ProjectListComponent implements OnInit {
 
-
+/* #region Variables */
   displayedColumns: string[] = ['areaOfEngagement', 'name', 'budget','status', 'location', 'duration','changeStatus', 'actions'];
   displayedTasks: string[] = ['activity', 'task', 'duration', 'approver', 'actions'];
   // dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
@@ -161,6 +166,8 @@ export class ProjectListComponent implements OnInit {
   dataToSend: Comment;
   addProject:Project;
   addTasks:Tasks;
+  /* #endregion */
+
   // @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
   // @ViewChild(MatSort,{static:true}) sort: MatSort;
 
@@ -187,6 +194,7 @@ export class ProjectListComponent implements OnInit {
     url: "someurl",
     created_at: "pune",
     updated_at: "mumbai"};
+   
   ngOnInit() {
 
 
@@ -298,17 +306,14 @@ export class ProjectListComponent implements OnInit {
         // Then you update that record using data from dialogData (values you enetered)
          //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
-        this.refreshTable();
+       // this.refreshTable();
       }
       
     });
 
   }
 
-
-  }
-  
-  taskEdit(element: Tasks)
+taskEdit(element:Tasks)
   {
     console.log(element);
     const dialogRef = this.dialog.open(EditTaskComponent, {
@@ -353,7 +358,7 @@ export class ProjectListComponent implements OnInit {
 
 
 
-  projectDelete(element: Projects) {
+  projectDelete(element:Projects) {
       
       const dialogRef = this.dialog.open(DeleteDialogComponent, {
         data: {projectId:element.projectId, name: element.name, areaOfEngagement: element.areaOfEngagement, corporate: element.corporate, budget: element.budget, status: element.status,
@@ -414,7 +419,8 @@ export class ProjectListComponent implements OnInit {
     this.fetchProjects();
   }
 
-  customFilterPredicate() {
+  customFilterPredicate() 
+  {
     const myFilterPredicate = function (data: Projects, filter: string): boolean {
       let searchString = JSON.parse(filter);
       return data.areaOfEngagement.toString().trim().indexOf(searchString.areaOfEngagement) !== -1 &&
@@ -433,7 +439,8 @@ export class ProjectListComponent implements OnInit {
     this.taskSource.sort = this.sort.toArray()[1];
   }
 
-  fetchProjects() {
+  fetchProjects()
+   {
     this.isLoaded1 = false;
     this.isLoaded = false;
     this.isTaskLoaded = false;
@@ -691,9 +698,7 @@ export class ProjectListComponent implements OnInit {
   
   
   projectAdd()
-  {
-    
-    this.addProject=new Project();
+  { this.addProject=new Project();
     this.addProject.stakeHolders= new ContactPersons();
     this.addProject.pointOfContact= new ContactPersons();
     const _addproject=this.addProject;
