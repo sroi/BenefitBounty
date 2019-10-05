@@ -68,6 +68,11 @@ export class DataService {
     );
   }
 
+  updateComment(issue: Comment): void {
+    console.log(issue);
+    console.log('hi');
+  }
+
   deleteIssue (issue): void {
     console.log(issue);
     this.httpClient.delete('http://localhost:8080/project/delete?pid='+issue.projectId).subscribe(

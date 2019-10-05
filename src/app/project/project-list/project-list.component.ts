@@ -14,11 +14,11 @@ import { PhotoComponent } from 'src/app/shared/photo/photo.component';
 import { element } from 'protractor';
 import { EditTaskComponent } from 'src/app/dialogs/edit-task/edit-task.component';
 import { DeleteTaskComponent } from 'src/app/dialogs/delete-task/delete-task.component';
-import { AddDialogComponent } from 'src/app/dialogs/add/add.dialog.component';
+import { CommentComponent } from 'src/app/dialogs/comment/comment.component';
 import { ContactPersons } from '../_model/contact-persons';
 import { AddTaskComponent } from 'src/app/dialogs/add-task/add-task.component';
 import { Task } from '../_model/task';
-
+import { AddDialogComponent } from 'src/app/dialogs/add/add.dialog.component';
 
 //https://github.com/marinantonio/angular-mat-table-crud
 
@@ -96,6 +96,12 @@ export interface ProjectStatus {
   viewValue: string;
 }
 
+export interface Comment {
+  userId: string;
+  comment: string;
+  projectId: string;
+}
+
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
@@ -139,6 +145,10 @@ export class ProjectListComponent implements OnInit {
   isProject: boolean = false;
   isImage: boolean = false;
   statusToUpdate: string;
+  isApprover: boolean;
+  isVolunteer: boolean;
+  isStakeholder: boolean;
+  isPOC: boolean;
   exampleDatabase: DataService | null;
   images: any[]=[{name:'photo1', url:'https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/024/113/slideshow/2fb751a9d79c2bef5963210204348238/austria-hallstatt-daytime-mountains.jpg'},
   {name:'photo1', url:'https://st2.depositphotos.com/1004221/8723/i/950/depositphotos_87237724-stock-photo-hallstatt-mountain-village-alps-austria.jpg'},
@@ -148,6 +158,7 @@ export class ProjectListComponent implements OnInit {
   // tableData: PeriodicElement[];
   tableData: Projects[] = [];
   project: Project;
+  dataToSend: Comment;
   addProject:Project;
   addTasks:Tasks;
   // @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
@@ -272,15 +283,12 @@ export class ProjectListComponent implements OnInit {
 
   }
 
-  projectAdd()
+  projectComment(element: Projects)
   {
-    
-    this.addProject=new Project();
-    this.addProject.stakeHolders= new ContactPersons();
-    this.addProject.pointOfContact= new ContactPersons();
-    const _addproject=this.addProject;
-    const dialogRef = this.dialog.open(AddDialogComponent, {
-      data: _addproject
+    //console.log(element);
+    this.dataToSend = {userId: '123', comment:'',projectId:'345'};
+    const dialogRef = this.dialog.open(CommentComponent, {
+      data: this.dataToSend
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -294,6 +302,9 @@ export class ProjectListComponent implements OnInit {
       }
       
     });
+
+  }
+
 
   }
   
@@ -469,6 +480,8 @@ export class ProjectListComponent implements OnInit {
   }
   
   showDetails(temp) {
+    this.isStakeholder = true;
+    this.isPOC = true;
     this.isImage = false;
     this.isSummary = false;
     this.isTaskLoaded = false;
@@ -476,6 +489,14 @@ export class ProjectListComponent implements OnInit {
     this.isSpinnerEnabled = true;
     let id = temp.projectId;
     this.currentProject = temp;
+    if(temp.stakeholders==null)
+    {
+      this.isStakeholder = false;
+    }
+    if(temp.pointOfContacts==null)
+    {
+      this.isPOC = false;
+    }
     console.log(temp);
 
     let url = 'http://localhost:8080/task/tasks?pid=' + id;
@@ -518,6 +539,7 @@ export class ProjectListComponent implements OnInit {
     document.getElementById("projectDetails").hidden = true;
     this.isLoaded = false;
     this.isProject = false;
+    this.isTaskLoaded = false;
   }
 
   
@@ -525,6 +547,16 @@ export class ProjectListComponent implements OnInit {
   showTaskDetails(temp) {
     this.taskDetails = temp;
     this.volunteer = temp.volunteers;
+    this.isApprover = true;
+    this.isVolunteer = true;
+    if(temp.approver==null)
+    {
+      this.isApprover = false;
+    }
+    if(temp.volunteer==null)
+    {
+      this.isVolunteer = false;
+    }
     console.log("volunteer new");
     console.log(this.volunteer);
     this.isTaskLoaded = true;
@@ -633,20 +665,21 @@ export class ProjectListComponent implements OnInit {
   changeStatusValue(statusValue,element)
   {
     this.statusToUpdate = statusValue;
+    this.projectComment(element);
     this.changeStatus(element,statusValue);
   }
 
   changeStatus(project,statusValue)
   {
-    console.log(project);
-    console.log(statusValue);
+    //console.log(project);
+    //console.log(statusValue);
 
     let url = 'http://localhost:8080/project/updateStatus?pid=' + project.projectId + '&status=' + statusValue;
 
     this.httpService.post(url, project.projectId, statusValue).subscribe(
       data => {
-        console.log(data);
-        this.refreshTable();
+        //console.log(data);
+        //this.refreshTable();
       }
 
     );
@@ -655,5 +688,32 @@ export class ProjectListComponent implements OnInit {
   refresh() {
     window.location.reload();
   }
+  
+  
+  projectAdd()
+  {
+    
+    this.addProject=new Project();
+    this.addProject.stakeHolders= new ContactPersons();
+    this.addProject.pointOfContact= new ContactPersons();
+    const _addproject=this.addProject;
+    const dialogRef = this.dialog.open(AddDialogComponent, {
+      data: _addproject
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        // When using an edit things are little different, firstly we find record inside DataService by id
+         //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.projectId === element.projectId);
+        // Then you update that record using data from dialogData (values you enetered)
+         //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
+        // And lastly refresh table
+        this.refreshTable();
+      }
+      
+    });
+
+  }
+  
 
 }
