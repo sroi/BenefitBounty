@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { EditTaskComponent } from 'src/app/dialogs/edit-task/edit-task.component';
 import { DeleteTaskComponent } from 'src/app/dialogs/delete-task/delete-task.component';
+import { DataService } from 'src/app/services/data.service';
+import { PhotoComponent } from 'src/app/shared/photo/photo.component';
  
 export interface Approver {
   name: string;
@@ -60,7 +62,7 @@ export interface ProjectStatus {
 export class TaskList1Component implements OnInit {
 
 
-  displayedTasks: string[] = ['activity', 'task', 'duration', 'approver'];
+  displayedTasks: string[] = ['activity', 'task', 'duration', 'approver', 'status', 'actions'];
   
   displayedActivity: string[] = ['userId','activity','comments','uploads','timeEntered','updatedOn'];
   projectStatus: ProjectStatus[] = [
@@ -68,6 +70,12 @@ export class TaskList1Component implements OnInit {
     {value: 'OnHold', viewValue: 'OnHold'},
     {value: 'Closed', viewValue: 'Closed'}
   ];
+
+  images: any[]=[{name:'photo1', url:'https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/024/113/slideshow/2fb751a9d79c2bef5963210204348238/austria-hallstatt-daytime-mountains.jpg'},
+  {name:'photo1', url:'https://st2.depositphotos.com/1004221/8723/i/950/depositphotos_87237724-stock-photo-hallstatt-mountain-village-alps-austria.jpg'},
+  {name:'photo1', url:'https://travelpassionate.com/wp-content/uploads/2019/04/Scenic-view-of-famous-Hallstatt-village-in-the-Austrian-Alps.-Image-min.jpg'},
+  {name:'photo1', url:'https://www.travelshelper.com/wp-content/uploads/2017/07/AUSTRIA-TRAVEL-GUIDE-Travel-S-Helper-800x600.jpg'},
+  {name:'photo1', url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXVUCXTNgcJrfF7VluwC-GxtTqSgIbn7Vh6x9cedft9rOgxJfN'}];
 
   taskSource = new MatTableDataSource<Tasks>();
   activitySource = new MatTableDataSource<Activity>();
@@ -91,7 +99,7 @@ export class TaskList1Component implements OnInit {
   // @ViewChildren(MatSort) sort = new QueryList<MatSort>();
 
 
-  constructor(private httpService: HttpClient, private router: Router,public dialog: MatDialog) {
+  constructor(private httpService: HttpClient, private router: Router,public dialog: MatDialog, public dataService: DataService) {
 
   }
   arrJson: any = [];
@@ -172,25 +180,27 @@ export class TaskList1Component implements OnInit {
     this.isLoaded1 = true;
   }
 
-  // showTaskDetails(temp) {
-  //   this.taskDetails = temp;
-  //   this.volunteer = temp.volunteers;
-  //   this.isApprover = true;
-  //   this.isVolunteer = true;
-  //   if(temp.approver==null)
-  //   {
-  //     this.isApprover = false;
-  //   }
-  //   if(temp.volunteer==null)
-  //   {
-  //     this.isVolunteer = false;
-  //   }
-  //   console.log("volunteer new");
-  //   console.log(this.volunteer);
-  //   this.isTaskLoaded = true;
-  //   console.log(this.isTaskLoaded);
-  //   // this.isLoaded = false;
-  // }
+  changeTaskStatus(element:Tasks, status){
+    var tid = element.taskId;
+    var role = "Approver"
+
+    var url = `http://localhost:8080/task/status?tid=${tid}&role=${role}&status=${status}`
+    
+    this.httpService.put(url, 0).subscribe(() => {
+      this.showDetails("volunteer");
+    })
+  }
+
+  openImage(image:any)
+  {
+    const dialogRef = this.dialog.open(PhotoComponent, {
+      data: image
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      
+    });
+  }
 
   //lalit Starts
   showActivityDetails(temp) {
@@ -232,43 +242,6 @@ export class TaskList1Component implements OnInit {
         console.log();
       }
     );
-  }
-
-  taskEdit(element:Tasks)
-  {
-    console.log(element);
-    const dialogRef = this.dialog.open(EditTaskComponent, {
-      data: element
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-        // When using an edit things are little different, firstly we find record inside DataService by id
-         //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.projectId === element.projectId);
-        // Then you update that record using data from dialogData (values you enetered)
-         //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
-        // And lastly refresh table
-        this.showDetails("volunteer");
-      }
-      
-    });
-
-  }
-  taskDelete(element: Tasks) {
-      
-    const dialogRef = this.dialog.open(DeleteTaskComponent, {
-      data: element
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-         //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
-        // for delete we use splice in order to remove single object from DataService
-          //this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-        this.showDetails("volunteer");
-      }
-      
-    });
   }
   
   //lalit end

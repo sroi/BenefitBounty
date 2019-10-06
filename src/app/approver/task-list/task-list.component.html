@@ -32,9 +32,30 @@
           <td mat-cell *matCellDef="let element1" style="cursor:pointer;" (click)="showTaskDetails(element1)">
             {{element1.approver}} </td>
         </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
+          <td mat-cell *matCellDef="let element1" (click)="showTaskDetails(element1)" style="cursor:pointer;">
+            <!-- {{element1.status}} -->
+            Dummy Status
+          </td>
+        </ng-container>
     
     
-    
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef>
+            
+          </mat-header-cell>
+  
+          <mat-cell *matCellDef="let element;">
+            <button mat-flat-button color="accent" style="margin-right:10px;" (click)="changeTaskStatus(element, 'Approved')"> Approve </button>
+  
+            <button mat-flat-button color="accent"
+              (click)="changeTaskStatus(element, 'Rejected')" style="margin-right:10px;">
+              Reject
+            </button>
+          </mat-cell>
+        </ng-container>
     
     
     
@@ -151,11 +172,11 @@
             </table>
   
           </mat-card-content>
-          <mat-card-actions>
+          <!-- <mat-card-actions>
             <button style="margin-right:10px;" mat-flat-button color="accent"
               (click)="taskEdit(taskDetails)">Edit</button>
             <button mat-flat-button color="warn" (click)="taskDelete(taskDetails)">Delete</button>
-          </mat-card-actions>
+          </mat-card-actions> -->
         </mat-card>
       </div>
       <div style="display:flex;flex:1 1 auto;flex-direction: column;">
@@ -172,54 +193,3 @@
   
   
 </div>
-<!-- <div [hidden]="!isLoaded1">
-  <table mat-table [dataSource]="activitySource" matSort class="mat-elevation-z8" id="activityTable">
-    <ng-container matColumnDef="userId">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> UserId </th>
-      <td mat-cell *matCellDef="let element1" style="cursor:pointer;" (click)="showTaskDetails(element1)">
-        {{element1.userId}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="activity">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Activity </th>
-      <td mat-cell *matCellDef="let element1" style="cursor:pointer;" (click)="showTaskDetails(element1)">
-        {{element1.activity}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="comments">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Comments </th>
-      <td mat-cell *matCellDef="let element1" style="cursor:pointer;" (click)="showTaskDetails(element1)">
-        {{element1.comments}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="uploads">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Uploads </th>
-      <td mat-cell *matCellDef="let element1" style="cursor:pointer;" (click)="showTaskDetails(element1)">
-        {{element1.uploads}} </td>
-    </ng-container>
-
-
-    <ng-container matColumnDef="timeEntered">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> timeEntered </th>
-      <td mat-cell *matCellDef="let element1" style="cursor:pointer;" (click)="showTaskDetails(element1)">
-        {{element1.timeEntered}} </td>
-    </ng-container>
-    <ng-container matColumnDef="updatedOn">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> updatedOn </th>
-      <td mat-cell *matCellDef="let element1" style="cursor:pointer;" (click)="showTaskDetails(element1)">
-        {{element1.updatedOn  | date: 'dd/MM/yyyy'}}
-      </td>
-    </ng-container>
-
-
-
-
-
-
-    <tr mat-header-row *matHeaderRowDef="displayedActivity"></tr>
-    <tr mat-row *matRowDef="let row1; columns: displayedActivity;"></tr>
-  </table>
-  <div>
-    <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
-  </div>
-</div> -->
