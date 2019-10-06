@@ -1,11 +1,9 @@
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild, QueryList, ViewChildren } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { EditTaskComponent } from 'src/app/dialogs/edit-task/edit-task.component';
-import { DeleteTaskComponent } from 'src/app/dialogs/delete-task/delete-task.component';
  
 export interface Approver {
   name: string;
@@ -91,7 +89,7 @@ export class TaskList1Component implements OnInit {
   // @ViewChildren(MatSort) sort = new QueryList<MatSort>();
 
 
-  constructor(private httpService: HttpClient, private router: Router,public dialog: MatDialog) {
+  constructor(private httpService: HttpClient, private router: Router) {
 
   }
   arrJson: any = [];
@@ -167,30 +165,10 @@ export class TaskList1Component implements OnInit {
   showTaskDetails(temp) {
     console.log(temp);
     this.taskDetails = temp; 
-    this.isTaskLoaded = true;
+    this.isTaskLoaded = false;
     this.isLoaded = true;
     this.isLoaded1 = true;
   }
-
-  // showTaskDetails(temp) {
-  //   this.taskDetails = temp;
-  //   this.volunteer = temp.volunteers;
-  //   this.isApprover = true;
-  //   this.isVolunteer = true;
-  //   if(temp.approver==null)
-  //   {
-  //     this.isApprover = false;
-  //   }
-  //   if(temp.volunteer==null)
-  //   {
-  //     this.isVolunteer = false;
-  //   }
-  //   console.log("volunteer new");
-  //   console.log(this.volunteer);
-  //   this.isTaskLoaded = true;
-  //   console.log(this.isTaskLoaded);
-  //   // this.isLoaded = false;
-  // }
 
   //lalit Starts
   showActivityDetails(temp) {
@@ -233,44 +211,6 @@ export class TaskList1Component implements OnInit {
       }
     );
   }
-
-  taskEdit(element:Tasks)
-  {
-    console.log(element);
-    const dialogRef = this.dialog.open(EditTaskComponent, {
-      data: element
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-        // When using an edit things are little different, firstly we find record inside DataService by id
-         //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.projectId === element.projectId);
-        // Then you update that record using data from dialogData (values you enetered)
-         //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
-        // And lastly refresh table
-        this.showDetails("volunteer");
-      }
-      
-    });
-
-  }
-  taskDelete(element: Tasks) {
-      
-    const dialogRef = this.dialog.open(DeleteTaskComponent, {
-      data: element
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-         //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
-        // for delete we use splice in order to remove single object from DataService
-          //this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-        this.showDetails("volunteer");
-      }
-      
-    });
-  }
-  
   //lalit end
   hideTaskDetails() {
     this.isTaskLoaded = false;

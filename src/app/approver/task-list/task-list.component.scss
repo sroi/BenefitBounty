@@ -32,7 +32,9 @@
   #taskDetails
   {
     border: 1px solid gray;
+    margin: 1%;
     margin-bottom: 2%;
+    width: 95%;
   }
   .row
   {
@@ -102,8 +104,6 @@
 #taskTable
 {
   max-height: 300px;
-  width: 100%;
-  padding: 1%
 }
 
 th.mat-sort-header-sorted {
