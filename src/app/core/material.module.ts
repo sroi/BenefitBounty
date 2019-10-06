@@ -4,6 +4,7 @@ import {
   MatButtonModule, MatCardModule, MatDialogModule, MatInputModule, MatTableModule,
   MatToolbarModule, MatMenuModule,MatIconModule, MatProgressSpinnerModule
 } from '@angular/material';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   imports: [
   CommonModule, 
@@ -15,7 +16,8 @@ import {
   MatTableModule,
   MatMenuModule,
   MatIconModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  ReactiveFormsModule
   ],
   exports: [
   CommonModule,

@@ -1,20 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { first } from 'rxjs/operators';
 
-@Component({
-  selector: 'app-home',
-  template: `
-      <h1 class="title">Home Page!</h1>
-  `,
-  styles: [
-    //   `.hero {
-    // //   background-image: url('/assets/img/canyon.jpg') !important;
-    //   background-size: cover;
-    //   background-position: center center;
-    // }`
-    ]
-})
-export class HomeComponent implements OnInit {
-  constructor() {}
+import { AuthenticationService } from '../_services/authentication.service';
+import { UserService } from '../_services/user.service';
+import { User } from '../_models/user';
 
-  ngOnInit() {}
+@Component({ templateUrl: 'home.component.html' })
+export class HomeComponent implements OnInit, OnDestroy {
+    currentUser: User;
+    currentUserSubscription: Subscription;
+    users: User[] = [];
+
+    constructor(
+        private authenticationService: AuthenticationService,
+        private userService: UserService
+    ) {
+        this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
+            this.currentUser = user;
+        });
+    }
+
+    ngOnInit() {
+        this.loadAllUsers();
+    }
+
+    ngOnDestroy() {
+        // unsubscribe to ensure no memory leaks
+        this.currentUserSubscription.unsubscribe();
+    }
+
+    deleteUser(id: number) {
+        this.userService.delete(id).pipe(first()).subscribe(() => {
+            this.loadAllUsers()
+        });
+    }
+
+    private loadAllUsers() {
+        this.userService.getAll().pipe(first()).subscribe(users => {
+            this.users = users;
+        });
+    }
 }
