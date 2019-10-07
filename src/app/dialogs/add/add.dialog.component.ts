@@ -2,7 +2,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Component, Inject} from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {FormControl, Validators} from '@angular/forms';
-import {Issue, Projects} from '../../models/issue';
 import { IMyDateModel, IMyDpOptions } from 'mydatepicker';
 import { Project } from 'src/app/project/_model/project';
 

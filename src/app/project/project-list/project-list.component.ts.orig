@@ -9,7 +9,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { DataService } from 'src/app/services/data.service';
 import { EditDialogComponent } from 'src/app/dialogs/edit/edit.dialog.component';
 import { DeleteDialogComponent } from 'src/app/dialogs/delete/delete.dialog.component';
-import { Issue } from 'src/app/models/issue';
+import { Issue } from 'src/app/_models/issue';
 import { PhotoComponent } from 'src/app/shared/photo/photo.component';
 import { element } from 'protractor';
 import { EditTaskComponent } from 'src/app/dialogs/edit-task/edit-task.component';

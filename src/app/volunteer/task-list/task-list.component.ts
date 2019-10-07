@@ -1,6 +1,6 @@
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, ViewChild, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChild, QueryList, ViewChildren, Input, ElementRef } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
@@ -8,59 +8,12 @@ import { EditTaskComponent } from 'src/app/dialogs/edit-task/edit-task.component
 import { DeleteTaskComponent } from 'src/app/dialogs/delete-task/delete-task.component';
 import { DataService } from 'src/app/services/data.service';
 import { PhotoComponent } from 'src/app/shared/photo/photo.component';
-import { Projects } from 'src/app/models/issue';
 import { CommentComponent } from 'src/app/dialogs/comment/comment.component';
 import { EditVolunteerComponent } from 'src/app/dialogs/edit-volunteer/edit-volunteer.component';
- 
-export interface Approver {
-  name: string;
-  emailId: string;
-  phoneNo: number;
-  role: string;
-}
-
-export interface Tasks {
-  activityLabel: string;
-  taskId: string;
-  name: string;
-  description: string;
-  projectId: string;
-  startDate: Date;
-  endDate: Date;
-  location: string;
-  approver: string; 
-  createdBy: string;
-  createdOn: Date;
-  updatedBy: string;
-  updatedOn: Date;
-}
-
-
-export interface Activity {
-  activityId: object;
-  projectId: string;
-  taskId: string;
-  userId: string;
-  role: string;
-  activity: string;
-  comments: string;
-  uploads: string;
-  timeEntered: string; 
-  createdBy: string;
-  createdTime: Date;
-  updatedBy: string;
-  updatedTime: Date;
-}
-
-export interface ProjectStatus {
-  value: string;
-  viewValue: string;
-}
-
-export interface userComment {
-  userId: string;
-  comment: string;
-}
+import { FileuploadComponent } from 'src/app/widgets/fileupload.component';
+import { FileUploadService } from 'src/app/services/fileUpload.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { ProjectStatus, Task, Activity, UserComment } from 'src/app/_models/model';
 
 @Component({
   selector: 'app-task-list',
@@ -70,12 +23,12 @@ export interface userComment {
 export class TaskListComponent implements OnInit {
 
 
-  displayedTasks: string[] = ['activity', 'task', 'duration', 'approver', 'status', 'actions'];
+  displayedTasks: string[] = ['project', 'activity', 'task', 'duration', 'approver', 'status', 'actions'];
   
   displayedActivity: string[] = ['userId','activity','comments','uploads','timeEntered','updatedOn'];
   projectStatus: ProjectStatus[] = [
-    {value: 'InProgress', viewValue: 'InProgress'},
-    {value: 'OnHold', viewValue: 'OnHold'},
+    {value: 'In Progress', viewValue: 'In Progress'},
+    {value: 'On Hold', viewValue: 'On Hold'},
     {value: 'Closed', viewValue: 'Closed'}
   ];
 
@@ -85,33 +38,101 @@ export class TaskListComponent implements OnInit {
   {name:'photo1', url:'https://www.travelshelper.com/wp-content/uploads/2017/07/AUSTRIA-TRAVEL-GUIDE-Travel-S-Helper-800x600.jpg'},
   {name:'photo1', url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXVUCXTNgcJrfF7VluwC-GxtTqSgIbn7Vh6x9cedft9rOgxJfN'}];
 
-  taskSource = new MatTableDataSource<Tasks>();
+  hostname = "http://localhost:";
+  portNo = "8080";
+  taskApiUrl = this.hostname + this.portNo + "/task";
+  taskSource = new MatTableDataSource<Task>();
   activitySource = new MatTableDataSource<Activity>();
   isLoaded: boolean = false;
   isLoaded1: boolean = false;
   isTaskLoaded: boolean = false;
   isSpinnerEnabled: boolean = false;
   isSummary: boolean = false;
-  taskData: Tasks[] = []; 
+  taskData: Task[] = []; 
   activityData: Activity[] = []; 
-  taskDetails: Tasks;
+  taskDetails: Task;
   isProject: boolean = false;
   isImage: boolean = false;
   statusToUpdate: string;
   image: string = "./../../../assets/angularLogo.svg";
+  userId: string;
+  role: string;
 
   @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
   @ViewChild(MatSort,{static:true}) sort: MatSort;
   dataToSend: { userId: string; comment: string; taskId: string; workingHours: number; };
   selectedFile: string | Blob;
-  volunteerComments: userComment = {userId:'123',comment:'new'};
-  approverComment: userComment = {userId:'123',comment:'new approver'};
+  volunteerComments: UserComment = {userId:'123',comment:'new'};
+  approverComment: UserComment = {userId:'123',comment:'new approver'};
 
   // @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   // @ViewChildren(MatSort) sort = new QueryList<MatSort>();
+  @Input()
+  mode
+  @Input()
+  names
+  @Input()
+  url
+  @Input()
+  method
+  @Input()
+  multiple
+  @Input()
+  disabled
+  @Input()
+  accept
+  @Input()
+  maxFileSize
+  @Input()
+  auto = true
+  @Input()
+  withCredentials
+  @Input()
+  invalidFileSizeMessageSummary
+  @Input()
+  invalidFileSizeMessageDetail
+  @Input()
+  invalidFileTypeMessageSummary
+  @Input()
+  invalidFileTypeMessageDetail
+  @Input()
+  previewWidth
+  @Input()
+  chooseLabel = 'Choose'
+  @Input()
+  uploadLabel = 'Upload'
+  @Input()
+  cancelLabel = 'Cance'
+  @Input()
+  customUpload
+  @Input()
+  showUploadButton
+  @Input()
+  showCancelButton
 
 
-  constructor(private httpService: HttpClient, private router: Router,public dialog: MatDialog, public dataService: DataService) {
+  @Input()
+  dataUriPrefix
+  @Input()
+  deleteButtonLabel
+  @Input()
+  deleteButtonIcon = 'close'
+  @Input()
+  showUploadInfo
+
+  /**
+   *
+   */
+
+
+  @ViewChild('fileUpload',{static:false}) fileUpload: any;
+
+  inputFileName: string
+
+  @Input()
+  files: File[] = [];
+
+  constructor(private sanitizer: DomSanitizer,private httpService: HttpClient, private router: Router,public dialog: MatDialog, public dataService: DataService,public fileUploadService: FileUploadService) {
 
   }
   arrJson: any = [];
@@ -119,10 +140,15 @@ export class TaskListComponent implements OnInit {
   activityJson :any= [];
   keys: any = [];
   ngOnInit() {
+    this.role = "Volunteer";
+    this.userId = "5d89e7cf1c9d4400001cc5a7";
+    this.showDetails(this.userId, this.role);   
+  }
 
-    
-    this.showDetails("volunteer");
-        
+  
+
+  onFileComplete(data: any) {
+    console.log(data); // We just print out data bubbled up from event emitter.
   }
 
   ngAfterViewInit()
@@ -145,7 +171,7 @@ export class TaskListComponent implements OnInit {
   editTaskComment(element)
   {
     //console.log(element);
-    this.dataToSend = {userId: '123', comment:'',taskId:'345',workingHours:12};
+    this.dataToSend = {userId: this.userId, comment:'',taskId:element.taskId,workingHours:0};
     const dialogRef = this.dialog.open(EditVolunteerComponent, {
       data: this.dataToSend
     });
@@ -164,37 +190,15 @@ export class TaskListComponent implements OnInit {
 
   }
 
-  onFileSelected(event)
-  {
-    this.selectedFile = event.target.files[0];
-
-  }
-  onUpload()
-  {
-    const fd = new FormData();
-    fd.append('image',this.selectedFile,this.taskDetails.taskId);
-   
-    this.httpService.post('someurl',fd).subscribe(
-      res => {
-        
-      }
-    )
-
-  }
-
-
-  
-
-  showDetails(temp) {
+  showDetails(userId, role) {
     this.isImage = false;
     this.isSummary = false;
     this.isTaskLoaded = false;
     this.isLoaded = false;
     this.isSpinnerEnabled = true;
-    let id = temp.projectId;
     console.log("showDetails loaded");
 
-    let url = 'http://localhost:8080/task/approver?approver=5d910f8bce6b381f8452b48e'; 
+    let url = `${this.taskApiUrl}/fetch?uid=${userId}&role=${role}`; 
     this.taskData = [];
     this.httpService.get(url).subscribe(
       data => {
@@ -208,10 +212,9 @@ export class TaskListComponent implements OnInit {
           this.taskDetails = this.taskData[i];
         }
 
-
         this.isLoaded = true;
         this.isSpinnerEnabled = false;
-        this.taskSource = new MatTableDataSource<Tasks>(this.taskData);
+        this.taskSource = new MatTableDataSource<Task>(this.taskData);
         console.log("taskSource recieved "+this.taskSource);
      
         this.isProject = true;
@@ -226,20 +229,18 @@ export class TaskListComponent implements OnInit {
 
   showTaskDetails(temp) {
     console.log(temp);
-    this.taskDetails = temp; 
+    this.taskDetails = temp;
     this.isTaskLoaded = true;
     this.isLoaded = true;
     this.isLoaded1 = true;
   }
 
-  changeTaskStatus(element:Tasks, status){
+  changeTaskStatus(element:Task, status){
     var tid = element.taskId;
-    var role = "Approver"
-
-    var url = `http://localhost:8080/task/status?tid=${tid}&role=${role}&status=${status}`
+    var url = `${this.taskApiUrl}/status?tid=${tid}&role=${this.role}&status=${status}`
     
     this.httpService.put(url, 0).subscribe(() => {
-      this.showDetails("volunteer");
+      this.showDetails(this.userId, this.role);
     })
   }
 
@@ -264,7 +265,7 @@ export class TaskListComponent implements OnInit {
     let id = temp.projectId;
     console.log("showDetails loaded"+temp.taskId);
  
-    let url = 'http://localhost:8080/task/activity?taskId='+temp.taskId; 
+    let url = `${this.taskApiUrl}/task?tid=${temp.taskId}`; 
     this.activityData = [];
     this.httpService.get(url).subscribe(
       data => {
@@ -326,10 +327,10 @@ export class TaskListComponent implements OnInit {
 
   deleteTask(temp) {
     console.log(temp);
-    this.taskSource.data = this.taskSource.data.filter((task: Tasks)=>{
+    this.taskSource.data = this.taskSource.data.filter((task: Task)=>{
       return task.taskId !=temp.taskId;
     })
-    let url = 'http://localhost:8080/project/deleteTask?tid=' + temp.taskId;
+    let url = `${this.taskApiUrl}/delete?tid=${temp.taskId}`;
 
     this.httpService.delete(url, temp.taskId).subscribe(
       data => {
@@ -337,6 +338,113 @@ export class TaskListComponent implements OnInit {
       }
 
     );
+  }
+
+  onFileSelected1(event)
+  {
+    this.selectedFile = event.target.files[0];
+
+  }
+  onUpload1()
+  {
+    const fd = new FormData();
+    fd.append('image',this.selectedFile,this.taskDetails.taskId);
+   
+    this.httpService.post('someurl',fd).subscribe(
+      res => {
+        
+      }
+    )
+
+  }
+
+  selectFile()
+  {
+      this.fileUpload.nativeElement.click();
+  }
+  
+
+  onClick(event) {
+    //if (this.fileUpload)
+      this.fileUpload.nativeElement.click();
+
+      console.log(event);
+  }
+
+  onInput(event) {
+
+  }
+
+  onFileSelected(event) {
+    let files = event.dataTransfer ? event.dataTransfer.files : event.target.files;
+    console.log('event::::::', event)
+    for (let i = 0; i < files.length; i++) {
+      let file = files[i];
+
+      //if(!this.isFileSelected(file)){
+      if (this.validate(file)) {
+        //      if(this.isImage(file)) {
+        file.objectURL = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(files[i])));
+        //      }
+        if (!this.isMultiple()) {
+          this.files = []
+        }
+        this.files.push(files[i]);
+        //  }
+      }
+      //}
+    }
+  }
+
+  removeFile(event, file) {
+    let ix
+    if (this.files && -1 !== (ix = this.files.indexOf(file))) {
+      this.files.splice(ix, 1)
+      this.clearInputElement()
+    }
+  }
+
+  validate(file: File) {
+    for (const f of this.files) {
+      if (f.name === file.name
+        && f.lastModified === file.lastModified
+        && f.size === f.size
+        && f.type === f.type
+      ) {
+        return false
+      }
+    }
+    return true
+  }
+
+  clearInputElement() {
+    this.fileUpload.nativeElement.value = ''
+  }
+
+
+  isMultiple(): boolean {
+    return this.multiple
+  }
+
+  onUpload()
+  {
+    // const fd = new FormData();
+    // fd.append('image',this.selectedFile,this.taskDetails.taskId);
+   
+    // this.httpService.post('someurl',fd).subscribe(
+    //   res => {
+        
+    //   }
+    // )
+    const formData: FormData = new FormData();
+    formData.append('file',this.files[0],this.files[0].name);
+    this.httpService.post('localhost:8080/images',formData).subscribe(
+      res => {
+        console.log(res);
+
+      }
+    );
+    console.log(this.files);
   }
 
 }

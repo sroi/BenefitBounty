@@ -2,7 +2,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Component, Inject} from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {FormControl, Validators} from '@angular/forms';
-import {Issue, Projects, Tasks} from '../../models/issue';
+import { Task } from 'src/app/_models/model';
 
 @Component({
   selector: 'app-add-task',
@@ -12,7 +12,7 @@ import {Issue, Projects, Tasks} from '../../models/issue';
 export class AddTaskComponent {
 
   constructor(public dialogRef: MatDialogRef<AddTaskComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Tasks,
+    @Inject(MAT_DIALOG_DATA) public data: Task,
     public dataService: DataService) { }
 
     formControl = new FormControl('', [

@@ -5,7 +5,9 @@ import { MatTableDataSource, MatDialog } from '@angular/material';
 import { Projects, Tasks } from 'src/app/project/project-list/project-list.component';
 import { TASK_CONFIG_COLUMNS } from '../config';
 import { PhotoComponent } from 'src/app/shared/photo/photo.component';
-import { Volunteers } from 'src/app/models/issue';
+import { Volunteers } from 'src/app/_models/issue';
+import { UserComment } from 'src/app/_models/model';
+
 @Component({
   selector: 'app-stakeholder-project-detail',
   templateUrl: './stakeholder-project-detail.component.html',
@@ -24,6 +26,9 @@ export class StakeholderProjectDetailComponent implements OnInit {
   isTaskLoaded: boolean = false;
   isLoaded: boolean = true;
   isImage: boolean = false;
+  volunteerComments: UserComment = {userId:'123',comment:'new'};
+  approverComment: UserComment = {userId:'123',comment:'new approver'};
+  stakeholdersComment: UserComment = {userId:'123',comment:'new stakeholder'};
   image: string = "./../../../assets/angularLogo.svg";
   images: any[]=[{name:'photo1', url:'https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/024/113/slideshow/2fb751a9d79c2bef5963210204348238/austria-hallstatt-daytime-mountains.jpg'},
   {name:'photo1', url:'https://st2.depositphotos.com/1004221/8723/i/950/depositphotos_87237724-stock-photo-hallstatt-mountain-village-alps-austria.jpg'},

@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {Issue, Tasks, Projects} from '../models/issue';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { Project } from '../project/_model';
+import { Projects } from '../_models/issue';
+import { Task } from '../_models/model';
 
 @Injectable()
 export class DataService {
@@ -46,7 +47,7 @@ export class DataService {
     );
   }
 
-  addTask (issue: Tasks): void {
+  addTask (issue: Task): void {
     this.dialogData = issue;
     this.httpClient.post('http://localhost:8080/task/create',issue).subscribe(
       data => {
@@ -68,11 +69,17 @@ export class DataService {
     );
   }
 
-  updateVolunteerTask(issue): void {
-    console.log(issue);
+  //Todo: provide body for Put, provide userid 
+  updateVolunteerTask(obj): void {
+    console.log(obj);
+    this.httpClient.put(`http://localhost:8080/task/status?tid=${obj.taskId}&role=Volunteer&comments=${obj.comment}&time=${obj.workingHours}&status=Submitted`,"Body").subscribe(
+      data => {
+       console.log("updated"+ ' ' + obj.projectId); 
+      }
+    );
   }
 
-  updateTask (issue: Tasks): void {
+  updateTask (issue: Task): void {
     this.dialogData = issue;
     console.log(issue);
     this.httpClient.post('http://localhost:8080/task/create',issue).subscribe(

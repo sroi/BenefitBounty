@@ -35,6 +35,9 @@ import { DeleteTaskComponent } from './dialogs/delete-task/delete-task.component
 import { EditTaskComponent } from './dialogs/edit-task/edit-task.component';
 import { CommentComponent } from './dialogs/comment/comment.component';
 import { EditVolunteerComponent } from './dialogs/edit-volunteer/edit-volunteer.component';
+import { FileuploadComponent } from './widgets/fileupload.component';
+import { FileUploadService } from './services/fileUpload.service';
+import { FileDropDirective, FileSelectDirective} from 'ng2-file-upload';
 
 @NgModule({
   declarations: [
@@ -55,7 +58,11 @@ import { EditVolunteerComponent } from './dialogs/edit-volunteer/edit-volunteer.
     DeleteTaskComponent,
     EditTaskComponent,
     CommentComponent,
-    EditVolunteerComponent
+    EditVolunteerComponent,
+    FileuploadComponent,
+    FileSelectDirective,
+    FileDropDirective
+    
   ],
   imports: [
     BrowserModule,
@@ -88,7 +95,7 @@ import { EditVolunteerComponent } from './dialogs/edit-volunteer/edit-volunteer.
     CommentComponent,
     EditVolunteerComponent
   ],
-  providers: [CommonService,DataService],
+  providers: [CommonService,DataService,FileUploadService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

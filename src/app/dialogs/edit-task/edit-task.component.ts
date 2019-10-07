@@ -2,7 +2,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Component, Inject} from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {FormControl, Validators} from '@angular/forms';
-import { Tasks } from 'src/app/models/issue';
+import { Task } from 'src/app/_models/model';
 
 @Component({
   selector: 'app-edit-task',
@@ -12,7 +12,7 @@ import { Tasks } from 'src/app/models/issue';
 export class EditTaskComponent {
 
   constructor(public dialogRef: MatDialogRef<EditTaskComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Tasks, public dataService: DataService) { }
+    @Inject(MAT_DIALOG_DATA) public data: Task, public dataService: DataService) { }
 
     formControl = new FormControl('', [
       Validators.required

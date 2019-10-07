@@ -10,7 +10,6 @@ import { PROJECT_COLUMN_CONFIG, ProjectColumnConfig } from '../config';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { CommentComponent } from 'src/app/dialogs/comment/comment.component';
 import { DataService } from 'src/app/services/data.service';
-import { Issue } from 'src/app/models/issue';
 
 export interface Comment {
   userId: string;

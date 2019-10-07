@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonService } from './shared/common.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { FileUploader } from 'ng2-file-upload';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class AppComponent {
   title = 'SROIBenefitBounty';
   role: string = null;
+  public uploader:FileUploader = new FileUploader({url:'http://localhost:3001/upload'});
   constructor(private commonService: CommonService,private router:Router) {}
   ngOnInit() {
     // if(this.role===null)

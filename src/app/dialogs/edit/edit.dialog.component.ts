@@ -3,6 +3,8 @@ import {Component, Inject} from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {FormControl, Validators} from '@angular/forms';
 import { IMyDateModel, IMyDpOptions } from 'mydatepicker';
+// import  * as momentfrom 'moment';
+// import 'moment/locale/pt-br';
 
 @Component({
   selector: 'app-baza.dialog',

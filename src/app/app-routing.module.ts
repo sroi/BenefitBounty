@@ -16,7 +16,7 @@ const routes: Routes = [
   {path:'home', component:HomeComponent},
   {path:'add', component:ProjectAddComponent},
   {path:'project/edit', redirectTo:'add',pathMatch:'full'},
-  {path:'task', component:TaskListComponent},
+  {path:'volunteer', component:TaskListComponent},
   {path:'taskEdit',component:TaskEditComponent},
   {path:'task/edit',redirectTo:'taskEdit',pathMatch:'full'},
   {path:'approver/task', component:TaskList1Component},
