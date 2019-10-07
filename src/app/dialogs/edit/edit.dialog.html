@@ -34,13 +34,13 @@
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput placeholder="Start Date" [(ngModel)]="data.startDate" [disabled]="data.status!='Created'" name="startDate">
+        <input type="datetime" matInput placeholder="Start Date" [(ngModel)]="data.startDate" [disabled]="data.status!='Created'" name="startDate">
       </mat-form-field>
     </div>
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput placeholder="End Date" [(ngModel)]="data.endDate" [disabled]="data.status!='Created'" name="endDate">
+        <input type="datetime" matInput placeholder="End Date" [(ngModel)]="data.endDate" [disabled]="data.status!='Created'" name="endDate">
       </mat-form-field>
     </div>
 

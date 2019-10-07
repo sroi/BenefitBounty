@@ -4,8 +4,8 @@ import { StakeHolderService } from '../stakeholder.service';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { Projects, Tasks } from 'src/app/project/project-list/project-list.component';
 import { TASK_CONFIG_COLUMNS } from '../config';
-import { Volunteers } from 'src/app/volunteer/task-list/task-list.component';
 import { PhotoComponent } from 'src/app/shared/photo/photo.component';
+import { Volunteers } from 'src/app/models/issue';
 @Component({
   selector: 'app-stakeholder-project-detail',
   templateUrl: './stakeholder-project-detail.component.html',

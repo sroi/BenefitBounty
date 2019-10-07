@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {Issue, Tasks} from '../models/issue';
+import {Issue, Tasks, Projects} from '../models/issue';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { Project } from '../project/_model';
-import { Projects } from '../volunteer/task-list/task-list.component';
 
 @Injectable()
 export class DataService {
@@ -40,12 +39,23 @@ export class DataService {
     this.httpClient.post('http://localhost:8080/project/create',issue).subscribe(
       data => {
        console.log("updated"+ ' ' + issue.projectId); 
+      },
+      err => {
+        console.log(issue);
       }
     );
   }
 
   addTask (issue: Tasks): void {
     this.dialogData = issue;
+    this.httpClient.post('http://localhost:8080/task/create',issue).subscribe(
+      data => {
+
+      },
+      err => {
+        console.log(issue);
+      }
+    );
   }
 
   updateIssue (issue: Projects): void {
