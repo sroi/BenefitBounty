@@ -125,7 +125,7 @@
                     Approver :
                   </td>
                   <td *ngIf="isApprover">
-                    {{taskDetails.approver}}
+                    {{taskDetails.approver.name}}
                   </td>
                 </tr>
                 <tr>
@@ -168,11 +168,28 @@
                     {{taskDetails.updatedTime | date: 'dd/MM/yyyy'}}
                   </td>
                 </tr>
+                <tr>
+                    <td>
+                     Approver Comments :
+                    </td>
+                    <td>
+                      {{ approverComment.comment }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                     Volunteer Comments :
+                    </td>
+                    <td>
+                      {{ volunteerComments.comment }}
+                    </td>
+                  </tr>
               </table>
     
             </mat-card-content>
             <mat-card-actions>
-                <button type="file" (change)="onFileSelected($event)">Pick File</button>
+                <input mat-flat-button color="accent" #fileUpload type="file" (change)="onFileSelected($event)">
+                <!-- <button mat-flat-button color="warn" (click)="fileUpload">Pick File</button> -->
               <button mat-flat-button color="warn" (click)="onUpload()">Upload</button>
             </mat-card-actions>
           </mat-card>

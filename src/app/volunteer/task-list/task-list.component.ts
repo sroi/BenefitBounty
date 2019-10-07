@@ -10,6 +10,7 @@ import { DataService } from 'src/app/services/data.service';
 import { PhotoComponent } from 'src/app/shared/photo/photo.component';
 import { Projects } from 'src/app/models/issue';
 import { CommentComponent } from 'src/app/dialogs/comment/comment.component';
+import { EditVolunteerComponent } from 'src/app/dialogs/edit-volunteer/edit-volunteer.component';
  
 export interface Approver {
   name: string;
@@ -56,6 +57,11 @@ export interface ProjectStatus {
   viewValue: string;
 }
 
+export interface userComment {
+  userId: string;
+  comment: string;
+}
+
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
@@ -96,8 +102,10 @@ export class TaskListComponent implements OnInit {
 
   @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
   @ViewChild(MatSort,{static:true}) sort: MatSort;
-  dataToSend: { userId: string; comment: string; projectId: string; };
+  dataToSend: { userId: string; comment: string; taskId: string; workingHours: number; };
   selectedFile: string | Blob;
+  volunteerComments: userComment = {userId:'123',comment:'new'};
+  approverComment: userComment = {userId:'123',comment:'new approver'};
 
   // @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   // @ViewChildren(MatSort) sort = new QueryList<MatSort>();
@@ -112,7 +120,7 @@ export class TaskListComponent implements OnInit {
   keys: any = [];
   ngOnInit() {
 
-
+    
     this.showDetails("volunteer");
         
   }
@@ -137,8 +145,8 @@ export class TaskListComponent implements OnInit {
   editTaskComment(element)
   {
     //console.log(element);
-    this.dataToSend = {userId: '123', comment:'',projectId:'345'};
-    const dialogRef = this.dialog.open(CommentComponent, {
+    this.dataToSend = {userId: '123', comment:'',taskId:'345',workingHours:12};
+    const dialogRef = this.dialog.open(EditVolunteerComponent, {
       data: this.dataToSend
     });
 

@@ -34,6 +34,7 @@ import { AddTaskComponent } from './dialogs/add-task/add-task.component';
 import { DeleteTaskComponent } from './dialogs/delete-task/delete-task.component';
 import { EditTaskComponent } from './dialogs/edit-task/edit-task.component';
 import { CommentComponent } from './dialogs/comment/comment.component';
+import { EditVolunteerComponent } from './dialogs/edit-volunteer/edit-volunteer.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { CommentComponent } from './dialogs/comment/comment.component';
     AddTaskComponent,
     DeleteTaskComponent,
     EditTaskComponent,
-    CommentComponent
+    CommentComponent,
+    EditVolunteerComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +85,8 @@ import { CommentComponent } from './dialogs/comment/comment.component';
     AddTaskComponent,
     EditTaskComponent,
     DeleteTaskComponent,
-    CommentComponent
+    CommentComponent,
+    EditVolunteerComponent
   ],
   providers: [CommonService,DataService],
   bootstrap: [AppComponent]

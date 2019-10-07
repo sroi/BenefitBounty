@@ -68,6 +68,10 @@ export class DataService {
     );
   }
 
+  updateVolunteerTask(issue): void {
+    console.log(issue);
+  }
+
   updateTask (issue: Tasks): void {
     this.dialogData = issue;
     console.log(issue);

@@ -1,0 +1,33 @@
+<div class="container">
+    <h3 mat-dialog-title>Project: {{data.name}}</h3>
+
+    <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
+
+
+        <!--Textarea for demo purposes-->
+        <div class="form">
+            <mat-form-field color="accent">
+                <textarea matInput #input class="form-control" placeholder="Comment" [(ngModel)]="data.comment"
+                    name="comment" required></textarea>
+                <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+            </mat-form-field>
+        </div>
+
+        <!--Contains mat-hint for characters count and has maxLengt set-->
+        <div class="form">
+            <mat-form-field color="accent">
+                <input matInput #inputstate class="form-control" placeholder="Working Hours"
+                    [(ngModel)]="data.workingHours" name="workingHours" required>
+                <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+            </mat-form-field>
+        </div>
+
+
+
+        <div mat-dialog-actions>
+            <button mat-button [type]="submit" [disabled]="!formControl.valid" [mat-dialog-close]="1"
+                (click)="stopEdit()">Save</button>
+            <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+        </div>
+    </form>
+</div>
