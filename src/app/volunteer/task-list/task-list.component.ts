@@ -186,6 +186,7 @@ export class TaskListComponent implements OnInit {
         //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
         // this.refreshTable();
+        this.showDetails(this.userId,this.role);
         this.showMessage("Your activity has been recorded successfully");
       }
       else {
@@ -197,6 +198,8 @@ export class TaskListComponent implements OnInit {
   }
 
   showDetails(userId, role) {
+    this.isProject = false;
+    this.isImage = false;
     this.isImage = false;
     this.isSummary = false;
     this.isTaskLoaded = false;
@@ -258,7 +261,7 @@ export class TaskListComponent implements OnInit {
   }
 
   showEdit(element): boolean {
-    return (element.status=="Approved")?false:true;
+    return (element.status == "Approved") ? false : true;
   }
 
   changeTaskStatus(element: Task, status) {
@@ -291,15 +294,15 @@ export class TaskListComponent implements OnInit {
   }
 
   showMessage(msg: string) {
-    let message: Message = {message:msg};
+    let message: Message = { message: msg };
     const dialogRef = this.dialog.open(ShowMessageComponent, {
       data: message
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-        
-        this.showDetails(this.userId,this.role);
+      if (result == 1) {
+        console.log("message displayed");
+        this.showDetails(this.userId, this.role);
       }
     });
   }
