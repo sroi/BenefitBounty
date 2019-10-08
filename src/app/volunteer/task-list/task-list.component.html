@@ -6,6 +6,8 @@
     </div>
 
     <div class="mat-elevation-z8-container">
+            <button mat-flat-button color="primary" style="margin-left:2px;margin-bottom: 10px;"
+            (click)="refreshData()">Refresh</button>
         <div [hidden]="!isLoaded">
             <table mat-table [dataSource]="taskSource" matSort class="mat-elevation-z8" id="taskTable">
                 <ng-container matColumnDef="project">

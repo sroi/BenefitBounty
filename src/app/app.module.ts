@@ -40,6 +40,7 @@ import { FileUploadService } from './services/fileUpload.service';
 import { FileDropDirective, FileSelectDirective} from 'ng2-file-upload';
 import { UserCommentsComponent } from './dialogs/user-comments/user-comments.component';
 import { ShowMessageComponent } from './dialogs/show-message/show-message.component';
+import { ApproverCommentComponent } from './dialogs/approver-comment/approver-comment.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { ShowMessageComponent } from './dialogs/show-message/show-message.compon
     FileSelectDirective,
     FileDropDirective,
     UserCommentsComponent,
-    ShowMessageComponent
+    ShowMessageComponent,
+    ApproverCommentComponent
     
   ],
   imports: [
@@ -99,7 +101,8 @@ import { ShowMessageComponent } from './dialogs/show-message/show-message.compon
     CommentComponent,
     EditVolunteerComponent,
     UserCommentsComponent,
-    ShowMessageComponent
+    ShowMessageComponent,
+    ApproverCommentComponent
   ],
   providers: [CommonService,DataService,FileUploadService],
   bootstrap: [AppComponent]

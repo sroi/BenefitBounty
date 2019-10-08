@@ -8,6 +8,10 @@ import { EditTaskComponent } from 'src/app/dialogs/edit-task/edit-task.component
 import { DeleteTaskComponent } from 'src/app/dialogs/delete-task/delete-task.component';
 import { DataService } from 'src/app/services/data.service';
 import { PhotoComponent } from 'src/app/shared/photo/photo.component';
+import { Task, Message } from 'src/app/_models/model';
+import { ShowMessageComponent } from 'src/app/dialogs/show-message/show-message.component';
+import { UserCommentsComponent } from 'src/app/dialogs/user-comments/user-comments.component';
+import { ApproverCommentComponent } from 'src/app/dialogs/approver-comment/approver-comment.component';
  
 export interface Approver {
   name: string;
@@ -62,12 +66,12 @@ export interface ProjectStatus {
 export class TaskList1Component implements OnInit {
 
 
-  displayedTasks: string[] = ['activity', 'task', 'duration', 'approver', 'status', 'actions'];
+  displayedTasks: string[] = ['activity', 'task', 'duration', 'status', 'actions'];
   
   displayedActivity: string[] = ['userId','activity','comments','uploads','timeEntered','updatedOn'];
   projectStatus: ProjectStatus[] = [
-    {value: 'InProgress', viewValue: 'InProgress'},
-    {value: 'OnHold', viewValue: 'OnHold'},
+    {value: 'In Progress', viewValue: 'In Progress'},
+    {value: 'On Hold', viewValue: 'On Hold'},
     {value: 'Closed', viewValue: 'Closed'}
   ];
 
@@ -77,20 +81,28 @@ export class TaskList1Component implements OnInit {
   {name:'photo1', url:'https://www.travelshelper.com/wp-content/uploads/2017/07/AUSTRIA-TRAVEL-GUIDE-Travel-S-Helper-800x600.jpg'},
   {name:'photo1', url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXVUCXTNgcJrfF7VluwC-GxtTqSgIbn7Vh6x9cedft9rOgxJfN'}];
 
-  taskSource = new MatTableDataSource<Tasks>();
+  hostname = "http://localhost:";
+  portNo = "8080";
+  taskApiUrl = this.hostname + this.portNo + "/task";
+  taskSource = new MatTableDataSource<Task>();
   activitySource = new MatTableDataSource<Activity>();
   isLoaded: boolean = false;
   isLoaded1: boolean = false;
   isTaskLoaded: boolean = false;
   isSpinnerEnabled: boolean = false;
   isSummary: boolean = false;
-  taskData: Tasks[] = []; 
+  taskData: Task[] = []; 
   activityData: Activity[] = []; 
-  taskDetails: Tasks;
+  taskDetails: Task;
   isProject: boolean = false;
   isImage: boolean = false;
   statusToUpdate: string;
   image: string = "./../../../assets/angularLogo.svg";
+  userId: string;
+  role: string;
+  isApprover: boolean = false;
+  isVolunteer: boolean = false;
+  dataToSend: { userId: string; comment: string;name:string; taskId: string;status:string; };
 
   @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
   @ViewChild(MatSort,{static:true}) sort: MatSort;
@@ -109,7 +121,9 @@ export class TaskList1Component implements OnInit {
   ngOnInit() {
 
 
-    this.showDetails("volunteer");
+    this.role = "Approver";
+    this.userId = "5d9984b61c9d440000d024be";
+    this.showDetails(this.userId, this.role);
         
   }
 
@@ -133,16 +147,17 @@ export class TaskList1Component implements OnInit {
 
   
 
-  showDetails(temp) {
+  showDetails(userId, role) {
+    this.isProject = false;
+    this.isImage = false;
     this.isImage = false;
     this.isSummary = false;
     this.isTaskLoaded = false;
     this.isLoaded = false;
     this.isSpinnerEnabled = true;
-    let id = temp.projectId;
     console.log("showDetails loaded");
 
-    let url = 'http://localhost:8080/task/approver?approver=5d910f8bce6b381f8452b48e'; 
+    let url = `${this.taskApiUrl}/fetch?uid=${userId}&role=${role}`;
     this.taskData = [];
     this.httpService.get(url).subscribe(
       data => {
@@ -152,16 +167,16 @@ export class TaskList1Component implements OnInit {
         for (let i = 0; i < this.taskJson.length; i++) {
 
           this.taskData[i] = this.taskJson[i];
-          
+
           this.taskDetails = this.taskData[i];
         }
 
-
-        this.isLoaded = true;
+        if (this.taskJson.length != 0)
+          this.isLoaded = true;
         this.isSpinnerEnabled = false;
-        this.taskSource = new MatTableDataSource<Tasks>(this.taskData);
-        console.log("taskSource recieved "+this.taskSource);
-     
+        this.taskSource = new MatTableDataSource<Task>(this.taskData);
+        console.log("taskSource recieved " + this.taskSource);
+
         this.isProject = true;
         this.ngAfterViewInit();
 
@@ -174,21 +189,53 @@ export class TaskList1Component implements OnInit {
 
   showTaskDetails(temp) {
     console.log(temp);
-    this.taskDetails = temp; 
-    this.isTaskLoaded = true;
-    this.isLoaded = true;
-    this.isLoaded1 = true;
+    let tid = temp.taskId;
+    // localhost:8080/task/task?tid=5d9ad71f99097f28a943348c
+    let url = `${this.taskApiUrl}/task?tid=${tid}`;
+    this.httpService.get(url).subscribe(
+      data => {
+        this.taskJson = data;
+        this.taskDetails = this.taskJson;
+        if (this.taskDetails.approver_info != null)
+          this.isApprover = true;
+        if (this.taskDetails.vols_info != null)
+          this.isVolunteer = true;
+        this.isTaskLoaded = true;
+        this.isLoaded = true;
+        this.isLoaded1 = true;
+        console.log(this.taskDetails);
+      }
+    );
   }
 
-  changeTaskStatus(element:Tasks, status){
-    var tid = element.taskId;
-    var role = "Approver"
+  refreshData(){
+    this.showDetails(this.userId,this.role);
+  }
 
-    var url = `http://localhost:8080/task/status?tid=${tid}&role=${role}&status=${status}`
+  changeTaskStatus(element:Task, status){
+    var tid = element.taskId;
+    var role = "Approver";
+    this.approverComments(element,status);
+
+    // var url = `http://localhost:8080/task/status?tid=${tid}&role=${role}&status=${status}`
     
-    this.httpService.put(url, 0).subscribe(() => {
-      this.showDetails("volunteer");
-    })
+    // this.httpService.put(url, 0).subscribe(() => {
+    //   this.showDetails(this.userId,role);
+    // })
+  }
+
+  approverComments(element,status) {
+    this.dataToSend = { userId: this.userId, comment: '', name: element.name, taskId: element.taskId, status:status };
+    const dialogRef = this.dialog.open(ApproverCommentComponent, {
+      data: this.dataToSend
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result == 1) {
+        
+        this.showMessage("Your activity has been recorded successfully");
+      }
+    });
   }
 
   openImage(image:any)
@@ -202,6 +249,33 @@ export class TaskList1Component implements OnInit {
     });
   }
 
+  showComments() {
+    const dialogRef = this.dialog.open(UserCommentsComponent, {
+      data: this.taskDetails
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+  }
+
+  showMessage(msg: string) {
+    let message: Message = { message: msg };
+    const dialogRef = this.dialog.open(ShowMessageComponent, {
+      data: message
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 1) {
+        
+        this.showDetails(this.userId, this.role);
+      }
+      else
+      {
+        this.showDetails(this.userId,this.role);
+      }
+    });
+  }
   //lalit Starts
   showActivityDetails(temp) {
     this.isImage = false;
@@ -274,7 +348,7 @@ export class TaskList1Component implements OnInit {
 
   deleteTask(temp) {
     console.log(temp);
-    this.taskSource.data = this.taskSource.data.filter((task: Tasks)=>{
+    this.taskSource.data = this.taskSource.data.filter((task: Task)=>{
       return task.taskId !=temp.taskId;
     })
     let url = 'http://localhost:8080/project/deleteTask?tid=' + temp.taskId;

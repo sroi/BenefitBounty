@@ -1,4 +1,5 @@
-<div style="margin: 5px;">
+
+<div style="margin: 5px;" *ngIf = "isLoaded">
   <div fxLayout fxLayoutAlign="center center" style="margin-top:2%;">
     <mat-form-field fxFlex="40%" style="height: 100px;">
       <input matInput type="text" (keyup)="applyFilter($event.target.value)" placeholder="Filter">
@@ -6,6 +7,8 @@
   </div>
   
   <div class="mat-elevation-z8-container">
+      <button mat-flat-button color="primary" style="margin-left:2px;margin-bottom: 10px;"
+      (click)="refreshData()">Refresh</button>
     <div [hidden]="!isLoaded">
       <table mat-table [dataSource]="taskSource" matSort class="mat-elevation-z8" id="taskTable">
         <ng-container matColumnDef="activity">
@@ -21,23 +24,19 @@
         </ng-container>
     
         <ng-container matColumnDef="duration">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration(Hours) </th>
           <td mat-cell *matCellDef="let element1" style="cursor:pointer;" (click)="showTaskDetails(element1)">
-            {{element1.startDate | date: 'dd/MM/yyyy'}}
-            - {{element1.endDate | date: 'dd/MM/yyyy'}}</td>
+              {{element1.duration}}  
+          </td>
         </ng-container>
     
-        <ng-container matColumnDef="approver">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Approver </th>
-          <td mat-cell *matCellDef="let element1" style="cursor:pointer;" (click)="showTaskDetails(element1)">
-            {{element1.approver}} </td>
-        </ng-container>
+        
 
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
           <td mat-cell *matCellDef="let element1" (click)="showTaskDetails(element1)" style="cursor:pointer;">
-            <!-- {{element1.status}} -->
-            Dummy Status
+            {{element1.status}}
+           
           </td>
         </ng-container>
     
@@ -70,126 +69,142 @@
   
   
   <div *ngIf="isTaskLoaded" id="taskDetails">
-    <button mat-flat-button color="warn" (click)="hideTaskDetails()">Close</button>
-    <div style="display:flex;">
+
+      <button mat-flat-button color="warn" (click)="hideTaskDetails()">Close</button>
       <div style="display:flex;">
-        <mat-card class="example-card">
-          <mat-card-header color="primary">
-            <mat-card-title>Task Details</mat-card-title>
-            <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
-          </mat-card-header>
-          <mat-card-content>
-  
-            <table>
-              <tr>
-                <td>
-                  Activity :
-                </td>
-                <td>
-                  {{taskDetails.activityLabel}}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Task Name :
-                </td>
-                <td>
-                  {{taskDetails.name}}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Description :
-                </td>
-                <td>
-                  {{taskDetails.description}}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Location :
-                </td>
-                <td>
-                  {{taskDetails.location}}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Duration :
-                </td>
-                <td>
-                  {{taskDetails.startDate | date: 'dd/MM/yyyy'}} - {{taskDetails.endDate | date: 'dd/MM/yyyy'}}
-                </td>
-              </tr>
-              <tr>
-                <td *ngIf="isApprover">
-                  Approver :
-                </td>
-                <td *ngIf="isApprover">
-                  {{taskDetails.approver}}
-                </td>
-              </tr>
-              <tr>
-                <td *ngIf="isVolunteer">
-                  Volunteers :
-                </td>
-                <td *ngIf="isVolunteer">
-                  {{taskDetails.volunteer}}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Created By :
-                </td>
-                <td>
-                  {{taskDetails.createdBy}}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Created Time :
-                </td>
-                <td>
-                  {{taskDetails.createdTime | date: 'dd/MM/yyyy'}}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Updated By :
-                </td>
-                <td>
-                  {{taskDetails.updatedBy}}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Updated Time :
-                </td>
-                <td>
-                  {{taskDetails.updatedTime | date: 'dd/MM/yyyy'}}
-                </td>
-              </tr>
-            </table>
-  
-          </mat-card-content>
-          <!-- <mat-card-actions>
-            <button style="margin-right:10px;" mat-flat-button color="accent"
-              (click)="taskEdit(taskDetails)">Edit</button>
-            <button mat-flat-button color="warn" (click)="taskDelete(taskDetails)">Delete</button>
-          </mat-card-actions> -->
-        </mat-card>
+          <div style="display:flex;">
+              <mat-card class="example-card">
+                  <mat-card-header color="primary">
+                      <mat-card-title>Task Details</mat-card-title>
+                      <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+                  </mat-card-header>
+                  <mat-card-content>
+
+                      <table>
+                          <tr>
+                              <td>
+                                  Activity :
+                              </td>
+                              <td>
+                                  {{taskDetails.activityLabel}}
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  Task Name :
+                              </td>
+                              <td>
+                                  {{taskDetails.name}}
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  Description :
+                              </td>
+                              <td>
+                                  {{taskDetails.description}}
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  Location :
+                              </td>
+                              <td>
+                                  {{taskDetails.location}}
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  Duration :
+                              </td>
+                              <td>
+                                  {{taskDetails.duration}} Hours
+                              </td>
+                          </tr>
+                          <tr *ngIf="isApprover">
+                              <td>
+                                  Approver :
+                              </td>
+                              <td>
+                                  {{taskDetails.approver_info.name}}
+                              </td>
+                          </tr>
+                          <tr *ngIf="isVolunteer">
+                              <td>
+                                  Volunteers :
+                              </td>
+                              <td>
+                                  <span *ngFor="let vol of taskDetails.vols_info">{{vol.name}}, </span>
+
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  Created By :
+                              </td>
+                              <td>
+                                  {{taskDetails.created_by}}
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  Created Time :
+                              </td>
+                              <td>
+                                  {{taskDetails.created_on | date: 'dd-MMM-yyyy HH:mm:ss'}}
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  Updated By :
+                              </td>
+                              <td>
+                                  {{taskDetails.updated_by}}
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  Updated Time :
+                              </td>
+                              <td>
+                                  {{taskDetails.updated_on | date: 'dd-MMM-yyyy HH:mm:ss'}}
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  Total Hours Spent :
+                              </td>
+                              <td>
+                                  {{ taskDetails.totalTimeSpent }}
+                              </td>
+                          </tr>
+                      </table>
+
+
+                  </mat-card-content>
+                  <mat-card-actions>
+                      <button mat-flat-button color="accent" style="margin-left:2px;"
+                          (click)="showComments()">Comments</button>
+                  </mat-card-actions>
+              </mat-card>
+
+          </div>
+
+          <div style="display:flex;flex:1 1 auto;flex-direction: column;">
+              <div class="flex-container">
+                  <img *ngFor="let image of images" [src]="image.url" [alt]="image.name" (click)="openImage(image)">
+              </div>
+          </div>
+
       </div>
-      <div style="display:flex;flex:1 1 auto;flex-direction: column;">
-        <div class="flex-container">
-          <img *ngFor="let image of images" [src]="image.url" [alt]="image.name" (click)="openImage(image)">
-        </div>
-      </div>
-  
-    </div>
-  
-  
-  
+
+
+
   </div>
   
   
+</div>
+
+<div style="margin: 50px;" *ngIf="!isLoaded">
+    No Data available
 </div>

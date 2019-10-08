@@ -19,7 +19,7 @@ const routes: Routes = [
   {path:'volunteer', component:TaskListComponent},
   {path:'taskEdit',component:TaskEditComponent},
   {path:'task/edit',redirectTo:'taskEdit',pathMatch:'full'},
-  {path:'approver/task', component:TaskList1Component},
+  {path:'approver', component:TaskList1Component},
   {path:'login', component:LoginComponent},
   {path:'signup', component:SignupComponent},
   {path:'project/task',redirectTo:'task',pathMatch:'full'},

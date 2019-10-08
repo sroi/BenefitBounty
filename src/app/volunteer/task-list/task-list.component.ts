@@ -197,6 +197,10 @@ export class TaskListComponent implements OnInit {
 
   }
 
+  refreshData(){
+    this.showDetails(this.userId,this.role);
+  }
+
   showDetails(userId, role) {
     this.isProject = false;
     this.isImage = false;
@@ -485,8 +489,8 @@ export class TaskListComponent implements OnInit {
     //   }
     // )
     const formData: FormData = new FormData();
-    formData.append('file', this.files[0], this.files[0].name);
-    this.httpService.post('localhost:8080/images', formData).subscribe(
+    formData.append(this.taskDetails.taskId, this.files[0]);
+    this.httpService.post('localhost:8080/file/upload', formData).subscribe(
       res => {
         console.log(res);
 

@@ -94,6 +94,15 @@ export class DataService {
     console.log('hi');
   }
 
+  updateApproverComment(data: any): void {
+    console.log(data);
+    var url = `http://localhost:8080/task/status?tid=${data.taskId}&role=Approver&status=${data.status}&comments=${data.comment}`
+    
+    this.httpClient.put(url, 0).subscribe(() => {
+     
+    })
+  }
+
   deleteIssue (issue): void {
     console.log(issue);
     this.httpClient.delete('http://localhost:8080/project/delete?pid='+issue.projectId).subscribe(
