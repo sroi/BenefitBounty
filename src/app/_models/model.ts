@@ -22,6 +22,9 @@
     startDate: Date;
     endDate: Date;
     location: string;
+    status: string;
+    duration: string;
+    totalTimeSpent: string;
     approver: string; 
     created_by: string;
     created_on: Date;
@@ -30,28 +33,33 @@
     approver_info: User;
     project_info: Project;
     vols_info: User[];
+    activity_info: Activity[];
   }
   
   
   export interface Activity {
-    activityId: object;
+    _id: string;
     projectId: string;
     taskId: string;
     userId: string;
+    userName: string;
     role: string;
     activity: string;
-    comments: string;
-    uploads: string;
-    timeEntered: string; 
+    timeEntered: string;
+    status: string; 
     createdBy: string;
-    createdTime: Date;
+    createdOn: Date;
     updatedBy: string;
-    updatedTime: Date;
+    updatedOn: Date;
   }
   
   export interface ProjectStatus {
     value: string;
     viewValue: string;
+  }
+
+  export interface Message {
+    message: string;
   }
   
   export interface UserComment {

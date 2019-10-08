@@ -13,7 +13,9 @@ import { EditVolunteerComponent } from 'src/app/dialogs/edit-volunteer/edit-volu
 import { FileuploadComponent } from 'src/app/widgets/fileupload.component';
 import { FileUploadService } from 'src/app/services/fileUpload.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ProjectStatus, Task, Activity, UserComment } from 'src/app/_models/model';
+import { ProjectStatus, Task, Activity, UserComment, Message } from 'src/app/_models/model';
+import { UserCommentsComponent } from 'src/app/dialogs/user-comments/user-comments.component';
+import { ShowMessageComponent } from 'src/app/dialogs/show-message/show-message.component';
 
 @Component({
   selector: 'app-task-list',
@@ -24,19 +26,19 @@ export class TaskListComponent implements OnInit {
 
 
   displayedTasks: string[] = ['project', 'activity', 'task', 'duration', 'approver', 'status', 'actions'];
-  
-  displayedActivity: string[] = ['userId','activity','comments','uploads','timeEntered','updatedOn'];
+
+  displayedActivity: string[] = ['userId', 'activity', 'comments', 'uploads', 'timeEntered', 'updatedOn'];
   projectStatus: ProjectStatus[] = [
-    {value: 'In Progress', viewValue: 'In Progress'},
-    {value: 'On Hold', viewValue: 'On Hold'},
-    {value: 'Closed', viewValue: 'Closed'}
+    { value: 'In Progress', viewValue: 'In Progress' },
+    { value: 'On Hold', viewValue: 'On Hold' },
+    { value: 'Closed', viewValue: 'Closed' }
   ];
 
-  images: any[]=[{name:'photo1', url:'https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/024/113/slideshow/2fb751a9d79c2bef5963210204348238/austria-hallstatt-daytime-mountains.jpg'},
-  {name:'photo1', url:'https://st2.depositphotos.com/1004221/8723/i/950/depositphotos_87237724-stock-photo-hallstatt-mountain-village-alps-austria.jpg'},
-  {name:'photo1', url:'https://travelpassionate.com/wp-content/uploads/2019/04/Scenic-view-of-famous-Hallstatt-village-in-the-Austrian-Alps.-Image-min.jpg'},
-  {name:'photo1', url:'https://www.travelshelper.com/wp-content/uploads/2017/07/AUSTRIA-TRAVEL-GUIDE-Travel-S-Helper-800x600.jpg'},
-  {name:'photo1', url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXVUCXTNgcJrfF7VluwC-GxtTqSgIbn7Vh6x9cedft9rOgxJfN'}];
+  images: any[] = [{ name: 'photo1', url: 'https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/024/113/slideshow/2fb751a9d79c2bef5963210204348238/austria-hallstatt-daytime-mountains.jpg' },
+  { name: 'photo1', url: 'https://st2.depositphotos.com/1004221/8723/i/950/depositphotos_87237724-stock-photo-hallstatt-mountain-village-alps-austria.jpg' },
+  { name: 'photo1', url: 'https://travelpassionate.com/wp-content/uploads/2019/04/Scenic-view-of-famous-Hallstatt-village-in-the-Austrian-Alps.-Image-min.jpg' },
+  { name: 'photo1', url: 'https://www.travelshelper.com/wp-content/uploads/2017/07/AUSTRIA-TRAVEL-GUIDE-Travel-S-Helper-800x600.jpg' },
+  { name: 'photo1', url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXVUCXTNgcJrfF7VluwC-GxtTqSgIbn7Vh6x9cedft9rOgxJfN' }];
 
   hostname = "http://localhost:";
   portNo = "8080";
@@ -48,8 +50,8 @@ export class TaskListComponent implements OnInit {
   isTaskLoaded: boolean = false;
   isSpinnerEnabled: boolean = false;
   isSummary: boolean = false;
-  taskData: Task[] = []; 
-  activityData: Activity[] = []; 
+  taskData: Task[] = [];
+  activityData: Activity[] = [];
   taskDetails: Task;
   isProject: boolean = false;
   isImage: boolean = false;
@@ -57,13 +59,15 @@ export class TaskListComponent implements OnInit {
   image: string = "./../../../assets/angularLogo.svg";
   userId: string;
   role: string;
+  isApprover: boolean = false;
+  isVolunteer: boolean = false;
 
-  @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
-  @ViewChild(MatSort,{static:true}) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   dataToSend: { userId: string; comment: string; taskId: string; workingHours: number; };
   selectedFile: string | Blob;
-  volunteerComments: UserComment = {userId:'123',comment:'new'};
-  approverComment: UserComment = {userId:'123',comment:'new approver'};
+  volunteerComments: UserComment = { userId: '123', comment: 'new' };
+  approverComment: UserComment = { userId: '123', comment: 'new approver' };
 
   // @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   // @ViewChildren(MatSort) sort = new QueryList<MatSort>();
@@ -125,38 +129,37 @@ export class TaskListComponent implements OnInit {
    */
 
 
-  @ViewChild('fileUpload',{static:false}) fileUpload: any;
+  @ViewChild('fileUpload', { static: false }) fileUpload: any;
 
   inputFileName: string
 
   @Input()
   files: File[] = [];
 
-  constructor(private sanitizer: DomSanitizer,private httpService: HttpClient, private router: Router,public dialog: MatDialog, public dataService: DataService,public fileUploadService: FileUploadService) {
+  constructor(private sanitizer: DomSanitizer, private httpService: HttpClient, private router: Router, public dialog: MatDialog, public dataService: DataService, public fileUploadService: FileUploadService) {
 
   }
   arrJson: any = [];
   taskJson: any = [];
-  activityJson :any= [];
+  activityJson: any = [];
   keys: any = [];
   ngOnInit() {
     this.role = "Volunteer";
-    this.userId = "5d89e7cf1c9d4400001cc5a7";
-    this.showDetails(this.userId, this.role);   
+    this.userId = "5d9984b61c9d440000d024be";
+    this.showDetails(this.userId, this.role);
   }
 
-  
+
 
   onFileComplete(data: any) {
     console.log(data); // We just print out data bubbled up from event emitter.
   }
 
-  ngAfterViewInit()
-  {
+  ngAfterViewInit() {
     console.log("ngafter");
     this.taskSource.paginator = this.paginator;
     this.taskSource.sort = this.sort;
-    this.activitySource.paginator = this.paginator; 
+    this.activitySource.paginator = this.paginator;
     this.activitySource.sort = this.sort;
   }
 
@@ -168,10 +171,9 @@ export class TaskListComponent implements OnInit {
     console.log(filterValue);
   }
 
-  editTaskComment(element)
-  {
+  editTaskComment(element) {
     //console.log(element);
-    this.dataToSend = {userId: this.userId, comment:'',taskId:element.taskId,workingHours:0};
+    this.dataToSend = { userId: this.userId, comment: '', taskId: element.taskId, workingHours: 0 };
     const dialogRef = this.dialog.open(EditVolunteerComponent, {
       data: this.dataToSend
     });
@@ -179,13 +181,17 @@ export class TaskListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
         // When using an edit things are little different, firstly we find record inside DataService by id
-         //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.projectId === element.projectId);
+        //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.projectId === element.projectId);
         // Then you update that record using data from dialogData (values you enetered)
-         //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
+        //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
-       // this.refreshTable();
+        // this.refreshTable();
+        this.showMessage("Your activity has been recorded successfully");
       }
-      
+      else {
+        this.showMessage("Please Enter your details again");
+      }
+
     });
 
   }
@@ -198,7 +204,7 @@ export class TaskListComponent implements OnInit {
     this.isSpinnerEnabled = true;
     console.log("showDetails loaded");
 
-    let url = `${this.taskApiUrl}/fetch?uid=${userId}&role=${role}`; 
+    let url = `${this.taskApiUrl}/fetch?uid=${userId}&role=${role}`;
     this.taskData = [];
     this.httpService.get(url).subscribe(
       data => {
@@ -208,15 +214,16 @@ export class TaskListComponent implements OnInit {
         for (let i = 0; i < this.taskJson.length; i++) {
 
           this.taskData[i] = this.taskJson[i];
-          
+
           this.taskDetails = this.taskData[i];
         }
 
-        this.isLoaded = true;
+        if (this.taskJson.length != 0)
+          this.isLoaded = true;
         this.isSpinnerEnabled = false;
         this.taskSource = new MatTableDataSource<Task>(this.taskData);
-        console.log("taskSource recieved "+this.taskSource);
-     
+        console.log("taskSource recieved " + this.taskSource);
+
         this.isProject = true;
         this.ngAfterViewInit();
 
@@ -229,29 +236,71 @@ export class TaskListComponent implements OnInit {
 
   showTaskDetails(temp) {
     console.log(temp);
-    this.taskDetails = temp;
-    this.isTaskLoaded = true;
-    this.isLoaded = true;
-    this.isLoaded1 = true;
+    let tid = temp.taskId;
+    // localhost:8080/task/task?tid=5d9ad71f99097f28a943348c
+    let url = `${this.taskApiUrl}/task?tid=${tid}`;
+    this.httpService.get(url).subscribe(
+      data => {
+        this.taskJson = data;
+        this.taskDetails = this.taskJson;
+        if (this.taskDetails.approver_info != null)
+          this.isApprover = true;
+        if (this.taskDetails.vols_info != null)
+          this.isVolunteer = true;
+        this.isTaskLoaded = true;
+        this.isLoaded = true;
+        this.isLoaded1 = true;
+        console.log(this.taskDetails);
+      }
+    );
+
+
   }
 
-  changeTaskStatus(element:Task, status){
+  showEdit(element): boolean {
+    return (element.status=="Approved")?false:true;
+  }
+
+  changeTaskStatus(element: Task, status) {
     var tid = element.taskId;
     var url = `${this.taskApiUrl}/status?tid=${tid}&role=${this.role}&status=${status}`
-    
+
     this.httpService.put(url, 0).subscribe(() => {
       this.showDetails(this.userId, this.role);
     })
   }
 
-  openImage(image:any)
-  {
+  openImage(image: any) {
     const dialogRef = this.dialog.open(PhotoComponent, {
       data: image
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      
+
+    });
+  }
+
+  showComments() {
+    const dialogRef = this.dialog.open(UserCommentsComponent, {
+      data: this.taskDetails
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+  }
+
+  showMessage(msg: string) {
+    let message: Message = {message:msg};
+    const dialogRef = this.dialog.open(ShowMessageComponent, {
+      data: message
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        
+        this.showDetails(this.userId,this.role);
+      }
     });
   }
 
@@ -263,21 +312,21 @@ export class TaskListComponent implements OnInit {
     this.isLoaded = false;
     this.isSpinnerEnabled = true;
     let id = temp.projectId;
-    console.log("showDetails loaded"+temp.taskId);
- 
-    let url = `${this.taskApiUrl}/task?tid=${temp.taskId}`; 
+    console.log("showDetails loaded" + temp.taskId);
+
+    let url = `${this.taskApiUrl}/task?tid=${temp.taskId}`;
     this.activityData = [];
     this.httpService.get(url).subscribe(
       data => {
 
         this.activityJson = data;
         console.log(this.activityJson);
-        console.log("activity recieved "+this.activityJson.length);
+        console.log("activity recieved " + this.activityJson.length);
         for (let i = 0; i < this.activityJson.length; i++) {
 
           this.activityData[i] = this.activityJson[i];
-          
-         // this.taskDetails = this.activityData[i];
+
+          // this.taskDetails = this.activityData[i];
         }
 
 
@@ -285,8 +334,8 @@ export class TaskListComponent implements OnInit {
         this.isLoaded1 = true;
         this.isSpinnerEnabled = false;
         this.activitySource = new MatTableDataSource<Activity>(this.activityData);
-    
-        console.log("activitySource recieved "+this.activitySource);
+
+        console.log("activitySource recieved " + this.activitySource);
         this.isProject = true;
         this.ngAfterViewInit();
 
@@ -296,7 +345,7 @@ export class TaskListComponent implements OnInit {
       }
     );
   }
-  
+
   //lalit end
   hideTaskDetails() {
     this.isTaskLoaded = false;
@@ -327,8 +376,8 @@ export class TaskListComponent implements OnInit {
 
   deleteTask(temp) {
     console.log(temp);
-    this.taskSource.data = this.taskSource.data.filter((task: Task)=>{
-      return task.taskId !=temp.taskId;
+    this.taskSource.data = this.taskSource.data.filter((task: Task) => {
+      return task.taskId != temp.taskId;
     })
     let url = `${this.taskApiUrl}/delete?tid=${temp.taskId}`;
 
@@ -340,35 +389,32 @@ export class TaskListComponent implements OnInit {
     );
   }
 
-  onFileSelected1(event)
-  {
+  onFileSelected1(event) {
     this.selectedFile = event.target.files[0];
 
   }
-  onUpload1()
-  {
+  onUpload1() {
     const fd = new FormData();
-    fd.append('image',this.selectedFile,this.taskDetails.taskId);
-   
-    this.httpService.post('someurl',fd).subscribe(
+    fd.append('image', this.selectedFile, this.taskDetails.taskId);
+
+    this.httpService.post('someurl', fd).subscribe(
       res => {
-        
+
       }
     )
 
   }
 
-  selectFile()
-  {
-      this.fileUpload.nativeElement.click();
+  selectFile() {
+    this.fileUpload.nativeElement.click();
   }
-  
+
 
   onClick(event) {
     //if (this.fileUpload)
-      this.fileUpload.nativeElement.click();
+    this.fileUpload.nativeElement.click();
 
-      console.log(event);
+    console.log(event);
   }
 
   onInput(event) {
@@ -426,19 +472,18 @@ export class TaskListComponent implements OnInit {
     return this.multiple
   }
 
-  onUpload()
-  {
+  onUpload() {
     // const fd = new FormData();
     // fd.append('image',this.selectedFile,this.taskDetails.taskId);
-   
+
     // this.httpService.post('someurl',fd).subscribe(
     //   res => {
-        
+
     //   }
     // )
     const formData: FormData = new FormData();
-    formData.append('file',this.files[0],this.files[0].name);
-    this.httpService.post('localhost:8080/images',formData).subscribe(
+    formData.append('file', this.files[0], this.files[0].name);
+    this.httpService.post('localhost:8080/images', formData).subscribe(
       res => {
         console.log(res);
 

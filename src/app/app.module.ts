@@ -38,6 +38,8 @@ import { EditVolunteerComponent } from './dialogs/edit-volunteer/edit-volunteer.
 import { FileuploadComponent } from './widgets/fileupload.component';
 import { FileUploadService } from './services/fileUpload.service';
 import { FileDropDirective, FileSelectDirective} from 'ng2-file-upload';
+import { UserCommentsComponent } from './dialogs/user-comments/user-comments.component';
+import { ShowMessageComponent } from './dialogs/show-message/show-message.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,9 @@ import { FileDropDirective, FileSelectDirective} from 'ng2-file-upload';
     EditVolunteerComponent,
     FileuploadComponent,
     FileSelectDirective,
-    FileDropDirective
+    FileDropDirective,
+    UserCommentsComponent,
+    ShowMessageComponent
     
   ],
   imports: [
@@ -93,7 +97,9 @@ import { FileDropDirective, FileSelectDirective} from 'ng2-file-upload';
     EditTaskComponent,
     DeleteTaskComponent,
     CommentComponent,
-    EditVolunteerComponent
+    EditVolunteerComponent,
+    UserCommentsComponent,
+    ShowMessageComponent
   ],
   providers: [CommonService,DataService,FileUploadService],
   bootstrap: [AppComponent]
