@@ -8,7 +8,7 @@ import { EditTaskComponent } from 'src/app/dialogs/edit-task/edit-task.component
 import { DeleteTaskComponent } from 'src/app/dialogs/delete-task/delete-task.component';
 import { DataService } from 'src/app/services/data.service';
 import { PhotoComponent } from 'src/app/shared/photo/photo.component';
-import { Task, Message } from 'src/app/_models/model';
+import { Task, Message, image } from 'src/app/_models/model';
 import { ShowMessageComponent } from 'src/app/dialogs/show-message/show-message.component';
 import { UserCommentsComponent } from 'src/app/dialogs/user-comments/user-comments.component';
 import { ApproverCommentComponent } from 'src/app/dialogs/approver-comment/approver-comment.component';
@@ -74,6 +74,8 @@ export class TaskList1Component implements OnInit {
     {value: 'On Hold', viewValue: 'On Hold'},
     {value: 'Closed', viewValue: 'Closed'}
   ];
+
+  imagesNew: image[] = [];
 
   images: any[]=[{name:'photo1', url:'https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/024/113/slideshow/2fb751a9d79c2bef5963210204348238/austria-hallstatt-daytime-mountains.jpg'},
   {name:'photo1', url:'https://st2.depositphotos.com/1004221/8723/i/950/depositphotos_87237724-stock-photo-hallstatt-mountain-village-alps-austria.jpg'},
@@ -204,6 +206,7 @@ export class TaskList1Component implements OnInit {
         this.isLoaded = true;
         this.isLoaded1 = true;
         console.log(this.taskDetails);
+        this.getImages(this.taskDetails);
       }
     );
   }
@@ -358,6 +361,23 @@ export class TaskList1Component implements OnInit {
 
       }
 
+    );
+  }
+
+  getImages(element)
+  {
+    console.log("getImages");
+    this.httpService.get('http://localhost:8080/file/getByTask/'+element.taskId).subscribe(
+      data => {
+        console.log(data);
+        this.arrJson = data;
+        console.log(this.arrJson.length);
+        for (let i = 0; i < this.arrJson.length; i++) {
+          let newImage = {name: this.arrJson[i].taskId,url:'http://localhost:8080/file/display/'+this.arrJson[i].fileId};
+          this.imagesNew[i] = newImage;
+          
+        }
+      }
     );
   }
 

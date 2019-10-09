@@ -1,9 +1,9 @@
 
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Component, OnInit, ViewChild, QueryList, ViewChildren, Input, ElementRef } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { EditTaskComponent } from 'src/app/dialogs/edit-task/edit-task.component';
 import { DeleteTaskComponent } from 'src/app/dialogs/delete-task/delete-task.component';
 import { DataService } from 'src/app/services/data.service';
@@ -13,7 +13,7 @@ import { EditVolunteerComponent } from 'src/app/dialogs/edit-volunteer/edit-volu
 import { FileuploadComponent } from 'src/app/widgets/fileupload.component';
 import { FileUploadService } from 'src/app/services/fileUpload.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ProjectStatus, Task, Activity, UserComment, Message } from 'src/app/_models/model';
+import { ProjectStatus, Task, Activity, UserComment, Message, image } from 'src/app/_models/model';
 import { UserCommentsComponent } from 'src/app/dialogs/user-comments/user-comments.component';
 import { ShowMessageComponent } from 'src/app/dialogs/show-message/show-message.component';
 
@@ -33,6 +33,9 @@ export class TaskListComponent implements OnInit {
     { value: 'On Hold', viewValue: 'On Hold' },
     { value: 'Closed', viewValue: 'Closed' }
   ];
+  uploadForm: FormGroup;
+
+  imagesNew: image[] = [];
 
   images: any[] = [{ name: 'photo1', url: 'https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/024/113/slideshow/2fb751a9d79c2bef5963210204348238/austria-hallstatt-daytime-mountains.jpg' },
   { name: 'photo1', url: 'https://st2.depositphotos.com/1004221/8723/i/950/depositphotos_87237724-stock-photo-hallstatt-mountain-village-alps-austria.jpg' },
@@ -68,6 +71,7 @@ export class TaskListComponent implements OnInit {
   selectedFile: string | Blob;
   volunteerComments: UserComment = { userId: '123', comment: 'new' };
   approverComment: UserComment = { userId: '123', comment: 'new approver' };
+  headers: HttpHeaders;
 
   // @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   // @ViewChildren(MatSort) sort = new QueryList<MatSort>();
@@ -136,7 +140,7 @@ export class TaskListComponent implements OnInit {
   @Input()
   files: File[] = [];
 
-  constructor(private sanitizer: DomSanitizer, private httpService: HttpClient, private router: Router, public dialog: MatDialog, public dataService: DataService, public fileUploadService: FileUploadService) {
+  constructor(private sanitizer: DomSanitizer, private httpService: HttpClient,private formBuilder: FormBuilder, private router: Router, public dialog: MatDialog, public dataService: DataService, public fileUploadService: FileUploadService) {
 
   }
   arrJson: any = [];
@@ -146,7 +150,11 @@ export class TaskListComponent implements OnInit {
   ngOnInit() {
     this.role = "Volunteer";
     this.userId = "5d9984b61c9d440000d024be";
+    this.uploadForm = this.formBuilder.group({
+      file: ['']
+    });
     this.showDetails(this.userId, this.role);
+    
   }
 
 
@@ -258,8 +266,10 @@ export class TaskListComponent implements OnInit {
         this.isLoaded = true;
         this.isLoaded1 = true;
         console.log(this.taskDetails);
+        this.getImages(this.taskDetails);
       }
     );
+    
 
 
   }
@@ -308,6 +318,8 @@ export class TaskListComponent implements OnInit {
         console.log("message displayed");
         this.showDetails(this.userId, this.role);
       }
+      this.removeUploadedFile();
+      this.showDetails(this.userId, this.role);
     });
   }
 
@@ -433,6 +445,8 @@ export class TaskListComponent implements OnInit {
     console.log('event::::::', event)
     for (let i = 0; i < files.length; i++) {
       let file = files[i];
+      const file1 = event.target.files[0];
+      this.uploadForm.get('file').setValue(file1);
 
       //if(!this.isFileSelected(file)){
       if (this.validate(file)) {
@@ -455,6 +469,18 @@ export class TaskListComponent implements OnInit {
       this.files.splice(ix, 1)
       this.clearInputElement()
     }
+  }
+
+  removeUploadedFile() {
+    let ix;
+    for(let file of this.files)
+    {
+      if (this.files && -1 !== (ix = this.files.indexOf(file))) {
+        this.files.splice(ix, 1)
+        this.clearInputElement()
+      }
+    }
+    
   }
 
   validate(file: File) {
@@ -489,14 +515,54 @@ export class TaskListComponent implements OnInit {
     //   }
     // )
     const formData: FormData = new FormData();
-    formData.append(this.taskDetails.taskId, this.files[0]);
-    this.httpService.post('localhost:8080/file/upload', formData).subscribe(
-      res => {
-        console.log(res);
-
+    formData.append('taskId', this.taskDetails.taskId);
+    formData.append('file', this.uploadForm.get('file').value,this.uploadForm.get('file').value.name);
+    this.headers= new HttpHeaders();
+    this.headers.set('Content-Type','multipart/form-data');
+    //  : {
+    //   'Content-Type': 'multipart/form-data'
+    // }
+    // formData.append(this.taskDetails.taskId, this.files[0]);
+    const req = new HttpRequest('POST','http://localhost:8080/file/upload',formData,{reportProgress:false,responseType:'text'});
+    this.httpService.request(req).subscribe(
+      data =>{
+        console.log("Image upload");
+        console.log(data);
+        this.showMessage("Image uploaded successfully");
+        
+      },
+      err =>{
+        this.showMessage("Image upload failed");
       }
     );
-    console.log(this.files);
+
+    // this.httpService.post('localhost:8080/file/upload', formData ,
+    // {headers : this.headers}
+    // ).subscribe(
+    //   res => {
+    //     console.log(res);
+
+    //   }
+    // );
+    
+    console.log(this.uploadForm.get('file').value);
+  }
+
+  getImages(element)
+  {
+    console.log("getImages");
+    this.httpService.get('http://localhost:8080/file/getByTask/'+element.taskId).subscribe(
+      data => {
+        console.log(data);
+        this.arrJson = data;
+        console.log(this.arrJson.length);
+        for (let i = 0; i < this.arrJson.length; i++) {
+          let newImage = {name: this.arrJson[i].taskId,url:'http://localhost:8080/file/display/'+this.arrJson[i].fileId};
+          this.imagesNew[i] = newImage;
+          
+        }
+      }
+    );
   }
 
 }

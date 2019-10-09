@@ -12,6 +12,11 @@
     name: string;
     summary: string;
   }
+
+  export interface image {
+    name: string;
+    url: string;
+  }
   
   export interface Task {
     activityLabel: string;
