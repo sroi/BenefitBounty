@@ -18,8 +18,11 @@ import { DeleteTaskComponent } from 'src/app/dialogs/delete-task/delete-task.com
 import { CommentComponent } from 'src/app/dialogs/comment/comment.component';
 import { ContactPersons } from '../_model/contact-persons';
 import { AddTaskComponent } from 'src/app/dialogs/add-task/add-task.component';
-import { Task } from '../_model/task';
+
 import { AddDialogComponent } from 'src/app/dialogs/add/add.dialog.component';
+import { Task, image } from 'src/app/_models/model';
+import { Task1 } from '../_model/task';
+import { UserCommentsComponent } from 'src/app/dialogs/user-comments/user-comments.component';
 
 //https://github.com/marinantonio/angular-mat-table-crud
 
@@ -121,7 +124,9 @@ export class ProjectListComponent implements OnInit {
   // taskSource = new MatTableDataSource<TaskElement>(taskData);
 
   projectStatus: ProjectStatus[] = [
-    {value: 'InProgress', viewValue: 'InProgress'},
+    {value: 'In Progress', viewValue: 'In Progress'},
+    {value: 'Approved', viewValue: 'Approved'},
+    {value: 'Rejected', viewValue: 'Rejected'},
     {value: 'On Hold', viewValue: 'On Hold'},
     {value: 'Closed', viewValue: 'Closed'},
     {value: 'Created', viewValue: 'Created'}
@@ -135,18 +140,18 @@ export class ProjectListComponent implements OnInit {
   filteredValues = { areaOfEngagement: '', name: '', budget: '', location: '', duration: '' };
 
   dataSource = new MatTableDataSource<Projects>();
-  taskSource = new MatTableDataSource<Tasks>();
+  taskSource = new MatTableDataSource<Task>();
   isLoaded: boolean = false;
   isLoaded1: boolean = false;
   isTaskLoaded: boolean = false;
   isSpinnerEnabled: boolean = false;
   isSummary: boolean = false;
   taskData1: TaskElement[];
-  taskData: Tasks[] = [];
+  taskData: Task[] = [];
   projectDetails: Projects;
   currentProject: Projects;
   volunteer: Volunteers[] = [];
-  taskDetails: Tasks;
+  taskDetails: Task;
   isProject: boolean = false;
   isImage: boolean = false;
   statusToUpdate: string;
@@ -154,7 +159,11 @@ export class ProjectListComponent implements OnInit {
   isVolunteer: boolean;
   isStakeholder: boolean;
   isPOC: boolean;
+  hostname = "http://localhost:";
+  portNo = "8080";
+  taskApiUrl = this.hostname + this.portNo + "/task";
   exampleDatabase: DataService | null;
+  imagesNew: image[] = [];
   images: any[]=[{name:'photo1', url:'https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/024/113/slideshow/2fb751a9d79c2bef5963210204348238/austria-hallstatt-daytime-mountains.jpg'},
   {name:'photo1', url:'https://st2.depositphotos.com/1004221/8723/i/950/depositphotos_87237724-stock-photo-hallstatt-mountain-village-alps-austria.jpg'},
   {name:'photo1', url:'https://travelpassionate.com/wp-content/uploads/2019/04/Scenic-view-of-famous-Hallstatt-village-in-the-Austrian-Alps.-Image-min.jpg'},
@@ -165,7 +174,9 @@ export class ProjectListComponent implements OnInit {
   project: Project;
   dataToSend: Comment;
   addProject:Project;
-  addTasks:Tasks;
+  addTasks:Task1;
+  userId: string;
+  role: string;
   /* #endregion */
 
   // @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
@@ -197,6 +208,8 @@ export class ProjectListComponent implements OnInit {
    
   ngOnInit() {
 
+    this.role = "Volunteer";
+    this.userId = "5d9984b61c9d440000d024be";
 
     this.fetchProjects();
 
@@ -231,42 +244,7 @@ export class ProjectListComponent implements OnInit {
     console.log(filterValue);
   }
 
-  // startEdit(i: number, id: number, title: string, state: string, url: string, created_at: string, updated_at: string) {
-  //   this.id = id;
-  //   // index row is used just for debugging proposes and can be removed
-  //   this.index = i;
-  //   console.log(this.index);
-  //   const dialogRef = this.dialog.open(EditDialogComponent, {
-  //     data: {id: id, title: title, state: state, url: url, created_at: created_at, updated_at: updated_at}
-  //   });
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if (result === 1) {
-  //       // When using an edit things are little different, firstly we find record inside DataService by id
-  //       const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
-  //       // Then you update that record using data from dialogData (values you enetered)
-  //       this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
-  //       // And lastly refresh table
-  //       this.refreshTable();
-  //     }
-  //   });
-  // }
-
-  // export interface Projects {
-  //   projectId: string;
-  //   name: string;
-  //   areaOfEngagement: string;
-  //   associatedCorporateEntity: string;
-  //   budget: number;
-  //   status: string;
-  //   endDate: Date;
-  //   startDate: Date;
-  //   location: string;
-  //   pointOfContacts: PointOfContacts[];
-  //   stakeholders: Stakeholders[];
-  //   summary: string;
   
-  // }
 
   projectEdit(element: Projects)
   {
@@ -313,7 +291,17 @@ export class ProjectListComponent implements OnInit {
 
   }
 
-taskEdit(element:Tasks)
+  showComments() {
+    const dialogRef = this.dialog.open(UserCommentsComponent, {
+      data: this.taskDetails
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+  }
+
+taskEdit(element:Task)
   {
     console.log(element);
     const dialogRef = this.dialog.open(EditTaskComponent, {
@@ -337,7 +325,7 @@ taskEdit(element:Tasks)
 
   taskAdd()
   {
-    this.addTasks= new Task();
+    this.addTasks= new Task1();
     const dialogRef = this.dialog.open(AddTaskComponent, {
       data: this.addTasks
     });
@@ -377,7 +365,7 @@ taskEdit(element:Tasks)
       });
     }
 
-    taskDelete(element: Tasks) {
+    taskDelete(element: Task) {
       
       const dialogRef = this.dialog.open(DeleteTaskComponent, {
         data: element
@@ -447,9 +435,10 @@ taskEdit(element:Tasks)
     this.isSpinnerEnabled = false;
     this.isSummary = false;
     this.tableData = [];
-    this.httpService.get('http://localhost:8080/project/all').subscribe(
+    this.httpService.get('http://localhost:8080/project/showall').subscribe(
       data => {
         this.arrJson = data;
+        console.log(data);
         this.tableData.push(this.arrJson);
         for (let i = 0; i < this.arrJson.length; i++) {
           this.tableData[i] = this.arrJson[i];
@@ -506,7 +495,7 @@ taskEdit(element:Tasks)
     }
     console.log(temp);
 
-    let url = 'http://localhost:8080/task/tasks?pid=' + id;
+    let url = 'http://localhost:8080/task/tasks?pid='+id;
     this.projectDetails = temp;
     console.log(url);
     console.log(id);
@@ -526,7 +515,7 @@ taskEdit(element:Tasks)
 
         this.isLoaded = true;
         this.isSpinnerEnabled = false;
-        this.taskSource = new MatTableDataSource<Tasks>(this.taskData);
+        this.taskSource = new MatTableDataSource<Task>(this.taskData);
 
         this.projectDetails = temp;
         this.isProject = true;
@@ -552,23 +541,47 @@ taskEdit(element:Tasks)
   
 
   showTaskDetails(temp) {
-    this.taskDetails = temp;
-    this.volunteer = temp.volunteers;
-    this.isApprover = true;
-    this.isVolunteer = true;
-    if(temp.approver==null)
-    {
-      this.isApprover = false;
-    }
-    if(temp.volunteer==null)
-    {
-      this.isVolunteer = false;
-    }
-    console.log("volunteer new");
-    console.log(this.volunteer);
-    this.isTaskLoaded = true;
-    console.log(this.isTaskLoaded);
-    // this.isLoaded = false;
+    console.log(temp);
+    let tid = temp.taskId;
+    // localhost:8080/task/task?tid=5d9ad71f99097f28a943348c
+    let url = `${this.taskApiUrl}/task?tid=${tid}`;
+    this.httpService.get(url).subscribe(
+      data => {
+        this.taskJson = data;
+        this.taskDetails = this.taskJson;
+        if (this.taskDetails.approver_info != null)
+          this.isApprover = true;
+        if (this.taskDetails.vols_info != null)
+          this.isVolunteer = true;
+        this.isTaskLoaded = true;
+        this.isLoaded = true;
+        this.isLoaded1 = true;
+        console.log(this.taskDetails);
+        this.getImages(this.taskDetails);
+      }
+    );
+    
+
+
+  }
+
+  getImages(element)
+  {
+    this.imagesNew = [];
+    console.log("getImages");
+    this.httpService.get('http://localhost:8080/file/getByTask/'+element.taskId).subscribe(
+      data => {
+        console.log(data);
+        this.arrJson = data;
+        console.log(this.arrJson.length);
+        for (let i = 0; i < this.arrJson.length; i++) {
+          console.log(this.arrJson[i]);
+          let newImage = {name: this.arrJson[i].fileName,url:'http://localhost:8080/file/display/'+this.arrJson[i].fileId};
+          this.imagesNew[i] = newImage;
+          
+        }
+      }
+    );
   }
   hideTaskDetails() {
     this.isTaskLoaded = false;
@@ -656,7 +669,7 @@ taskEdit(element:Tasks)
 
   deleteTask(temp) {
     console.log(temp);
-    this.taskSource.data = this.taskSource.data.filter((task: Tasks)=>{
+    this.taskSource.data = this.taskSource.data.filter((task: Task)=>{
       return task.taskId !=temp.taskId;
     })
     let url = 'http://localhost:8080/task/delete?tid=' + temp.taskId;

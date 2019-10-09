@@ -6,6 +6,12 @@
     phoneNo: number;
     role: string;
   }
+  export interface Comment {
+    userId: string;
+    comment: string;
+    projectId: string;
+    status: string;
+  }
 
   export interface Project {
     _id: string;

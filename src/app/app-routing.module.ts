@@ -12,7 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { TaskList1Component } from './approver/task-list/task-list.component';
 
 const routes: Routes = [
-  {path:'project', component:ProjectListComponent},
+  {path:'admin', component:ProjectListComponent},
   {path:'home', component:HomeComponent},
   {path:'add', component:ProjectAddComponent},
   {path:'project/edit', redirectTo:'add',pathMatch:'full'},
@@ -23,7 +23,7 @@ const routes: Routes = [
   {path:'login', component:LoginComponent},
   {path:'signup', component:SignupComponent},
   {path:'project/task',redirectTo:'task',pathMatch:'full'},
-  { path: 'stakeholders/projects', component: StakeholderProjectListComponent, children: [
+  { path: 'stakeholder', component: StakeholderProjectListComponent, children: [
     { path: ':id', component: StakeholderProjectDetailComponent}
   ]} ,
   { path: '**', component: LoginComponent}

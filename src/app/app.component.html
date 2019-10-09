@@ -9,8 +9,29 @@
         <div fxShow="true" fxHide.lt-md>
           <!-- The following menu items will be hidden on both SM and XS screen sizes -->
           <button routerLink="home" mat-flat-button color="primary">Home</button>
-          <button routerLink="project" mat-flat-button color="primary">Project</button>
-          <button routerLink="reports" mat-flat-button color="primary">Reports</button>           
+          <!-- <button routerLink="project" mat-flat-button color="primary">Project</button> -->
+          <button routerLink="reports" mat-flat-button color="primary">Reports</button> 
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="approver">
+                <!-- <mat-icon>dialpad</mat-icon> -->
+                <span>Approver</span>
+            </button>
+            <button mat-menu-item routerLink="volunteer">
+                <!-- <mat-icon>voicemail</mat-icon> -->
+                <span>Volunteer</span>
+            </button>
+            <button mat-menu-item routerLink="stakeholder">
+                <!-- <mat-icon>notifications_off</mat-icon> -->
+                <span>Stakeholder</span>
+            </button>
+            <button mat-menu-item routerLink="admin">
+              <!-- <mat-icon>notifications_off</mat-icon> -->
+              <span>Admin</span>
+          </button>
+        </mat-menu>          
         </div>
       </mat-toolbar-row>
     </mat-toolbar>

@@ -197,7 +197,7 @@ export class TaskListComponent implements OnInit {
         this.showDetails(this.userId,this.role);
         this.showMessage("Your activity has been recorded successfully");
       }
-      else {
+      if(result === 0) {
         this.showMessage("Please Enter your details again");
       }
 
@@ -316,10 +316,12 @@ export class TaskListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result == 1) {
         console.log("message displayed");
-        this.showDetails(this.userId, this.role);
+        // this.showDetails(this.userId, this.role);
+        this.showTaskDetails(this.taskDetails);
       }
       this.removeUploadedFile();
-      this.showDetails(this.userId, this.role);
+      // this.showDetails(this.userId, this.role);
+      this.showTaskDetails(this.taskDetails);
     });
   }
 
@@ -461,6 +463,7 @@ export class TaskListComponent implements OnInit {
       }
       //}
     }
+    this.onUpload();
   }
 
   removeFile(event, file) {
@@ -514,6 +517,7 @@ export class TaskListComponent implements OnInit {
 
     //   }
     // )
+    console.log('onUpload');
     const formData: FormData = new FormData();
     formData.append('taskId', this.taskDetails.taskId);
     formData.append('file', this.uploadForm.get('file').value,this.uploadForm.get('file').value.name);
@@ -523,18 +527,24 @@ export class TaskListComponent implements OnInit {
     //   'Content-Type': 'multipart/form-data'
     // }
     // formData.append(this.taskDetails.taskId, this.files[0]);
-    const req = new HttpRequest('POST','http://localhost:8080/file/upload',formData,{reportProgress:false,responseType:'text'});
-    this.httpService.request(req).subscribe(
+    // const req = new HttpRequest('POST','http://localhost:8080/file/upload',formData);
+    var uploadUrl = 'http://localhost:8080/file/upload';
+    var ret = this.httpService.post(uploadUrl, formData);
+    
+    ret.subscribe(
       data =>{
         console.log("Image upload");
+        console.log('data '+data);
         console.log(data);
-        this.showMessage("Image uploaded successfully");
+        this.showMessage("File uploaded successfully");
         
       },
       err =>{
-        this.showMessage("Image upload failed");
+        this.showMessage("File upload failed");
       }
     );
+    console.log('upload complete');
+    
 
     // this.httpService.post('localhost:8080/file/upload', formData ,
     // {headers : this.headers}
@@ -545,11 +555,12 @@ export class TaskListComponent implements OnInit {
     //   }
     // );
     
-    console.log(this.uploadForm.get('file').value);
+    //console.log(this.uploadForm.get('file').value);
   }
 
   getImages(element)
   {
+    this.imagesNew = [];
     console.log("getImages");
     this.httpService.get('http://localhost:8080/file/getByTask/'+element.taskId).subscribe(
       data => {
@@ -557,7 +568,8 @@ export class TaskListComponent implements OnInit {
         this.arrJson = data;
         console.log(this.arrJson.length);
         for (let i = 0; i < this.arrJson.length; i++) {
-          let newImage = {name: this.arrJson[i].taskId,url:'http://localhost:8080/file/display/'+this.arrJson[i].fileId};
+          console.log(this.arrJson[i]);
+          let newImage = {name: this.arrJson[i].fileName,url:'http://localhost:8080/file/display/'+this.arrJson[i].fileId};
           this.imagesNew[i] = newImage;
           
         }

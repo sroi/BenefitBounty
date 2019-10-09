@@ -9,14 +9,14 @@
     
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" id="projectTable">
           <ng-container matColumnDef="areaOfEngagement">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Area<br>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Engagement<br>
             </th>
             <td mat-cell *matCellDef="let element" (click)="showProjectDetails(element)" style="cursor:pointer;">
               {{element.areaOfEngagement}} </td>
           </ng-container>
     
           <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Project Name<br>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name<br>
             </th>
             <td mat-cell *matCellDef="let element" (click)="showProjectDetails(element)" style="cursor:pointer;"> {{element.name}}
             </td>
@@ -48,15 +48,15 @@
           <ng-container matColumnDef="duration">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration </th>
             <td mat-cell *matCellDef="let element" (click)="showProjectDetails(element)" style="cursor:pointer;">
-              {{element.startDate | date: 'dd/MM/yyyy'}} - {{element.endDate | date: 'dd/MM/yyyy'}}</td>
+              {{element.startDate | date: 'dd MMM yyyy'}} - {{element.endDate | date: 'dd-MMM-yyyy'}}</td>
           </ng-container>
 
           <ng-container matColumnDef="rating">
                 <th mat-header-cell mat-sort-header *matHeaderCellDef> Rating</th>
                 <td mat-cell *matCellDef="let element" style="cursor:pointer;">
-                    <mat-form-field>
-                        <mat-select  [value]="element.rating" (selectionChange)="onRatingChange(element,$event.value)">
-                            <mat-option *ngFor="let rating of [1,2,3,4,5]" [value]="rating">
+                    <mat-form-field >
+                        <mat-select [disabled] = "checkStatus(element)" [value]="element.rating" (selectionChange)="onRatingChange(element,$event.value)">
+                            <mat-option *ngFor="let rating of [0,1,2,3,4,5]" [value]="rating">
                                 {{rating}}
                             </mat-option>
                         </mat-select>
@@ -71,10 +71,10 @@
             </mat-header-cell>
     
             <mat-cell *matCellDef="let element;">
-              <button mat-flat-button color="accent" (click)="approveProject(element)" *ngIf="element.isApproved" style="margin-right:10px;"> Approve </button>
-              <button mat-flat-button matTooltip="All the tasks haven't been approved" *ngIf="!element.isApproved" color="accent" style="margin-right:10px;"> Approve </button>
+              <button [disabled] = "checkStatus(element)" mat-flat-button color="accent" (click)="approveProject(element)" style="margin-right:10px;"> Approve </button>
+              <!-- <button mat-flat-button matTooltip="All the tasks haven't been approved" *ngIf="!element.isApproved" color="accent" style="margin-right:10px;"> Approve </button> -->
     
-              <button mat-flat-button matTooltip="Remove this score" color="accent"
+              <button [disabled] = "checkStatus(element)" mat-flat-button matTooltip="Remove this score" color="accent"
                 (click)="rejectProject(element)" style="margin-right:10px;">
                 Reject
               </button>

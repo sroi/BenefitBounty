@@ -24,7 +24,7 @@ import {DataService} from './services/data.service';
 import {AddDialogComponent} from './dialogs/add/add.dialog.component';
 import {EditDialogComponent} from './dialogs/edit/edit.dialog.component';
 import {DeleteDialogComponent} from './dialogs/delete/delete.dialog.component';
-import { MatInputModule,MatIconModule, MatFormFieldModule, MatDialogModule, MatToolbarModule, MatSidenavModule, MatListModule, MatButtonModule, MatCardModule } from '@angular/material';
+import { MatInputModule,MatIconModule, MatFormFieldModule, MatDialogModule, MatToolbarModule, MatSidenavModule, MatListModule, MatButtonModule, MatCardModule, MatMenuModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PhotoComponent } from './shared/photo/photo.component';
 
@@ -88,7 +88,8 @@ import { ApproverCommentComponent } from './dialogs/approver-comment/approver-co
     FlexLayoutModule,
     MatCardModule,
     MatDialogModule,
-    TaskList1Module
+    TaskList1Module,
+    MatMenuModule
   ],
   entryComponents: [
     AddDialogComponent,

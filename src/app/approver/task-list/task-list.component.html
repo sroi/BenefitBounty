@@ -1,10 +1,10 @@
 
 <div style="margin: 5px;" *ngIf = "isLoaded">
-  <div fxLayout fxLayoutAlign="center center" style="margin-top:2%;">
-    <mat-form-field fxFlex="40%" style="height: 100px;">
-      <input matInput type="text" (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-    </mat-form-field>
-  </div>
+    <div fxLayout fxLayoutAlign="center center">
+        <mat-form-field fxFlex="100%" style="margin:10px;">
+          <input matInput type="text" (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+      </div>
   
   <div class="mat-elevation-z8-container">
       <button mat-flat-button color="primary" style="margin-left:2px;margin-bottom: 10px;"

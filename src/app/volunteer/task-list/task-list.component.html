@@ -1,8 +1,13 @@
 <div style="margin: 5px;" *ngIf="isLoaded">
-    <div fxLayout fxLayoutAlign="center center" style="margin-top:2%;">
+    <!-- <div fxLayout fxLayoutAlign="center center" style="margin-top:2%;">
         <mat-form-field fxFlex="40%" style="height: 100px;">
             <input matInput type="text" (keyup)="applyFilter($event.target.value)" placeholder="Filter">
         </mat-form-field>
+    </div> -->
+    <div fxLayout fxLayoutAlign="center center">
+    <mat-form-field fxFlex="100%" style="margin:10px;">
+        <input matInput type="text" (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
     </div>
 
     <div class="mat-elevation-z8-container">
@@ -192,23 +197,24 @@
                             (click)="showComments()">Comments</button>
                         <button mat-raised-button color="accent" (click)="onClick($event)">
                             <mat-icon>add</mat-icon>
-                            {{chooseLabel}}
+                            Upload
                         </button>
                         <input #fileUpload type="file" class="input_fileupload--hidden" (input)="onInput($event)"
                             (change)="onFileSelected($event)" [(ngModel)]="inputFileName" [accept]="accept">
 
-                        <div *ngFor="let f of files">
+                        <!-- <div *ngFor="let f of files">
                             <span>{{f.name}}</span>
                             <button mat-icon-button color="primary"
                                 [attr.title]="deleteButtonLabel?deleteButtonLabel:null" (click)="removeFile(event,f)">
                                 <mat-icon>{{deleteButtonIcon}}</mat-icon>
                             </button>
-                        </div>
+                        </div> -->
                         <!-- <vo-mat-fileUpload></vo-mat-fileUpload> -->
                         <!-- <input mat-flat-button color="accent" #fileUpload type="file" (change)="onFileSelected($event)"> -->
                         <!-- <button mat-flat-button color="warn" (click)="fileUpload">Pick File</button> -->
-                        <button mat-flat-button color="warn" style="margin-left:5px;"
-                            (click)="onUpload()">Upload</button>
+                        
+                        <!-- <button mat-flat-button color="warn" style="margin-left:5px;"
+                            (click)="onUpload()">Upload</button> -->
                     </mat-card-actions>
                 </mat-card>
 

@@ -10,11 +10,13 @@ import { PROJECT_COLUMN_CONFIG, ProjectColumnConfig } from '../config';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { CommentComponent } from 'src/app/dialogs/comment/comment.component';
 import { DataService } from 'src/app/services/data.service';
+import { Project } from 'src/app/_models/model';
 
 export interface Comment {
   userId: string;
   comment: string;
   projectId: string;
+  status: string;
 }
 
 @Component({
@@ -29,6 +31,8 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
   columnHeaders: string[] = [];
   tableData: Array<any> = [];
   dataToSend: Comment;
+  userId: string;
+  role: string;
   projectColumnsConfig: Array<ProjectColumnConfig>;
   constructor(
     private http: HttpClient,
@@ -40,6 +44,8 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
 
   }
   ngOnInit() {
+    this.role = "Stakeholder";
+    this.userId = "5d9984b61c9d440000d024be";
     this.projectColumnsConfig = PROJECT_COLUMN_CONFIG;
     this.columnHeaders = this.projectColumnsConfig.map(column => {
       return column.id;
@@ -49,23 +55,29 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
 
     this.stakeHolderService.fetchProjects();
     this.stakeHolderService.projectsLoadedEvent.subscribe(projects => {
+      console.log(projects);
       this.dataSource.data = projects;
       this.dataSource.paginator = this.paginator;
     });
   }
 
+  checkStatus(element)
+  {
+    return element.status=="Closed"?true:false;
+  }
+
   approveProject(element) {
-    this.projectComment(element);
+    this.projectComment(element,'Approved');
   }
 
   rejectProject(element) {
-    this.projectComment(element);
+    this.projectComment(element,'Rejected');
   }
 
-  projectComment(element: Projects)
+  projectComment(element: Projects,status:string)
   {
     //console.log(element);
-    this.dataToSend = {userId:'123', comment:'',projectId:'345'};
+    this.dataToSend = {userId:this.userId, comment:'',projectId:element.projectId,status: status};
     const dialogRef = this.dialog.open(CommentComponent, {
       data: this.dataToSend
     });

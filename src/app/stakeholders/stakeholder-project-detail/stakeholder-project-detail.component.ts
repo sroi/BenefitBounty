@@ -6,7 +6,9 @@ import { Projects, Tasks } from 'src/app/project/project-list/project-list.compo
 import { TASK_CONFIG_COLUMNS } from '../config';
 import { PhotoComponent } from 'src/app/shared/photo/photo.component';
 import { Volunteers } from 'src/app/_models/issue';
-import { UserComment } from 'src/app/_models/model';
+import { UserComment, Task, image } from 'src/app/_models/model';
+import { HttpClient } from '@angular/common/http';
+import { UserCommentsComponent } from 'src/app/dialogs/user-comments/user-comments.component';
 
 @Component({
   selector: 'app-stakeholder-project-detail',
@@ -17,42 +19,61 @@ export class StakeholderProjectDetailComponent implements OnInit {
   displayedTasks: string[] = ['activity', 'task', 'duration', 'approver', 'actions'];
   projectId: string;
   project: any;
-  taskSource = new MatTableDataSource<Tasks>();
+  taskSource = new MatTableDataSource<Task>();
   columnHeaders: string[] = [];
-  tableData: Tasks[] = [];
+  tableData: Task[] = [];
   tasksColumnsConfig: Array<{id: string, label: string, type?: string}> = TASK_CONFIG_COLUMNS;
-  taskDetails: Tasks;
+  taskDetails: Task;
   volunteer: Volunteers;
   isTaskLoaded: boolean = false;
   isLoaded: boolean = true;
+  isLoaded1: boolean = true;
   isImage: boolean = false;
+  hostname = "http://localhost:";
+  portNo = "8080";
+  taskApiUrl = this.hostname + this.portNo + "/task";
   volunteerComments: UserComment = {userId:'123',comment:'new'};
   approverComment: UserComment = {userId:'123',comment:'new approver'};
   stakeholdersComment: UserComment = {userId:'123',comment:'new stakeholder'};
   image: string = "./../../../assets/angularLogo.svg";
+  userId: string;
+  role: string;
+  isApprover: boolean = false;
+  isVolunteer: boolean = false;
+  isClosed: boolean = false;
+  imagesNew: image[] = [];
+
   images: any[]=[{name:'photo1', url:'https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/024/113/slideshow/2fb751a9d79c2bef5963210204348238/austria-hallstatt-daytime-mountains.jpg'},
   {name:'photo1', url:'https://st2.depositphotos.com/1004221/8723/i/950/depositphotos_87237724-stock-photo-hallstatt-mountain-village-alps-austria.jpg'},
   {name:'photo1', url:'https://travelpassionate.com/wp-content/uploads/2019/04/Scenic-view-of-famous-Hallstatt-village-in-the-Austrian-Alps.-Image-min.jpg'},
   {name:'photo1', url:'https://www.travelshelper.com/wp-content/uploads/2017/07/AUSTRIA-TRAVEL-GUIDE-Travel-S-Helper-800x600.jpg'},
   {name:'photo1', url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXVUCXTNgcJrfF7VluwC-GxtTqSgIbn7Vh6x9cedft9rOgxJfN'}];
 
-  constructor(private route: ActivatedRoute, private stakeHolderService: StakeHolderService, private router: Router,public dialog: MatDialog) {
+  constructor(private route: ActivatedRoute, private httpService: HttpClient,private stakeHolderService: StakeHolderService, private router: Router,public dialog: MatDialog) {
    }
+
+   arrJson: any = [];
+  taskJson: any = [];
+  activityJson: any = [];
+  keys: any = [];
 
   ngOnInit() {
     this.isLoaded = false;
     this.route.params.subscribe(params => {
       this.projectId = params['id'];
-      this.stakeHolderService.getProject(this.projectId).subscribe(project => {
-        this.project = project;
-      })
+      // this.stakeHolderService.getProject(this.projectId).subscribe(project => {
+      //   this.project = project;
+      // })
+      // this.project = params['id'];
+      // this.projectId = "5d997aec1c9d440000d024b8";
       this.stakeHolderService.fetchTasks(this.projectId);
       this.stakeHolderService.tasksloadedEvent.subscribe(tasks => {
         this.tableData = tasks;
+        this.project = tasks[0].project_info;
         // this.taskSource.data = this.tableData;
-        this.taskSource = new MatTableDataSource<Tasks>(this.tableData);
+        this.taskSource = new MatTableDataSource<Task>(this.tableData);
         this.isLoaded = true;
-        console.log(this.taskSource);
+        console.log(tasks);
       });
     });
     this.columnHeaders = this.tasksColumnsConfig.map(taskColumn => {
@@ -74,12 +95,58 @@ export class StakeholderProjectDetailComponent implements OnInit {
     });
   }
 
+  showComments() {
+    const dialogRef = this.dialog.open(UserCommentsComponent, {
+      data: this.taskDetails
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+  }
+
   showTaskDetails(temp) {
-    this.taskDetails = temp;
-    this.volunteer = temp.volunteers;
-    console.log(this.volunteer);
-    this.isTaskLoaded = true;
-    this.isLoaded = true;
+    console.log(temp);
+    let tid = temp.taskId;
+    // localhost:8080/task/task?tid=5d9ad71f99097f28a943348c
+    let url = `${this.taskApiUrl}/task?tid=${tid}`;
+    this.httpService.get(url).subscribe(
+      data => {
+        this.taskJson = data;
+        this.taskDetails = this.taskJson;
+        if (this.taskDetails.approver_info != null)
+          this.isApprover = true;
+        if (this.taskDetails.vols_info != null)
+          this.isVolunteer = true;
+        this.isTaskLoaded = true;
+        this.isLoaded = true;
+        this.isLoaded1 = true;
+        console.log(this.taskDetails);
+        this.getImages(this.taskDetails);
+      }
+    );
+    
+
+
+  }
+
+  getImages(element)
+  {
+    this.imagesNew = [];
+    console.log("getImages");
+    this.httpService.get('http://localhost:8080/file/getByTask/'+element.taskId).subscribe(
+      data => {
+        console.log(data);
+        this.arrJson = data;
+        console.log(this.arrJson.length);
+        for (let i = 0; i < this.arrJson.length; i++) {
+          console.log(this.arrJson[i]);
+          let newImage = {name: this.arrJson[i].fileName,url:'http://localhost:8080/file/display/'+this.arrJson[i].fileId};
+          this.imagesNew[i] = newImage;
+          
+        }
+      }
+    );
   }
 
   hideTaskDetails() {
@@ -98,7 +165,7 @@ export class StakeholderProjectDetailComponent implements OnInit {
     this.stakeHolderService.deleteTask(temp);
   }
   onCloseProject() {
-    this.router.navigate(['stakeholders/projects']);
+    this.router.navigate(['stakeholder']);
   }
 
 }

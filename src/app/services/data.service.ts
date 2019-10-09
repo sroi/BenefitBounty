@@ -89,14 +89,15 @@ export class DataService {
     );
   }
 
-  updateComment(issue: Comment): void {
-    console.log(issue);
+  updateComment(data): void {
+    console.log(data);
     console.log('hi');
+    var url = `http://localhost:8080/project/status?tid=${data.projectId}&role=Stakeholder&status=${data.status}&comments=${data.comment}`;
   }
 
   updateApproverComment(data: any): void {
     console.log(data);
-    var url = `http://localhost:8080/task/status?tid=${data.taskId}&role=Approver&status=${data.status}&comments=${data.comment}`
+    var url = `http://localhost:8080/task/status?tid=${data.taskId}&role=Approver&status=${data.status}&comments=${data.comment}`;
     
     this.httpClient.put(url, 0).subscribe(() => {
      

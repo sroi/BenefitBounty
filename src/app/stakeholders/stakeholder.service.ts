@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { Projects } from '../project/project-list/project-list.component';
 import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
+import { Project } from '../_models/model';
 
 @Injectable()
 export class StakeHolderService {
@@ -15,17 +16,18 @@ export class StakeHolderService {
 
     }
     fetchProjects() {
-        this.http.get<Projects[]>('http://localhost:8080/project/all?user_id=5d89e7cf1c9d4400001cc5a7&Role=Stakeholder')
-            .pipe(
-                map( projects => {
-                return projects.map( project => {
-                    const {startDate, endDate} = project;
-                    const duration: string = this.datePipe.transform(startDate, 'dd/MM/yyyy') 
-                    + ' - ' + this.datePipe.transform(endDate, 'dd/MM/yyyy');
-                    return { ...project, 'duration': duration, rating: 3, isApproved: false};
-                });
-                })
-            )
+        // this.http.get<Projects[]>('http://localhost:8080/project/all?user_id=5d89e7cf1c9d4400001cc5a7&Role=Stakeholder')
+        this.http.get<Project[]>('http://localhost:8080/project/showall')
+            // .pipe(
+            //     map( projects => {
+            //     return projects.map( project => {
+            //         const {startDate, endDate} = project;
+            //         const duration: string = this.datePipe.transform(startDate, 'dd/MM/yyyy') 
+            //         + ' - ' + this.datePipe.transform(endDate, 'dd/MM/yyyy');
+            //         return { ...project, 'duration': duration, rating: project.rating, isApproved: false};
+            //     });
+            //     })
+            // )
             .subscribe(data => {
                 this.projects = data;
                 this.projectsLoadedEvent.next(this.projects);
@@ -43,9 +45,13 @@ export class StakeHolderService {
           });
     }
     fetchTasks(projectId: string) {
+        // this.http.get<any>('http://localhost:8080/task/tasks', {
+        //   params: new HttpParams().set('pid', projectId) 
+        // })
         this.http.get<any>('http://localhost:8080/task/tasks', {
           params: new HttpParams().set('pid', projectId) 
         }).subscribe(tasks => {
+            console.log(tasks);
             this.currentTasks = tasks;
             this.tasksloadedEvent.next(this.currentTasks);
         }, error => {
