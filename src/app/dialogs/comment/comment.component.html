@@ -1,5 +1,5 @@
 <div class="container">
-        <h3 mat-dialog-title>Project: {{data.userId}}</h3>
+        <h3 mat-dialog-title>Project: {{data.name}}</h3>
       
         <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
       
@@ -7,6 +7,16 @@
             <mat-form-field color="accent">
               <textarea matInput #input class="form-control" placeholder="Comment" [(ngModel)]="data.comment" name="comment" required ></textarea>
               <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form">
+            <mat-form-field color="accent">
+              <mat-select class="form-control" [value]="data.rating" (selectionChange)="onRatingChange(data,$event.value)">
+                <mat-option *ngFor="let rating of [0,1,2,3,4,5,6,7,8,9,10]" [value]="rating">
+                    {{rating}}
+                </mat-option>
+            </mat-select>
             </mat-form-field>
           </div>
       

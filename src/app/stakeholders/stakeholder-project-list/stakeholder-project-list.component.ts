@@ -17,6 +17,9 @@ export interface Comment {
   comment: string;
   projectId: string;
   status: string;
+  role: string;
+  rating: number;
+  name: string;
 }
 
 @Component({
@@ -74,10 +77,10 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
     this.projectComment(element,'Rejected');
   }
 
-  projectComment(element: Projects,status:string)
+  projectComment(element: Project,status:string)
   {
     //console.log(element);
-    this.dataToSend = {userId:this.userId, comment:'',projectId:element.projectId,status: status};
+    this.dataToSend = {userId:this.userId, comment:'',projectId:element.projectId,status: status,role:'Stakeholder',rating:element.rating,name:element.name};
     const dialogRef = this.dialog.open(CommentComponent, {
       data: this.dataToSend
     });
@@ -89,8 +92,10 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
         // Then you update that record using data from dialogData (values you enetered)
          //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
-        this.stakeHolderService.fetchProjects(this.userId,this.role);
+        this.refreshData();
       }
+      // this.stakeHolderService.fetchProjects(this.userId,this.role);
+      this.refreshData();
       
     });
 
@@ -112,6 +117,7 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
     this.router.navigate([project.projectId], { relativeTo: this.route });
   }
   refreshData(){
+    this.router.navigate(['stakeholder']);
     this.stakeHolderService.fetchProjects(this.userId,this.role);
   }
 

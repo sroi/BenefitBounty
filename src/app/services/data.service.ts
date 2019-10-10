@@ -2,7 +2,9 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { Projects } from '../_models/issue';
-import { Task, Project } from '../_models/model';
+import { Task, Project, Message } from '../_models/model';
+import { MatDialog } from '@angular/material';
+import { ShowMessageComponent } from '../dialogs/show-message/show-message.component';
 
 @Injectable()
 export class DataService {
@@ -12,7 +14,7 @@ export class DataService {
   // Temporarily stores data from dialogs
   dialogData: any;
 
-  constructor (private httpClient: HttpClient) {}
+  constructor (private httpClient: HttpClient,public dialog: MatDialog) {}
 
   get data(): Projects[] {
     return this.dataChange.value;
@@ -33,37 +35,47 @@ export class DataService {
   }
 
   // DEMO ONLY, you can find working methods below
-  addIssue (issue: any): void {
-    this.dialogData = issue;
-    console.log(issue);
-    this.httpClient.post('http://localhost:8080/project/create',issue).subscribe(
+  addIssue (proj: any): void {
+    this.dialogData = proj;
+    console.log("proj : "+JSON.stringify(proj));
+    this.httpClient.post('http://localhost:8080/project/create',proj).subscribe(
       data => {
-       console.log("updated"+ ' ' + issue.ProjectId); 
+       console.log("updated"+ ' ' + proj.ProjectId); 
+       this.showMessage("Project added successfully");
       },
       err => {
-        console.log(issue);
+        console.log("Error proj : "+proj);
+        this.showMessage("Project could not be added");
       }
     );
   }
 
-  addTask (issue: Task): void {
-    this.dialogData = issue;
-    this.httpClient.post('http://localhost:8080/task/create',issue).subscribe(
+  addTask (task: any): void {
+    this.dialogData = task;
+    console.log("addTask(): "+JSON.stringify(task));
+    this.httpClient.post('http://localhost:8080/task/create',task).subscribe(
       data => {
-
+        this.showMessage("Task added successfully");
       },
       err => {
-        console.log(issue);
+        console.log(task);
+        this.showMessage("Task could not be added");
       }
     );
   }
 
-  updateIssue (issue: any): void {
-    this.dialogData = issue;
-    console.log(issue);
-    this.httpClient.post('http://localhost:8080/project/create',issue).subscribe(
+  updateIssue (project: any): void {
+    this.dialogData = project;
+    console.log("project : "+JSON.stringify(project));
+    project.stakeholder = project.stakeholderList[0];
+    console.log(JSON.stringify(project.stakeholder));
+    this.httpClient.post('http://localhost:8080/project/create',project).subscribe(
       data => {
-       console.log("updated"+ ' ' + issue.projectId); 
+       console.log("updated"+ ' ' + project.projectId);
+       this.showMessage("Project Updated successfully"); 
+      },
+      err => {
+        this.showMessage("Project could not be updated");
       }
     );
   }
@@ -78,20 +90,50 @@ export class DataService {
     );
   }
 
-  updateTask (issue: Task): void {
-    this.dialogData = issue;
-    console.log(issue);
-    this.httpClient.post('http://localhost:8080/task/create',issue).subscribe(
+  updateTask (task: Task): void {
+    this.dialogData = task;
+    task.project_info = null;
+    task.activity_info = null;
+    console.log("updateTask(): "+JSON.stringify(task));
+    this.httpClient.post('http://localhost:8080/task/create',task).subscribe(
       data => {
-       console.log("updated"+ ' ' + issue.taskId); 
+       console.log("updated"+ ' ' + task.taskId);
+       this.showMessage("Task updated successfully");
+      },
+      err => {
+        this.showMessage("Task could not be updated");
       }
     );
+  }
+
+  showMessage(msg: string) {
+    let message: Message = { message: msg };
+    const dialogRef = this.dialog.open(ShowMessageComponent, {
+      data: message
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 1) {
+        console.log("message displayed");
+        
+      }
+      
+    });
   }
 
   updateComment(data): void {
     console.log(data);
     console.log('hi');
-    var url = `http://localhost:8080/project/status?tid=${data.projectId}&role=Stakeholder&status=${data.status}&comments=${data.comment}`;
+    var url = `http://localhost:8080/project/status?pid=${data.projectId}&status=${data.status}&role=${data.role}&comment=${data.comment}&rating=${data.rating}`;
+
+    this.httpClient.post(url,data).subscribe(
+      data => {
+          console.log(data);
+      },
+      err => {
+          console.log("error");
+      }
+    );
   }
 
   updateApproverComment(data: any): void {
@@ -108,6 +150,10 @@ export class DataService {
     this.httpClient.delete('http://localhost:8080/project/delete?pid='+issue.projectId).subscribe(
       data => {
        console.log("Deleted Project"+ ' ' + issue.projectId); 
+       this.showMessage("Project deleted successfully");
+      },
+      err => {
+        this.showMessage("Project could not be deleted");
       }
     )
   }
@@ -117,6 +163,10 @@ export class DataService {
     this.httpClient.delete('http://localhost:8080/task/delete?tid='+issue.taskId).subscribe(
       data => {
        console.log("Deleted Task"+ ' ' + issue.taskId); 
+       this.showMessage("Task deleted successfully");
+      },
+      err => {
+        this.showMessage("Task could not be deleted");
       }
     )
   }

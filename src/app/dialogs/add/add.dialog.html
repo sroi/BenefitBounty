@@ -11,7 +11,7 @@
     </div>
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput #input class="form-control" placeholder="Area" formControlName="area" required>
+        <input matInput #input class="form-control" placeholder="Engagement" formControlName="engageArea" required>
         <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
@@ -19,7 +19,7 @@
     <!--Textarea for demo purposes-->
     <div class="form">
       <mat-form-field color="accent">
-        <textarea matInput #input class="form-control" placeholder="Corporate" formControlName="corpEntity"
+        <textarea matInput #input class="form-control" placeholder="Corporate" formControlName="corporate"
           required></textarea>
         <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
@@ -29,6 +29,14 @@
     <div class="form">
       <mat-form-field color="accent">
         <input matInput #inputstate class="form-control" placeholder="Budget" formControlName="budget" maxlength="10"
+          required>
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #inputstate class="form-control" placeholder="Summary" formControlName="summary" maxlength="10"
           required>
         <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>

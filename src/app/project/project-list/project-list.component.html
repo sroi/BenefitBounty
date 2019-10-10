@@ -165,7 +165,7 @@
                     {{project.location}}
                   </td>
                 </tr>
-                <tr *ngIf="isPointOfContact">
+                <tr *ngIf="isPOC">
                   <td>
                     Point Of Contact :
                   </td>
@@ -178,7 +178,7 @@
                     Stakeholder :
                   </td>
                   <td>
-                    {{project.stakeholder.name}}
+                    {{project.stakeholderList[0].name}}
                   </td>
                 </tr>
                 <tr>

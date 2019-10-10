@@ -59,6 +59,9 @@ export class CommentComponent {
       // emppty stuff
     }
   
+    onRatingChange(element: any, rating: any) {
+      element.rating = rating;
+    }
     onNoClick(): void {
       this.dialogRef.close();
     }

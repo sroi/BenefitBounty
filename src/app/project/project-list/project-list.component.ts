@@ -19,9 +19,10 @@ import { ContactPersons } from '../_model/contact-persons';
 import { AddTaskComponent } from 'src/app/dialogs/add-task/add-task.component';
 
 import { AddDialogComponent } from 'src/app/dialogs/add/add.dialog.component';
-import { Task, image, Project } from 'src/app/_models/model';
+import { Task, image, Project, Message } from 'src/app/_models/model';
 import { Task1 } from '../_model/task';
 import { UserCommentsComponent } from 'src/app/dialogs/user-comments/user-comments.component';
+import { ShowMessageComponent } from 'src/app/dialogs/show-message/show-message.component';
 
 //https://github.com/marinantonio/angular-mat-table-crud
 
@@ -59,6 +60,7 @@ export interface Projects {
 }
 
 export interface Volunteers {
+  _id: string;
   name: string;
   emailId: string;
   phoneNo: number;
@@ -66,6 +68,7 @@ export interface Volunteers {
 }
 
 export interface Approver {
+  _id: string;
   name: string;
   emailId: string;
   phoneNo: number;
@@ -264,6 +267,9 @@ export class ProjectListComponent implements OnInit {
         // And lastly refresh table
         this.refreshTable();
       }
+      else {
+        this.refreshTable();
+      }
       
     });
 
@@ -319,7 +325,10 @@ taskEdit(element:Task)
         // Then you update that record using data from dialogData (values you enetered)
          //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
-        this.refreshTable();
+        this.refreshDetails();
+      }
+      else {
+        this.refreshDetails();
       }
       
     });
@@ -329,7 +338,11 @@ taskEdit(element:Task)
 
   taskAdd()
   {
+    
     this.addTasks= new Task1();
+    console.log("taskAdd?() : "+ JSON.stringify(this.project))
+    this.addTasks.projectId = this.project.projectId;
+    console.log("taskAdd() :"+JSON.stringify(this.addTasks))
     const dialogRef = this.dialog.open(AddTaskComponent, {
       data: this.addTasks
     });
@@ -341,7 +354,7 @@ taskEdit(element:Task)
         // Then you update that record using data from dialogData (values you enetered)
          //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
-        this.refreshTable();
+        this.refreshDetails();
       }
       
     });
@@ -365,6 +378,10 @@ taskEdit(element:Task)
             //this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
           this.refreshTable();
         }
+        else
+        {
+          this.refreshTable();
+        }
         
       });
     }
@@ -380,7 +397,22 @@ taskEdit(element:Task)
            //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
           // for delete we use splice in order to remove single object from DataService
             //this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-          this.refreshTable();
+          this.refreshDetails();
+        } 
+        
+      });
+    }
+
+    showMessage(msg: string) {
+      let message: Message = { message: msg };
+      const dialogRef = this.dialog.open(ShowMessageComponent, {
+        data: message
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result == 1) {
+          console.log("message displayed");
+          
         }
         
       });
@@ -409,6 +441,11 @@ taskEdit(element:Task)
     // Thanks yeager-j for tips
     // https://github.com/marinantonio/angular-mat-table-crud/issues/12
     this.fetchProjects();
+  }
+
+  refreshDetails()
+  {
+    this.showDetails(this.project);
   }
 
   customFilterPredicate() 
@@ -490,19 +527,22 @@ taskEdit(element:Task)
     this.isSpinnerEnabled = true;
     let id = temp.projectId;
     this.currentProject = temp;
+    this.projectDetails = temp;
+    this.project = this.projectDetails;
     if(temp.stakeholderList==null)
     {
       this.isStakeholder = false;
+      this.project.stakeholder = this.project.stakeholderList[0];
     }
-    if(temp.pointOfContactUserList==null)
+    if(temp.pointOfContact==null)
     {
       this.isPOC = false;
     }
     
 
     let url = 'http://localhost:8080/task/tasks?pid='+id;
-    this.projectDetails = temp;
-    this.project = this.projectDetails;
+    
+    
     
     this.taskData = [];
     this.httpService.get(url).subscribe(
@@ -625,7 +665,7 @@ taskEdit(element:Task)
     console.log(this.dataSource.data);
     console.log(temp);
     this.dataSource.data = this.dataSource.data.filter((project: Project)=>{
-      return project.ProjectId !=temp.projectId;
+      return project.projectId !=temp.projectId;
     })
     
     // let url = 'http://localhost:8080/project/delete?pid=' + temp.projectId;
@@ -699,6 +739,9 @@ taskEdit(element:Task)
         // Then you update that record using data from dialogData (values you enetered)
          //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
+        this.refreshTable();
+      }
+      else {
         this.refreshTable();
       }
       

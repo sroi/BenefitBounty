@@ -19,10 +19,16 @@
     projectId: string;
     status: string;
   }
+  export interface UserTO {
+    _id: string;
+    phoneNo: string;  
+    name: string;
+    email: string;
+  }
 
   export interface Project {
     id: string;
-    ProjectId: string;
+    projectId: string;
     name: string;
     areaOfEngagement: string;
     summary: string;
@@ -37,9 +43,9 @@
     updatedOn: Date;
     updatedBy: string;
     admin: User;
-    stakeholder: User;
+    stakeholder: UserTO;
     stakeholderList: User[];
-    pointOfContact: User;
+    pointOfContact: UserTO;
     pointOfContactUserList: User[];
     corporate: string;
   }
@@ -66,9 +72,9 @@
     created_on: Date;
     updated_by: string;
     updated_on: Date;
-    approver_info: User;
+    approver_info: UserTO;
     project_info: Project;
-    vols_info: User[];
+    vols_info: UserTO[];
     activity_info: Activity[];
   }
   
