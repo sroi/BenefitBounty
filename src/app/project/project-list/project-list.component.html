@@ -7,7 +7,8 @@
   </div>
 
   <div class="mat-elevation-z8-container">
-
+    <button mat-flat-button color="primary" style="margin-left:2px;margin-bottom: 10px;"
+            (click)="refreshData()">Refresh</button>
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" id="projectTable">
       <ng-container matColumnDef="areaOfEngagement">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Engagement<br>
@@ -118,10 +119,10 @@
               <table>
                 <tr>
                   <td>
-                    Area :
+                    Engagement :
                   </td>
                   <td>
-                    {{projectDetails.areaOfEngagement}}
+                    {{project.areaOfEngagement}}
                   </td>
                 </tr>
                 <tr>
@@ -129,15 +130,15 @@
                     Budget :
                   </td>
                   <td>
-                    {{projectDetails.budget}}
+                    {{project.budget}}
                   </td>
                 </tr>
                 <tr>
                   <td>
-                      Project Name :
+                    Project Name :
                   </td>
                   <td>
-                    {{projectDetails.name}}
+                    {{project.name}}
                   </td>
                 </tr>
                 <tr>
@@ -145,7 +146,7 @@
                     Corporate Entity :
                   </td>
                   <td>
-                    {{projectDetails.associatedCorporateEntity}}
+                    {{project.corporate}}
                   </td>
                 </tr>
                 <tr>
@@ -153,7 +154,7 @@
                     Duration :
                   </td>
                   <td>
-                      {{projectDetails.startDate | date: 'dd/MM/yyyy'}} - {{projectDetails.endDate | date: 'dd/MM/yyyy'}}
+                    {{project.startDate | date: 'dd MMM yyyy'}} - {{project.endDate | date: 'dd MMM yyyy'}}
                   </td>
                 </tr>
                 <tr>
@@ -161,33 +162,81 @@
                     Location :
                   </td>
                   <td>
-                    {{projectDetails.location}}
+                    {{project.location}}
+                  </td>
+                </tr>
+                <tr *ngIf="isPointOfContact">
+                  <td>
+                    Point Of Contact :
+                  </td>
+                  <td>
+                    {{project.pointOfContact.name}}
+                  </td>
+                </tr>
+                <tr *ngIf="isStakeholder">
+                  <td>
+                    Stakeholder :
+                  </td>
+                  <td>
+                    {{project.stakeholder.name}}
                   </td>
                 </tr>
                 <tr>
-                  <td *ngIf = "isPOC">
-                    Point Of Contacts :
+                  <td>
+                    Summary :
                   </td>
-                  <td *ngIf = "isPOC">
-                    <!-- <p *ngFor="let poc of projectDetails.pointOfContacts" style="font-size: 100%;">{{poc.name}}</p> -->
+                  <td style="max-width: 200px;word-wrap: normal;">
+                    {{project.summary}}
                   </td>
                 </tr>
                 <tr>
-                    <td *ngIf = "isStakeholder">
-                      Stakeholders :
-                    </td>
-                    <td *ngIf = "isStakeholder">
-                      <!-- <p *ngFor="let sh of projectDetails.stakeholders" style="font-size: 100%;">{{sh.name}}</p> -->
-                    </td>
-                  </tr>
-                  <tr>
-                      <td>
-                        Summary :
-                      </td>
-                      <td style="max-width: 200px;word-wrap: normal;">
-                        {{projectDetails.summary}}
-                      </td>
-                    </tr>
+                  <td>
+                    Status :
+                  </td>
+                  <td style="max-width: 200px;word-wrap: normal;">
+                    {{project.status}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Rating :
+                  </td>
+                  <td style="max-width: 200px;word-wrap: normal;">
+                    {{project.rating}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Created BY :
+                  </td>
+                  <td style="max-width: 200px;word-wrap: normal;">
+                    {{project.createdBy}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Created On :
+                  </td>
+                  <td style="max-width: 200px;word-wrap: normal;">
+                    {{project.createdOn | date: 'dd-MMM-yyyy HH:mm:ss'}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Updated BY :
+                  </td>
+                  <td style="max-width: 200px;word-wrap: normal;">
+                    {{project.updatedBy}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Updated On :
+                  </td>
+                  <td style="max-width: 200px;word-wrap: normal;">
+                    {{project.updatedOn | date: 'dd-MMM-yyyy HH:mm:ss'}}
+                  </td>
+                </tr>
               </table>
              
             </mat-card-content>

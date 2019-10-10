@@ -1,11 +1,18 @@
   export interface User {
+    id: string;
     _id: string;
     userId: string;  
     name: string;
     email: string;
-    phoneNo: number;
+    details: string;
+    phoneNo: string;
     role: string;
+    admin:string;
+    stakeholder: string;
+    approver: string;
+    volunteer: string;
   }
+ 
   export interface Comment {
     userId: string;
     comment: string;
@@ -14,9 +21,27 @@
   }
 
   export interface Project {
-    _id: string;
+    id: string;
+    ProjectId: string;
     name: string;
+    areaOfEngagement: string;
     summary: string;
+    startDate: Date;
+    endDate: Date;
+    budget: number;
+    location: string;
+    status: string;
+    rating: number;
+    createdOn: Date;
+    createdBy: string;
+    updatedOn: Date;
+    updatedBy: string;
+    admin: User;
+    stakeholder: User;
+    stakeholderList: User[];
+    pointOfContact: User;
+    pointOfContactUserList: User[];
+    corporate: string;
   }
 
   export interface image {

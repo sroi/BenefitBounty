@@ -27,7 +27,7 @@ export interface Comment {
 
 export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
   @ViewChild('matPaginator', { static: true }) paginator: MatPaginator;
-  dataSource = new MatTableDataSource<Projects>();
+  dataSource = new MatTableDataSource<Project>();
   columnHeaders: string[] = [];
   tableData: Array<any> = [];
   dataToSend: Comment;
@@ -45,7 +45,7 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
     this.role = "Stakeholder";
-    this.userId = "5d9984b61c9d440000d024be";
+    this.userId = "annahazare@gmail.com";
     this.projectColumnsConfig = PROJECT_COLUMN_CONFIG;
     this.columnHeaders = this.projectColumnsConfig.map(column => {
       return column.id;
@@ -53,7 +53,7 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
     this.columnHeaders.push('rating');
     this.columnHeaders.push('actions');   
 
-    this.stakeHolderService.fetchProjects();
+    this.stakeHolderService.fetchProjects(this.userId,this.role);
     this.stakeHolderService.projectsLoadedEvent.subscribe(projects => {
       console.log(projects);
       this.dataSource.data = projects;
@@ -89,7 +89,7 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
         // Then you update that record using data from dialogData (values you enetered)
          //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
-        this.stakeHolderService.fetchProjects();
+        this.stakeHolderService.fetchProjects(this.userId,this.role);
       }
       
     });
@@ -110,6 +110,9 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
   showProjectDetails(project: any) {
     console.log(project.projectId);
     this.router.navigate([project.projectId], { relativeTo: this.route });
+  }
+  refreshData(){
+    this.stakeHolderService.fetchProjects(this.userId,this.role);
   }
 
 }

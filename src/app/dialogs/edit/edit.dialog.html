@@ -34,7 +34,7 @@
 
     <div class="form">
       <mat-form-field color="accent">
-        <input type="date" matInput placeholder="Start Date" [(ngModel)]="data.startDate" [disabled]="data.status!='Created'" name="startDate">
+        <input type="datetime" matInput placeholder="Start Date" [(ngModel)]="data.startDate" [disabled]="data.status!='Created'" name="startDate">
       </mat-form-field>
     </div>
 
@@ -47,6 +47,42 @@
     <div class="form">
         <mat-form-field color="accent">
           <input matInput placeholder="Location" [(ngModel)]="data.location" name="location" [disabled]="data.status!='Created'">
+        </mat-form-field>
+      </div>
+
+      <div class="form" *ngIf = "checkStakeholder()">
+        <mat-form-field color="accent">
+          <input matInput placeholder="Stakeholder Name" [(ngModel)]="data.stakeholderList[0].name" name="stakeholdersName">
+        </mat-form-field>
+      </div>
+
+      <div class="form" *ngIf = "checkStakeholder()">
+        <mat-form-field color="accent">
+          <input matInput placeholder="Stakeholder Email" [(ngModel)]="data.stakeholderList[0].email" name="stakeholdersEmail">
+        </mat-form-field>
+      </div>
+
+      <div class="form" *ngIf = "checkStakeholder()">
+        <mat-form-field color="accent">
+          <input matInput placeholder="Stakeholder PhoneNo" [(ngModel)]="data.stakeholderList[0].phoneNo" name="stakeholdersPhoneNo">
+        </mat-form-field>
+      </div>
+
+      <div class="form" *ngIf = "checkPOC()">
+        <mat-form-field color="accent">
+          <input matInput placeholder="POC Name" [(ngModel)]="data.pointOfContactUserList[0].name" name="POCName">
+        </mat-form-field>
+      </div>
+
+      <div class="form" *ngIf = "checkPOC()">
+        <mat-form-field color="accent">
+          <input matInput placeholder="POC Email" [(ngModel)]="data.pointOfContactUserList[0].email" name="POCEmail">
+        </mat-form-field>
+      </div>
+
+      <div class="form" *ngIf = "checkPOC()">
+        <mat-form-field color="accent">
+          <input matInput placeholder="POC PhoneNo" [(ngModel)]="data.pointOfContactUserList[0].phoneNo" name="POCPhoneNo">
         </mat-form-field>
       </div>
 

@@ -15,6 +15,9 @@ export class EditDialogComponent {
 
   constructor(public dialogRef: MatDialogRef<EditDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any, public dataService: DataService) { }
+            
+    isStakeholder: boolean = false;
+    isPOC: boolean = false;
 
   formControl = new FormControl('', [
     Validators.required
@@ -59,6 +62,24 @@ export class EditDialogComponent {
 
   submit() {
     // emppty stuff
+  }
+
+  checkStakeholder()
+  {
+    if(this.data.stakeholderList != null)
+    {
+      this.isStakeholder = true;
+    }
+    return this.isStakeholder;
+  }
+
+  checkPOC()
+  {
+    if(this.data.pointOfContactUserList != null)
+    {
+      this.isPOC = true;
+    }
+    return this.isPOC;
   }
 
   onNoClick(): void {

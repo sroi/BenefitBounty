@@ -6,7 +6,8 @@
       </div>
     
       <div class="mat-elevation-z8-container">
-    
+        <button mat-flat-button color="primary" style="margin-left:2px;margin-bottom: 10px;"
+            (click)="refreshData()">Refresh</button>
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" id="projectTable">
           <ng-container matColumnDef="areaOfEngagement">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Engagement<br>

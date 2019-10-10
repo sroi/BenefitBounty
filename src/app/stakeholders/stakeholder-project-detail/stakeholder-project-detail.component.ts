@@ -6,9 +6,10 @@ import { Projects, Tasks } from 'src/app/project/project-list/project-list.compo
 import { TASK_CONFIG_COLUMNS } from '../config';
 import { PhotoComponent } from 'src/app/shared/photo/photo.component';
 import { Volunteers } from 'src/app/_models/issue';
-import { UserComment, Task, image } from 'src/app/_models/model';
+import { UserComment, Task, image, Project } from 'src/app/_models/model';
 import { HttpClient } from '@angular/common/http';
 import { UserCommentsComponent } from 'src/app/dialogs/user-comments/user-comments.component';
+
 
 @Component({
   selector: 'app-stakeholder-project-detail',
@@ -18,7 +19,7 @@ import { UserCommentsComponent } from 'src/app/dialogs/user-comments/user-commen
 export class StakeholderProjectDetailComponent implements OnInit {
   displayedTasks: string[] = ['activity', 'task', 'duration', 'approver', 'actions'];
   projectId: string;
-  project: any;
+  project: Project;
   taskSource = new MatTableDataSource<Task>();
   columnHeaders: string[] = [];
   tableData: Task[] = [];
@@ -40,6 +41,8 @@ export class StakeholderProjectDetailComponent implements OnInit {
   role: string;
   isApprover: boolean = false;
   isVolunteer: boolean = false;
+  isStakeholder: boolean = false;
+  isPointOfContact: boolean = false;
   isClosed: boolean = false;
   imagesNew: image[] = [];
 
@@ -66,15 +69,31 @@ export class StakeholderProjectDetailComponent implements OnInit {
       // })
       // this.project = params['id'];
       // this.projectId = "5d997aec1c9d440000d024b8";
-      this.stakeHolderService.fetchTasks(this.projectId);
+      this.httpService.get('http://localhost:8080/project/get?pid='+this.projectId).subscribe(
+        data => {
+          console.log("data");
+          console.log(data);
+          this.arrJson = data;
+          this.project = this.arrJson;
+          this.stakeHolderService.fetchTasks(this.projectId);
       this.stakeHolderService.tasksloadedEvent.subscribe(tasks => {
         this.tableData = tasks;
-        this.project = tasks[0].project_info;
+        // this.project = tasks[0].project_info;
+        console.log(tasks);
+        console.log(this.project.stakeholder);
+        if(this.project.stakeholder != null)
+          this.isStakeholder = true;
+        console.log(this.project.pointOfContact);
+        if(this.project.pointOfContact != null)
+          this.isPointOfContact = true;
         // this.taskSource.data = this.tableData;
         this.taskSource = new MatTableDataSource<Task>(this.tableData);
         this.isLoaded = true;
         console.log(tasks);
       });
+        }
+      );
+      
     });
     this.columnHeaders = this.tasksColumnsConfig.map(taskColumn => {
       return taskColumn.id;

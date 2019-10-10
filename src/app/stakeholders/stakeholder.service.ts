@@ -15,9 +15,9 @@ export class StakeHolderService {
     constructor(private http: HttpClient, private datePipe: DatePipe) {
 
     }
-    fetchProjects() {
+    fetchProjects(userId,role) {
         // this.http.get<Projects[]>('http://localhost:8080/project/all?user_id=5d89e7cf1c9d4400001cc5a7&Role=Stakeholder')
-        this.http.get<Project[]>('http://localhost:8080/project/showall')
+        this.http.get<Project[]>('http://localhost:8080/project/all?user_id='+userId+'&Role='+role)
             // .pipe(
             //     map( projects => {
             //     return projects.map( project => {

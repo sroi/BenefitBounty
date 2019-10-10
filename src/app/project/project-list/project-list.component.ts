@@ -5,7 +5,6 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/m
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { ProjectServiceService } from '../_service/project-service.service';
-import { Project } from '../_model';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DataService } from 'src/app/services/data.service';
 import { EditDialogComponent } from 'src/app/dialogs/edit/edit.dialog.component';
@@ -20,7 +19,7 @@ import { ContactPersons } from '../_model/contact-persons';
 import { AddTaskComponent } from 'src/app/dialogs/add-task/add-task.component';
 
 import { AddDialogComponent } from 'src/app/dialogs/add/add.dialog.component';
-import { Task, image } from 'src/app/_models/model';
+import { Task, image, Project } from 'src/app/_models/model';
 import { Task1 } from '../_model/task';
 import { UserCommentsComponent } from 'src/app/dialogs/user-comments/user-comments.component';
 
@@ -139,7 +138,7 @@ export class ProjectListComponent implements OnInit {
 
   filteredValues = { areaOfEngagement: '', name: '', budget: '', location: '', duration: '' };
 
-  dataSource = new MatTableDataSource<Projects>();
+  dataSource = new MatTableDataSource<Project>();
   taskSource = new MatTableDataSource<Task>();
   isLoaded: boolean = false;
   isLoaded1: boolean = false;
@@ -148,8 +147,9 @@ export class ProjectListComponent implements OnInit {
   isSummary: boolean = false;
   taskData1: TaskElement[];
   taskData: Task[] = [];
-  projectDetails: Projects;
-  currentProject: Projects;
+  projectDetails: Project;
+  project: Project;
+  currentProject: Project;
   volunteer: Volunteers[] = [];
   taskDetails: Task;
   isProject: boolean = false;
@@ -170,8 +170,8 @@ export class ProjectListComponent implements OnInit {
   {name:'photo1', url:'https://www.travelshelper.com/wp-content/uploads/2017/07/AUSTRIA-TRAVEL-GUIDE-Travel-S-Helper-800x600.jpg'},
   {name:'photo1', url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXVUCXTNgcJrfF7VluwC-GxtTqSgIbn7Vh6x9cedft9rOgxJfN'}];
   // tableData: PeriodicElement[];
-  tableData: Projects[] = [];
-  project: Project;
+  tableData: Project[] = [];
+  
   dataToSend: Comment;
   addProject:Project;
   addTasks:Task1;
@@ -198,7 +198,7 @@ export class ProjectListComponent implements OnInit {
   index: number;
   id: number;
   i: number = 10;
-  selection = new SelectionModel<Projects>(true, []);
+  selection = new SelectionModel<Project>(true, []);
   row: Issue = {id: 12,
     title: "testing",
     state: "Maharashtra",
@@ -208,9 +208,11 @@ export class ProjectListComponent implements OnInit {
    
   ngOnInit() {
 
-    this.role = "Volunteer";
-    this.userId = "5d9984b61c9d440000d024be";
-
+    // this.role = "admin";
+    //this.userId = "sawannai@gmail.com";
+    this.role = "Stakeholder";
+    this.userId = "annahazare@gmail.com";
+    
     this.fetchProjects();
 
     this.areaFilter.valueChanges.subscribe((areaFilterValue) => {
@@ -246,13 +248,11 @@ export class ProjectListComponent implements OnInit {
 
   
 
-  projectEdit(element: Projects)
+  projectEdit(element: Project)
   {
     console.log(element);
     const dialogRef = this.dialog.open(EditDialogComponent, {
-      data: {projectId:element.projectId, name: element.name, areaOfEngagement: element.areaOfEngagement, corporate: element.corporate, budget: element.budget, status: element.status,
-         startDate: element.startDate,endDate: element.endDate,location: element.location,stakeholders:element.stakeholders,
-        pointOfContacts: element.pointOfContacts,summary:element.summary}
+      data: element
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -269,7 +269,7 @@ export class ProjectListComponent implements OnInit {
 
   }
 
-  projectComment(element: Projects)
+  projectComment(element: Project)
   {
     //console.log(element);
     this.dataToSend = {userId: '123', comment:'',projectId:'345'};
@@ -289,6 +289,10 @@ export class ProjectListComponent implements OnInit {
       
     });
 
+  }
+
+  refreshData(){
+    this.fetchProjects();
   }
 
   showComments() {
@@ -409,7 +413,7 @@ taskEdit(element:Task)
 
   customFilterPredicate() 
   {
-    const myFilterPredicate = function (data: Projects, filter: string): boolean {
+    const myFilterPredicate = function (data: Project, filter: string): boolean {
       let searchString = JSON.parse(filter);
       return data.areaOfEngagement.toString().trim().indexOf(searchString.areaOfEngagement) !== -1 &&
         data.name.toString().trim().toLowerCase().indexOf(searchString.name.toLowerCase()) !== -1 &&
@@ -435,7 +439,7 @@ taskEdit(element:Task)
     this.isSpinnerEnabled = false;
     this.isSummary = false;
     this.tableData = [];
-    this.httpService.get('http://localhost:8080/project/showall').subscribe(
+    this.httpService.get('http://localhost:8080/project/all?user_id='+this.userId+'&Role='+this.role).subscribe(
       data => {
         this.arrJson = data;
         console.log(data);
@@ -445,12 +449,13 @@ taskEdit(element:Task)
         }
 
         this.isLoaded1 = true;
-        this.dataSource = new MatTableDataSource<Projects>(this.tableData);
+        this.dataSource = new MatTableDataSource<Project>(this.tableData);
 
         this.ngAfterViewInit();
         console.log(this.arrJson.length);
         // console.log(this.tableData);
         this.projectDetails = this.tableData[0];
+        this.project = this.projectDetails;
         console.log(this.tableData[0].budget);
       },
       (err: HttpErrorResponse) => {
@@ -485,20 +490,20 @@ taskEdit(element:Task)
     this.isSpinnerEnabled = true;
     let id = temp.projectId;
     this.currentProject = temp;
-    if(temp.stakeholders==null)
+    if(temp.stakeholderList==null)
     {
       this.isStakeholder = false;
     }
-    if(temp.pointOfContacts==null)
+    if(temp.pointOfContactUserList==null)
     {
       this.isPOC = false;
     }
-    console.log(temp);
+    
 
     let url = 'http://localhost:8080/task/tasks?pid='+id;
     this.projectDetails = temp;
-    console.log(url);
-    console.log(id);
+    this.project = this.projectDetails;
+    
     this.taskData = [];
     this.httpService.get(url).subscribe(
       data => {
@@ -518,6 +523,7 @@ taskEdit(element:Task)
         this.taskSource = new MatTableDataSource<Task>(this.taskData);
 
         this.projectDetails = temp;
+        this.project = this.projectDetails;
         this.isProject = true;
 
 
@@ -606,36 +612,7 @@ taskEdit(element:Task)
   
 
 
-  showDetails1(temp) {
-    console.log(temp.projectId);
-    this.isLoaded = false;
-    this.isSpinnerEnabled = true;
-    //http://localhost:8080/project/tasks?pr_id=5d7f8af91c9d44000096629e
-    setTimeout(() => {
-      this.taskData1 = [
-        { activity: "Identification", task: "Formation", duration: 12, approver: "NoOne" },
-        { activity: "Deployment", task: "Formation", duration: 12, approver: "NoOne" },
-        { activity: "Planning", task: "Formation", duration: 12, approver: "NoOne" },
-        { activity: "Identification", task: "Formation", duration: 12, approver: "NoOne" },
-        { activity: "Deployment", task: "Formation", duration: 12, approver: "NoOne" },
-        { activity: "Planning", task: "Formation", duration: 12, approver: "NoOne" },
-        { activity: "Identification", task: "Formation", duration: 12, approver: "NoOne" },
-        { activity: "Deployment", task: "Formation", duration: 12, approver: "NoOne" },
-      ];
-      this.isLoaded = true;
-      this.isSpinnerEnabled = false;
-      //this.taskSource = new MatTableDataSource<TaskElement>(this.taskData1);
-      this.projectDetails = temp;
-      this.isProject = true;
-      console.log(this.projectDetails);
-
-      this.ngAfterViewInit();
-      //this.taskSource = this.taskSource1;
-      // document.getElementById("projectDetails").hidden = false;
-
-    }, 1000);
-
-  }
+  
 
   
 
@@ -647,8 +624,8 @@ taskEdit(element:Task)
   deleteProject(temp) {
     console.log(this.dataSource.data);
     console.log(temp);
-    this.dataSource.data = this.dataSource.data.filter((project: Projects)=>{
-      return project.projectId !=temp.projectId;
+    this.dataSource.data = this.dataSource.data.filter((project: Project)=>{
+      return project.ProjectId !=temp.projectId;
     })
     
     // let url = 'http://localhost:8080/project/delete?pid=' + temp.projectId;
@@ -711,13 +688,9 @@ taskEdit(element:Task)
   
   
   projectAdd()
-  { this.addProject=new Project();
-    this.addProject.stakeHolders= new ContactPersons();
-    this.addProject.pointOfContact= new ContactPersons();
+  { 
     const _addproject=this.addProject;
-    const dialogRef = this.dialog.open(AddDialogComponent, {
-      data: _addproject
-    });
+    const dialogRef = this.dialog.open(AddDialogComponent);
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {

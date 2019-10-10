@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import { Project } from '../project/_model';
 import { Projects } from '../_models/issue';
-import { Task } from '../_models/model';
+import { Task, Project } from '../_models/model';
 
 @Injectable()
 export class DataService {
@@ -34,12 +33,12 @@ export class DataService {
   }
 
   // DEMO ONLY, you can find working methods below
-  addIssue (issue: Project): void {
+  addIssue (issue: any): void {
     this.dialogData = issue;
     console.log(issue);
     this.httpClient.post('http://localhost:8080/project/create',issue).subscribe(
       data => {
-       console.log("updated"+ ' ' + issue.projectId); 
+       console.log("updated"+ ' ' + issue.ProjectId); 
       },
       err => {
         console.log(issue);
@@ -59,7 +58,7 @@ export class DataService {
     );
   }
 
-  updateIssue (issue: Projects): void {
+  updateIssue (issue: any): void {
     this.dialogData = issue;
     console.log(issue);
     this.httpClient.post('http://localhost:8080/project/create',issue).subscribe(

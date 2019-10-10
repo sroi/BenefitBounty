@@ -1,9 +1,9 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {DataService} from '../../services/data.service';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, Validators, FormGroup, FormBuilder} from '@angular/forms';
 import { IMyDateModel, IMyDpOptions } from 'mydatepicker';
-import { Project } from 'src/app/project/_model/project';
+import { Project } from 'src/app/_models/model';
 
 @Component({
   selector: 'app-add.dialog',
@@ -11,9 +11,13 @@ import { Project } from 'src/app/project/_model/project';
   styleUrls: ['../../dialogs/add/add.dialog.css']
 })
 
-export class AddDialogComponent {
+export class AddDialogComponent implements OnInit {
+  private formBuilder: FormBuilder;
+  
+  data: Project;
+  addProjectForm: FormGroup;
+
   constructor(public dialogRef: MatDialogRef<AddDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: Project,
               public dataService: DataService) { }
 
   formControl = new FormControl('', [
@@ -34,10 +38,49 @@ export class AddDialogComponent {
   onNoClick(): void {
     this.dialogRef.close();
   }
+  ngOnInit(){
+    this.formBuilder = new FormBuilder();
+    this.addProjectForm = this.formBuilder.group({
+      area: [''],
+      budget:  [''],
+      corporate:  [''],
+      startDate:  [''],
+      endDate:  [''],
+      location:  [''],
+      name:  [''],
+      corpEntity:  [''],
+      status: [''],
+      stakeholderName: [''],
+      stakeholderEmail: [''],
+      stakeholderPhoneNo: [''],
+      POCName: [''],
+      POCEmail: [''],
+      POCPhoneNo: [''],
+      // termsAndConditions: [false, Validators.requiredTrue]
+    });
 
+  }
   public confirmAdd(): void {
-    console.log(this.data);
-    this.dataService.addIssue(this.data);
+    
+    let dataToSend = {
+      area : this.addProjectForm.get('area').value,
+      budget : this.addProjectForm.get('budget').value,
+      corporate : this.addProjectForm.get('corporate').value,
+      startDate : this.addProjectForm.get('startDate').value,
+      endDate : this.addProjectForm.get('endDate').value,
+      budglocationet : this.addProjectForm.get('location').value,
+      name : this.addProjectForm.get('name').value,
+      corpEntity : this.addProjectForm.get('corpEntity').value,
+      status : "Created",
+      stakeholderName : this.addProjectForm.get('stakeholderName').value,
+      stakeholderEmail : this.addProjectForm.get('stakeholderEmail').value,
+      stakeholderPhoneNo : this.addProjectForm.get('stakeholderPhoneNo').value,
+      POCName : this.addProjectForm.get('POCName').value,
+      POCEmail : this.addProjectForm.get('POCEmail').value,
+      POCPhoneNo : this.addProjectForm.get('POCPhoneNo').value,
+    }
+    
+    this.dataService.addIssue(dataToSend);
   }
 
 
