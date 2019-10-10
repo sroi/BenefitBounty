@@ -1,0 +1,42 @@
+<div class="container">
+    <div>
+        <form  (ngSubmit)="submit" #formControl="ngForm">
+            <div class="form">
+                <mat-form-field color="accent">
+                  <input matInput #input class="form-control" placeholder="Net Investment" [(ngModel)]="data.netInvestmentNumber" name="netInvestmentNumber" required >
+                  <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+                </mat-form-field>
+              </div>
+        </form>
+    </div>  
+
+    <div class="example-button-row">
+         
+            <button mat-flat-button color="accent">
+                    <mat-icon>post_add</mat-icon>
+                    Calculate SROI</button>
+    
+            <button mat-flat-button color="accent" (click)="Save">
+                    <mat-icon>save</mat-icon>
+                    Save</button>
+      
+    </div>
+
+    <div>
+            <div>
+                <div>
+                    SROI = &nbsp;1000
+                </div>
+                <div>
+                    <span style="font-style: italic">
+                        Formula :
+                    </span>
+                    <span>&nbsp;</span>
+                    <span style="font-style: italic">
+                        SROI = Net Present Value of Benefits/ Net Investment
+                    </span>
+    
+                </div>
+            </div>
+        </div>
+</div>

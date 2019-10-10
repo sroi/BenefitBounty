@@ -1,0 +1,105 @@
+<div>
+
+    <div>This stage defines clear boundaries for scope of SROI analysis, who will be involved in the analysis and how
+        will they be impacted.
+    </div>
+    <p></p>
+
+    <div>           
+        Download the questionnaire and determine the answers
+        <a href="https://raw.githubusercontent.com/Deepak5j/WebImages/master/Tiles/sun_tile.jpg">
+            <button mat-raised-button color="accent">
+                    <mat-icon>cloud_download</mat-icon>                    
+                </button>
+        </a>
+       
+    </div>
+    <p></p>
+
+    <div>
+        <div>
+            The ANSWERS helps to formulate key items as below –
+        </div>
+        <div>
+            <ol type="1">
+                <li>Scope defines what is measured</li>
+                <li>Workplan defines who will be conducting and the plan of action</li>
+                <li>Resources identifies time, money , resources required</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="container mat-elevation-z8">
+        <div class="form">
+            <mat-form-field floatPlaceholder="never" color="accent">
+                <input matInput #filter placeholder="Filter issues">
+            </mat-form-field>
+        </div>
+
+        <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+
+            <ng-container matColumnDef="scope">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Scope</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.scope}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="workplan">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Workplan</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.workplan}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="resources">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Resources</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.resources}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="timeLine">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>TimeLine</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.timeLine}}</mat-cell>
+            </ng-container>
+
+            <!-- actions -->
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>
+                    <button mat-icon-button color="primary" (click)="addNew()">
+                        <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+                    </button>
+                </mat-header-cell>
+
+                <mat-cell *matCellDef="let row; let i=index;">
+                    <button mat-icon-button color="accent"
+                        (click)="startEdit(i, row.id, row.scope, row.workplan, row.resources, row.timeLine)">
+                        <mat-icon aria-label="Edit">edit</mat-icon>
+                    </button>
+
+                    <button mat-icon-button color="accent"
+                        (click)="deleteItem(i, row.id,row.scope, row.workplan, row.resources, row.timeLine)">
+                        <mat-icon aria-label="Delete">delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+        </mat-table>
+    </div>
+
+    <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+        No results
+    </div>
+
+    <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+
+    <div class="example-button-row">           
+        <button mat-flat-button color="accent" (click)="save()">
+                <mat-icon>save</mat-icon>
+                Save</button>
+        <button mat-flat-button matStepperNext color="accent">Next
+                <mat-icon>navigate_next</mat-icon>
+        </button>
+    </div>
+
+</div>

@@ -10,11 +10,13 @@ import { StakeholderProjectDetailComponent } from './stakeholders/stakeholder-pr
 import { TaskEditComponent } from './volunteer/task-edit/task-edit.component';
 import { HomeComponent } from './home/home.component';
 import { TaskList1Component } from './approver/task-list/task-list.component';
+import { SroiWorkflowComponent } from './sroi-calc/sroi-workflow/sroi-workflow.component';
 
 const routes: Routes = [
   {path:'admin', component:ProjectListComponent},
   {path:'home', component:HomeComponent},
   {path:'add', component:ProjectAddComponent},
+  {path:'sroi', component:SroiWorkflowComponent},
   {path:'project/edit', redirectTo:'add',pathMatch:'full'},
   {path:'volunteer', component:TaskListComponent},
   {path:'taskEdit',component:TaskEditComponent},

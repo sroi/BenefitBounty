@@ -1,0 +1,122 @@
+<div>
+    <span class="headerStyle">Deadweight :</span>
+    <span>&nbsp;</span>
+    <span>It represents the extent to which the outcomes would have happened anyhow.</span>
+    <p></p>
+
+    <span class="headerStyle">Displacement :</span>
+    <span>&nbsp;</span>
+    <span>It occurs when the benefits claimed by a project participant are at the expense of others outside the project.
+    </span>
+    <p></p>
+
+    <span class="headerStyle">Attribution :</span>
+    <span>&nbsp;</span>
+    <span>It represents that some portion of the value created is also contributed by other organisations, initiatives,
+        persons working in the same social bracket.
+    </span>
+    <p></p>
+
+    <span class="headerStyle">Drop off :</span>
+    <span>&nbsp;</span>
+    <span>It considers how a change resulting from a social program will diminish over time. </span>
+
+    <p></p>
+
+    <div class="container mat-elevation-z8">
+        <div class="form">
+            <mat-form-field floatPlaceholder="never" color="accent">
+                <input matInput #filter placeholder="Filter issues">
+            </mat-form-field>
+        </div>
+
+        <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+
+            <ng-container matColumnDef="deadweight">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Deadweight</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.deadweight}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="attribution">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Attribution</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.attribution}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="displacement">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Displacement</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.displacement}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="dropoff">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Drop Off</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.dropoff}}</mat-cell>
+            </ng-container>
+
+
+            <!-- actions -->
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>
+                    <!-- <button mat-icon-button color="primary" (click)="addNew()">
+                        <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+                    </button> -->
+                </mat-header-cell>
+
+                <mat-cell *matCellDef="let row; let i=index;">
+                    <button mat-icon-button color="accent"
+                        (click)="startEdit(i, row.id, row.deadweight, row.attribution,row.displacement,row.dropoff)">
+                        <mat-icon aria-label="Edit">edit</mat-icon>
+                    </button>
+
+                    <!-- <button mat-icon-button color="accent"
+                        (click)="deleteItem(i, row.id, row.deadweight, row.attribution,row.displacement,row.dropoff)">
+                        <mat-icon aria-label="Delete">delete</mat-icon>
+                    </button> -->
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+        </mat-table>
+    </div>
+
+    <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+        No results
+    </div>
+
+    <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+
+    <div class="example-button-row">
+            <button mat-flat-button matStepperPrevious color="accent">
+                    <mat-icon>navigate_before</mat-icon>Back</button>
+    
+            <button mat-flat-button color="accent" (click)="Save">
+                    <mat-icon>save</mat-icon>
+                    Save</button>
+                    
+            <button mat-flat-button matStepperNext color="accent">Next
+                    <mat-icon>navigate_next</mat-icon>
+            </button>
+    </div>
+    <p></p>
+    <div>
+        <div>
+            <div>
+               Net Present Value of Benefits =  &nbsp;1000
+            </div>
+            <div>
+                <span style="font-style: italic">
+                    Formula :
+                </span>
+                <span>&nbsp;</span>
+                <span style="font-style: italic">
+                    Net Present Value of Benefits = PV * deadweight correction * attrib correction * displacemtn
+                    correction * drop off
+                </span>
+
+            </div>
+        </div>
+    </div>
+</div>

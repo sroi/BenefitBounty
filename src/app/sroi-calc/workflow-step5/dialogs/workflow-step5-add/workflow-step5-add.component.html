@@ -1,0 +1,44 @@
+<div class="container">
+    <h3 mat-dialog-title>ADD NEW NET PRESENT VALUE</h3>
+  
+    <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
+  
+      <div class="form">
+        <mat-form-field color="accent">
+          <input step="0.01" matInput type="number"  min="0.00" max="1.00" #input class="form-control" placeholder="Deadweight" [(ngModel)]="data.deadweight" name="deadweight" ngModel  required >
+          <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+  
+      <!--Textarea for demo purposes-->
+      <div class="form">
+        <mat-form-field color="accent">
+          <input step="0.01" matInput type="number"  min="0.00" max="1.00" #input class="form-control" placeholder="Attribution" [(ngModel)]="data.attribution" name="attribution" required >
+          <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>  
+      
+       <!--Textarea for demo purposes-->
+       <div class="form">
+        <mat-form-field color="accent">
+          <input matInput type="number"  min="0" max="1" #input class="form-control" placeholder="Displacement" [(ngModel)]="data.displacement" name="displacement" required >
+          <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>  
+
+       <!--Textarea for demo purposes-->
+       <div class="form">
+        <mat-form-field color="accent">
+          <input matInput type="number" min="0" max="1" #input class="form-control" placeholder="Dropoff" [(ngModel)]="data.dropoff" name="dropoff" required  >
+          <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>        
+     
+        
+      <div mat-dialog-actions>
+        <button mat-button [type]="submit" [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
+        <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+      </div>
+    </form>
+  </div>
+  

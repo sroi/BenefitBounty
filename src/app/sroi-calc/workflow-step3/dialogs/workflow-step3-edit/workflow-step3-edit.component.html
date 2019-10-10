@@ -1,0 +1,60 @@
+<div class="container">
+    <h3 mat-dialog-title>Issue id: {{data.id}}</h3>
+  
+    <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
+  
+      <div class="form">
+        <mat-form-field color="accent">
+          <input matInput #input class="form-control" placeholder="Stackholder" [(ngModel)]="data.stackholder" name="stackholder" required >
+          <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+  
+      <!--Textarea for demo purposes-->
+      <div class="form">
+        <mat-form-field color="accent">
+          <textarea matInput #input class="form-control" placeholder="Goals/Outcome" [(ngModel)]="data.goalsOrOutcome" name="goalsOrOutcome" required ></textarea>
+          <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>    
+      
+       <!--Textarea for demo purposes-->
+       <div class="form">
+        <mat-form-field color="accent">
+          <textarea matInput #input class="form-control" placeholder="Indicators" [(ngModel)]="data.indicators" name="indicators" required ></textarea>
+          <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div> 
+
+       <!--Textarea for demo purposes-->
+       <div class="form">
+        <mat-form-field color="accent">
+          <textarea matInput #input class="form-control" placeholder="Proxies" [(ngModel)]="data.proxies" name="proxies" required ></textarea>
+          <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div> 
+
+       <!--Textarea for demo purposes-->
+       <div class="form">
+        <mat-form-field color="accent">
+          <input matInput type="number" #input class="form-control" placeholder="Monetory Value (Per Unit) INR" [(ngModel)]="data.monetoryValue" name="monetoryValue" required >
+          <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div> 
+
+       <!--Textarea for demo purposes-->
+       <div class="form">
+        <mat-form-field color="accent">
+          <textarea matInput #input class="form-control" placeholder="Source" [(ngModel)]="data.source" name="source" required ></textarea>
+          <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div> 
+   
+  
+      <div mat-dialog-actions>
+        <button mat-button [type]="submit" [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
+        <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+      </div>
+    </form>
+  </div>
+  

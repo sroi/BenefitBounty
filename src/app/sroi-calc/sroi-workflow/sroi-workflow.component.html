@@ -1,0 +1,37 @@
+<div>
+    <div>
+      <app-workflow-project-detail></app-workflow-project-detail>
+    </div>
+
+  <div>
+    <mat-vertical-stepper #stepper>
+      <mat-step label="STAGE 1 – ESTABLISHING SCOPE">
+        <div>
+          <app-workflow-step1></app-workflow-step1>
+        </div>
+      </mat-step>
+
+      <mat-step #step2 label="STAGE 2: IDENTIFYING AND PRIORITIZING STAKEHOLDERS AND DETERMINE OUTCOME
+    ">
+        <app-workflow-step2></app-workflow-step2>
+      </mat-step>
+
+      <mat-step #step3 label="STAGE 3: TABULATE DATA TO CREATE IMPACT MAP">
+        <app-workflow-step3></app-workflow-step3>
+      </mat-step>
+
+      <mat-step #step4 label="STAGE 4: CALCULATING PRESENT VALUE">
+        <app-workflow-step4></app-workflow-step4>
+      </mat-step>
+
+      <mat-step #step5 label="STAGE 5: CALCULATING NET PRESENT VALUE AFTER IMPACT OF FACTORS">
+        <app-workflow-step5></app-workflow-step5>
+      </mat-step>
+
+      <mat-step #step5 label="STAGE 6: SROI">
+        <app-workflow-step6></app-workflow-step6>
+      </mat-step>
+
+    </mat-vertical-stepper>
+  </div>
+</div>
