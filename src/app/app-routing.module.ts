@@ -11,6 +11,7 @@ import { TaskEditComponent } from './volunteer/task-edit/task-edit.component';
 import { HomeComponent } from './home/home.component';
 import { TaskList1Component } from './approver/task-list/task-list.component';
 import { SroiWorkflowComponent } from './sroi-calc/sroi-workflow/sroi-workflow.component';
+import { NewloginComponent } from './newlogin/newlogin.component';
 
 const routes: Routes = [
   {path:'admin', component:ProjectListComponent},
@@ -25,6 +26,7 @@ const routes: Routes = [
   {path:'login', component:LoginComponent},
   {path:'signup', component:SignupComponent},
   {path:'project/task',redirectTo:'task',pathMatch:'full'},
+  {path:'newlogin', component:NewloginComponent},
   { path: 'stakeholder', component: StakeholderProjectListComponent, children: [
     { path: ':id', component: StakeholderProjectDetailComponent}
   ]} ,
