@@ -73,6 +73,7 @@ import { WorkflowStep5DeleteComponent } from './sroi-calc/workflow-step5/dialogs
 import { WorkflowStep5EditComponent } from './sroi-calc/workflow-step5/dialogs/workflow-step5-edit/workflow-step5-edit.component';
 import { WorkflowStep6Component } from './sroi-calc/workflow-step6/workflow-step6.component';
 import { WorkflowProjectDetailComponent } from './sroi-calc/workflow-project-detail/workflow-project-detail.component';
+import { NewloginComponent } from './newlogin/newlogin.component';
 
 @NgModule({
   declarations: [
@@ -122,7 +123,8 @@ import { WorkflowProjectDetailComponent } from './sroi-calc/workflow-project-det
     WorkflowStep5DeleteComponent,
     WorkflowStep5EditComponent,
     WorkflowStep6Component,
-    WorkflowProjectDetailComponent
+    WorkflowProjectDetailComponent,
+    NewloginComponent
   ],
   imports: [
     BrowserModule,
