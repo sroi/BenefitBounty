@@ -65,6 +65,11 @@ export class CommentComponent {
     onNoClick(): void {
       this.dialogRef.close();
     }
+
+    checkRole()
+    {
+      return (this.data.role==='admin' || this.data.status === "Rejected")?true:false;
+    }
   
     stopEdit(): void {
       this.dataService.updateComment(this.data);

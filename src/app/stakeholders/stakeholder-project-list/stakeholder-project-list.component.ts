@@ -66,7 +66,12 @@ export class StakeholderProjectListComponent implements OnInit, AfterViewInit {
 
   checkStatus(element)
   {
-    return element.status=="Closed"?true:false;
+    return (element.status=="Closed" || element.status == "Approved")?true:false;
+  }
+
+  checkStatus1(element)
+  {
+    return (element.status=="Closed" || element.status == "Rejected")?true:false;
   }
 
   approveProject(element) {

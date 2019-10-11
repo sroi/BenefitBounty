@@ -209,6 +209,10 @@ export class TaskListComponent implements OnInit {
     this.showDetails(this.userId,this.role);
   }
 
+  isApproved(element) {
+    return element.status==="Approved"?true:false;
+  }
+
   showDetails(userId, role) {
     this.isProject = false;
     this.isImage = false;

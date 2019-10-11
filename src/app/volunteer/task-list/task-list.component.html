@@ -195,7 +195,7 @@
                     <mat-card-actions>
                         <button mat-flat-button color="accent" style="margin-left:2px;"
                             (click)="showComments()">Comments</button>
-                        <button mat-raised-button color="accent" (click)="onClick($event)">
+                        <button [disabled] = "isApproved(taskDetails)" mat-raised-button color="accent" (click)="onClick($event)">
                             <mat-icon>add</mat-icon>
                             Upload
                         </button>
@@ -222,6 +222,7 @@
 
             <div style="display:flex;flex:1 1 auto;flex-direction: column;">
                 <div class="flex-container">
+                    <span style="font-size: 20px;">Task Related Images</span><br>
                     <img *ngFor="let image of imagesNew" [src]="image.url" [alt]="image.name" (click)="openImage(image)">
                 </div>
             </div>

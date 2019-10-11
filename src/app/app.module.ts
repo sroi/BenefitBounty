@@ -30,7 +30,7 @@ import {
   MatCheckboxModule, MatToolbarModule, MatCard, MatCardModule, MatFormField,
   MatFormFieldModule, MatProgressSpinnerModule, MatInputModule,
   MatStepperModule, MatMenuModule, MatSidenavModule, MatListModule,MatDatepickerModule,
-  MatRadioModule,MatSelectModule,MatSliderModule,MatDividerModule, MatExpansionModule
+  MatRadioModule,MatSelectModule,MatSliderModule,MatDividerModule, MatExpansionModule, MatTooltipModule
   
 } from '@angular/material';
 
@@ -161,7 +161,8 @@ import { WorkflowProjectDetailComponent } from './sroi-calc/workflow-project-det
     MatSelectModule,
     MatSliderModule,
     MatDividerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTooltipModule 
   ],
   entryComponents: [
     AddDialogComponent,

@@ -5,7 +5,7 @@
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput #input class="form-control" placeholder="Area" [(ngModel)]="data.areaOfEngagement" name="area" [disabled]="data.status!='Created'" required >
+        <input matInput #input class="form-control" placeholder="CSR Area(Environment/Health/Education/Public Welfare)" [(ngModel)]="data.areaOfEngagement" name="area" [disabled]="data.status!='Created'" required >
         <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
@@ -34,13 +34,13 @@
 
     <div class="form">
       <mat-form-field color="accent">
-        <input type="datetime" matInput placeholder="Start Date" [(ngModel)]="data.startDate" [disabled]="data.status!='Created'" name="startDate">
+        <input type="datetime" matInput placeholder="Start Date" [ngModel]="data.startDate | date: 'dd MMM yyyy'" [disabled]="data.status!='Created'" name="startDate">
       </mat-form-field>
     </div>
 
     <div class="form">
       <mat-form-field color="accent">
-        <input type="datetime" matInput placeholder="End Date" [(ngModel)]="data.endDate" [disabled]="data.status!='Created'" name="endDate">
+        <input type="datetime" matInput placeholder="End Date" [ngModel]="data.endDate | date: 'dd MMM yyyy'" [disabled]="data.status!='Created'" name="endDate">
       </mat-form-field>
     </div>
 
@@ -52,37 +52,37 @@
 
       <div class="form" *ngIf = "checkStakeholder()">
         <mat-form-field color="accent">
-          <input matInput placeholder="Stakeholder Name" [(ngModel)]="data.stakeholderList[0].name" name="stakeholdersName">
+          <input matInput placeholder="Stakeholder Name" [(ngModel)]="data.stakeholderList[0].name" name="stakeholdersName" disabled>
         </mat-form-field>
       </div>
 
       <div class="form" *ngIf = "checkStakeholder()">
         <mat-form-field color="accent">
-          <input matInput placeholder="Stakeholder Email" [(ngModel)]="data.stakeholderList[0].email" name="stakeholdersEmail">
+          <input matInput placeholder="Stakeholder Email" [(ngModel)]="data.stakeholderList[0].email" name="stakeholdersEmail" disabled>
         </mat-form-field>
       </div>
 
       <div class="form" *ngIf = "checkStakeholder()">
         <mat-form-field color="accent">
-          <input matInput placeholder="Stakeholder PhoneNo" [(ngModel)]="data.stakeholderList[0].phoneNo" name="stakeholdersPhoneNo">
+          <input matInput placeholder="Stakeholder PhoneNo" [(ngModel)]="data.stakeholderList[0].phoneNo" name="stakeholdersPhoneNo" disabled>
         </mat-form-field>
       </div>
 
       <div class="form" *ngIf = "checkPOC()">
         <mat-form-field color="accent">
-          <input matInput placeholder="POC Name" [(ngModel)]="data.pointOfContactUserList[0].name" name="POCName">
+          <input matInput placeholder="POC Name" [(ngModel)]="data.pointOfContactUserList[0].name" name="POCName" disabled>
         </mat-form-field>
       </div>
 
       <div class="form" *ngIf = "checkPOC()">
         <mat-form-field color="accent">
-          <input matInput placeholder="POC Email" [(ngModel)]="data.pointOfContactUserList[0].email" name="POCEmail">
+          <input matInput placeholder="POC Email" [(ngModel)]="data.pointOfContactUserList[0].email" name="POCEmail" disabled>
         </mat-form-field>
       </div>
 
       <div class="form" *ngIf = "checkPOC()">
         <mat-form-field color="accent">
-          <input matInput placeholder="POC PhoneNo" [(ngModel)]="data.pointOfContactUserList[0].phoneNo" name="POCPhoneNo">
+          <input matInput placeholder="POC PhoneNo" [(ngModel)]="data.pointOfContactUserList[0].phoneNo" name="POCPhoneNo" disabled>
         </mat-form-field>
       </div>
 
