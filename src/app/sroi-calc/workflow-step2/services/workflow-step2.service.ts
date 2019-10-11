@@ -39,9 +39,11 @@ export class WorkflowStep2Service {
 
       // observable execution
       this.dataChange.next([
-          { id: 1, stackholder: "stackholder 1", goalsOrOutcome: "goalsOrOutcome 1"},
-          { id: 2, stackholder: "stackholder 2", goalsOrOutcome: "goalsOrOutcome 2" },
-          { id: 3, stackholder: "stackholder 3", goalsOrOutcome: "goalsOrOutcome 3" }
+        { id: 1, stackholder: "Participants(students)", goalsOrOutcome: "Improve knowledge/Employment opportunities increased"},
+        { id: 2, stackholder: "Families", goalsOrOutcome: "Increase in household income" },
+        { id: 3, stackholder: "BMC School", goalsOrOutcome: "Decrease in dropout rates due to chances of mployment opportunities" },
+        { id: 4, stackholder: "Government", goalsOrOutcome: "Higher enrollment for further studies" },
+        { id: 5, stackholder: "ABC Bank", goalsOrOutcome: "Employee training by the particpants/IT skilled staff available" }
       ])
 
   }

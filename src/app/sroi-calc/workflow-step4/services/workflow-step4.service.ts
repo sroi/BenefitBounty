@@ -24,11 +24,11 @@ export class WorkflowStep4Service {
 
       // observable execution
       this.dataChange.next([
-          { id: 1, stackholder: "stackholder 1", goalsOrOutcome: "goalsOrOutcome 1",indicators:"indicators 1",proxies:"proxies 1",monetoryValue:10,multiplier:10,presentValue:30, source:"source 1"},
-          { id: 2, stackholder: "stackholder 2", goalsOrOutcome: "goalsOrOutcome 2",indicators:"indicators 2",proxies:"proxies 2",monetoryValue:20,multiplier:20,presentValue:60,source:"source 2"},
-          { id: 3, stackholder: "stackholder 3", goalsOrOutcome: "goalsOrOutcome 3",indicators:"indicators 3",proxies:"proxies 3",monetoryValue:30,multiplier:30,presentValue:40,source:"source 3"},
-          { id: 4, stackholder: "stackholder 4", goalsOrOutcome: "goalsOrOutcome 4",indicators:"indicators 4",proxies:"proxies 4",monetoryValue:40,multiplier:40,presentValue:50,source:"source 4"},
-          { id: 5, stackholder: "stackholder 5", goalsOrOutcome: "goalsOrOutcome 5",indicators:"indicators 5",proxies:"proxies 5",monetoryValue:50,multiplier:50,presentValue:90,source:"source 5"},
+        { id: 1, stackholder: "Participants(students)", goalsOrOutcome: "Improve knowledge/Employment opportunities increased",indicators:"Learns new skills/Seeks employment",proxies:"Cost of the same training outside",monetoryValue:1000,multiplier:40,presentValue:  40000 ,source:"Reesearch across institutes"},
+        { id: 2, stackholder: "Families", goalsOrOutcome: "Increase in household income",indicators:"Increase in Household Income",proxies:"Salary earned by parttime work of participant from ABC Bank",monetoryValue:5000,multiplier:40,presentValue:20000,source:"confirmed pay scale by ABC bank"},
+        { id: 3, stackholder: "BMC School", goalsOrOutcome: "Decrease in dropout rates due to chances of mployment opportunities",indicators:"Reduction in dropout",proxies:"Inc in fee collection due to less dropouts",multiplier:40,presentValue:2000,monetoryValue:500,source:"School fee data"},
+        { id: 4, stackholder: "Government", goalsOrOutcome: "Higher enrollment for further studies",indicators:"Higher enrollment for further studies",proxies:"Fees earned per student when they enroll",monetoryValue:2000,multiplier:40,presentValue:40000,source:"College fee data"},
+        { id: 5, stackholder: "ABC Bank", goalsOrOutcome: "Employee training by the particpants/IT skilled staff available",indicators:"Increase inIT skill of workforce",proxies:"One time staff training cost",monetoryValue:20000,multiplier:1,presentValue:20000,source:"Training fee"},
       ])
 
   }

@@ -43,7 +43,7 @@ export class WorkflowStep1Service {
     //     }), catchError(this.handleError)) 
         // observable execution
         this.dataChange.next([
-            { projectId:'abcg', id: 1, scope: "TestScope 1", workplan: "TestWorkplan", resources: "TestResources", timeLine: "TestTimeLine" },
+            { projectId:'abcg', id: 1, scope: "Educating BMC School students on MS tools. Project to be conducted across 5 days and students wil get part time work opportunity in ABC bank.", workplan: "MS Philanthrophy committee wil oversee the project with MS volunteers.", resources: "4 MS volunteers wil work for 4 days to train 40 BMC students", timeLine: "1 Jun - 5Jun" },
         ])
     }
 
