@@ -105,7 +105,7 @@ export class WorkflowStep1Component implements OnInit {
   }
 
   save(){
-    console.log(JSON.stringify(this.dataSource.renderedData));    
+    console.log(JSON.stringify(this.dataSource.renderedData)); 
     this.workflowDataService.saveEstablishingScopes(this.dataSource.renderedData).subscribe(x=>{
 
     },error =>{

@@ -9,7 +9,7 @@ export interface User {
   }
 export class Project 
 {
-    ProjectId: string;
+    projectId: string;
     name: string;
     areaOfEngagement: string;
     summary: string;

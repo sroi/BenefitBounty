@@ -3,6 +3,7 @@ import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { Project } from 'src/app/project/_model';
+import { Task } from 'src/app/_models/model';
 
 
 @Injectable({
@@ -11,7 +12,7 @@ import { Project } from 'src/app/project/_model';
 export class WorkflowProjectDetailService {
 
   private fetchProjectUrl='http://localhost:8080/project/showall'
-  private fetchProjectDetailsUrl = 'http://localhost:8080/task/tasks?pid=';
+  private fetchProjectTasksUrl = 'http://localhost:8080/task/tasks?pid=';
 
   constructor(private httpClient:HttpClient) { }
 
@@ -20,9 +21,9 @@ export class WorkflowProjectDetailService {
     return this.httpClient.get<Project[]>(this.fetchProjectUrl).pipe(catchError(this.handleError)) 
   }
 
-  fetchProjectTasks():Observable<Project[]>
+  fetchProjectTasks(pid:string):Observable<Task[]>
   {
-    return this.httpClient.get<Project[]>(this.fetchProjectDetailsUrl).pipe(catchError(this.handleError)) 
+    return this.httpClient.get<Task[]>(this.fetchProjectTasksUrl+pid).pipe(catchError(this.handleError)) 
   }
 
   

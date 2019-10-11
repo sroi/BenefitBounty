@@ -12,7 +12,7 @@
 
     <div class="example-button-row">
          
-            <button mat-flat-button color="accent">
+            <button mat-flat-button color="accent" (click)="calculateSROI()">
                     <mat-icon>post_add</mat-icon>
                     Calculate SROI</button>
     
@@ -25,7 +25,7 @@
     <div>
             <div>
                 <div>
-                    SROI = &nbsp;1000
+                    SROI = &nbsp;{{Calculatedsroi | currency:"INR"}}
                 </div>
                 <div>
                     <span style="font-style: italic">

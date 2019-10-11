@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { merge, Observable, BehaviorSubject, fromEvent } from 'rxjs';
 import { DataSource } from '@angular/cdk/collections';
-import {HttpClient} from '@angular/common/http';
-import {map} from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 import { WorkflowStep5Service } from './services/workflow-step5.service';
 import { WorkflowStep5AddComponent } from './dialogs/workflow-step5-add/workflow-step5-add.component';
 import { WorkflowStep5EditComponent } from './dialogs/workflow-step5-edit/workflow-step5-edit.component';
@@ -16,7 +16,8 @@ import { NetPresentValue } from '../models/net-present-value';
   styleUrls: ['./workflow-step5.component.scss']
 })
 export class WorkflowStep5Component implements OnInit {
-  displayedColumns = ['deadweight', 'attribution','displacement','dropoff','actions'];
+  netPresentValueBenefit: number = 0;
+  displayedColumns = ['deadweight', 'attribution', 'displacement', 'dropoff', 'actions'];
 
   exampleDatabase: WorkflowStep5Service | null;
   dataSource: WorkflowStep5DataSource | null;
@@ -26,8 +27,8 @@ export class WorkflowStep5Component implements OnInit {
   @ViewChild('filter', { static: true }) filter: ElementRef;
 
   constructor(public httpClient: HttpClient,
-     public dialog: MatDialog, 
-     public workflowDataService: WorkflowStep5Service) { }
+    public dialog: MatDialog,
+    public workflowDataService: WorkflowStep5Service) { }
 
 
   ngOnInit() {
@@ -66,9 +67,9 @@ export class WorkflowStep5Component implements OnInit {
       }
     });
   }
-  startEdit(i: number, id:number, deadweight: number, attribution: number, displacement: number,dropoff: number) {
+  startEdit(i: number, id: number, deadweight: number, attribution: number, displacement: number, dropoff: number) {
     const dialogRef = this.dialog.open(WorkflowStep5EditComponent, {
-      data: { id: id, deadweight: deadweight, attribution: attribution,displacement:displacement,dropoff:dropoff}
+      data: { id: id, deadweight: deadweight, attribution: attribution, displacement: displacement, dropoff: dropoff }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -83,10 +84,10 @@ export class WorkflowStep5Component implements OnInit {
     });
   }
 
-    dropoff:number;
-    deleteItem(i: number, id: number, deadweight: number, attribution: number, displacement: number,dropoff: number) {
+  dropoff: number;
+  deleteItem(i: number, id: number, deadweight: number, attribution: number, displacement: number, dropoff: number) {
     const dialogRef = this.dialog.open(WorkflowStep5DeleteComponent, {
-      data: { id: id, deadweight: deadweight, attribution: attribution,displacement:displacement,dropoff:dropoff}
+      data: { id: id, deadweight: deadweight, attribution: attribution, displacement: displacement, dropoff: dropoff }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -105,10 +106,15 @@ export class WorkflowStep5Component implements OnInit {
     // Thanks yeager-j for tips
     // https://github.com/marinantonio/angular-mat-table-crud/issues/12
     this.paginator._changePageSize(this.paginator.pageSize);
+    this.calculateNetPresentValueBenefit();
+  }
+
+  calculateNetPresentValueBenefit() {
+    this.netPresentValueBenefit = this.dataSource.renderedData[0].attribution + this.dataSource.renderedData[0].deadweight + this.dataSource.renderedData[0].displacement + this.dataSource.renderedData[0].dropoff
   }
 }
 
-export class  WorkflowStep5DataSource extends DataSource<NetPresentValue> {
+export class WorkflowStep5DataSource extends DataSource<NetPresentValue> {
   _filterChange = new BehaviorSubject('');
 
   get filter(): string {

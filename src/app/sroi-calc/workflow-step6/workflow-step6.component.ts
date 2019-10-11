@@ -8,19 +8,27 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
   styleUrls: ['./workflow-step6.component.scss']
 })
 export class WorkflowStep6Component implements OnInit {
-  data: NetInvestment = {netInvestmentNumber:0}
+  data: NetInvestment = { netInvestmentNumber: 0 }
   investmentFormGroup: FormGroup;
+  Calculatedsroi: number = 0
+  net: number = 100;
   constructor(private _formBuilder: FormBuilder) { }
 
   formControl = new FormControl('', [
     Validators.required
-    ]);
+  ]);
 
-    getErrorMessage() {
-      return this.formControl.hasError('required') ? 'Required field' :
+  getErrorMessage() {
+    return this.formControl.hasError('required') ? 'Required field' :
       '';
-      }
+  }
+
+  calculateSROI() {
+    console.log("calculateSROI");
     
+    this.Calculatedsroi = this.net / this.data.netInvestmentNumber
+  }
+
 
   ngOnInit() {
   }

@@ -20,6 +20,7 @@ export class WorkflowStep4Component implements OnInit {
 
   exampleDatabase: WorkflowStep4Service | null;
   dataSource: WorkflowStep4DataSource | null;
+  PvValue:number=0;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -31,7 +32,7 @@ export class WorkflowStep4Component implements OnInit {
 
 
   ngOnInit() {
-    this.loadData();
+    this.loadData();   
   }
 
   public loadData() {
@@ -45,11 +46,12 @@ export class WorkflowStep4Component implements OnInit {
           return;
         }
         this.dataSource.filter = this.filter.nativeElement.value;
+        this.refreshTable();
       });
   }
 
   refresh() {
-    this.loadData();
+    this.loadData();   
   }
 
   addNew(issue: PresentValue) {
@@ -62,6 +64,7 @@ export class WorkflowStep4Component implements OnInit {
         // After dialog is closed we're doing frontend updates
         // For add we're just pushing a new row inside DataService
         this.exampleDatabase.dataChange.value.push(this.workflowDataService.getDialogData());
+       
         this.refreshTable();
       }
     });
@@ -98,12 +101,23 @@ export class WorkflowStep4Component implements OnInit {
     });
   }
 
+  calculatePvValue()
+  {
+    console.log("calculatePvValue");
+    
+    this.dataSource.renderedData.forEach(x=>{
+      console.log(x.presentValue);
+      this.PvValue += x.presentValue
+    })
+  }
+
 
   private refreshTable() {
     // Refreshing table using paginator
     // Thanks yeager-j for tips
     // https://github.com/marinantonio/angular-mat-table-crud/issues/12
     this.paginator._changePageSize(this.paginator.pageSize);
+    this.calculatePvValue();
   }
 }
 
