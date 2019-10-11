@@ -11,7 +11,7 @@ export class WorkflowStep6Component implements OnInit {
   data: NetInvestment = { netInvestmentNumber: 0 }
   investmentFormGroup: FormGroup;
   Calculatedsroi: number = 0
-  net: number = 100;
+  net: number = 122000;
   constructor(private _formBuilder: FormBuilder) { }
 
   formControl = new FormControl('', [
