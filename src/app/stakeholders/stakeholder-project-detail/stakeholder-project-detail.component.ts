@@ -61,7 +61,9 @@ export class StakeholderProjectDetailComponent implements OnInit {
   keys: any = [];
 
   ngOnInit() {
+    this.hideTaskDetails();
     this.isLoaded = false;
+    this.isTaskLoaded = false;
     this.route.params.subscribe(params => {
       this.projectId = params['id'];
       // this.stakeHolderService.getProject(this.projectId).subscribe(project => {
@@ -86,9 +88,12 @@ export class StakeholderProjectDetailComponent implements OnInit {
         console.log(this.project.pointOfContact);
         if(this.project.pointOfContact != null)
           this.isPointOfContact = true;
+
+        
         // this.taskSource.data = this.tableData;
         this.taskSource = new MatTableDataSource<Task>(this.tableData);
         this.isLoaded = true;
+        this.isTaskLoaded = false;
         console.log(tasks);
       });
         }
@@ -127,6 +132,9 @@ export class StakeholderProjectDetailComponent implements OnInit {
   showTaskDetails(temp) {
     console.log(temp);
     let tid = temp.taskId;
+    this.isApprover = false;
+    this.isVolunteer = false;
+    this.isTaskLoaded = false;
     // localhost:8080/task/task?tid=5d9ad71f99097f28a943348c
     let url = `${this.taskApiUrl}/task?tid=${tid}`;
     this.httpService.get(url).subscribe(
@@ -135,7 +143,7 @@ export class StakeholderProjectDetailComponent implements OnInit {
         this.taskDetails = this.taskJson;
         if (this.taskDetails.approver_info != null)
           this.isApprover = true;
-        if (this.taskDetails.vols_info != null)
+        if (this.taskDetails.vols_info.length > 1)
           this.isVolunteer = true;
         this.isTaskLoaded = true;
         this.isLoaded = true;

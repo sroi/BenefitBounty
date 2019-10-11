@@ -41,11 +41,11 @@ export class DataService {
     this.httpClient.post('http://localhost:8080/project/create',proj).subscribe(
       data => {
        console.log("updated"+ ' ' + proj.ProjectId); 
-       this.showMessage("Project added successfully");
+       //this.showMessage("Project added successfully");
       },
       err => {
         console.log("Error proj : "+proj);
-        this.showMessage("Project could not be added");
+        //this.showMessage("Project could not be added");
       }
     );
   }
@@ -55,11 +55,11 @@ export class DataService {
     console.log("addTask(): "+JSON.stringify(task));
     this.httpClient.post('http://localhost:8080/task/create',task).subscribe(
       data => {
-        this.showMessage("Task added successfully");
+        //this.showMessage("Task added successfully");
       },
       err => {
         console.log(task);
-        this.showMessage("Task could not be added");
+        //this.showMessage("Task could not be added");
       }
     );
   }
@@ -72,10 +72,10 @@ export class DataService {
     this.httpClient.post('http://localhost:8080/project/create',project).subscribe(
       data => {
        console.log("updated"+ ' ' + project.projectId);
-       this.showMessage("Project Updated successfully"); 
+       //this.showMessage("Project Updated successfully"); 
       },
       err => {
-        this.showMessage("Project could not be updated");
+        //this.showMessage("Project could not be updated");
       }
     );
   }
@@ -98,10 +98,10 @@ export class DataService {
     this.httpClient.post('http://localhost:8080/task/create',task).subscribe(
       data => {
        console.log("updated"+ ' ' + task.taskId);
-       this.showMessage("Task updated successfully");
+       //this.showMessage("Task updated successfully");
       },
       err => {
-        this.showMessage("Task could not be updated");
+        //this.showMessage("Task could not be updated");
       }
     );
   }
@@ -115,11 +115,13 @@ export class DataService {
     dialogRef.afterClosed().subscribe(result => {
       if (result == 1) {
         console.log("message displayed");
-        
+        // this.showDetails(this.userId, this.role);
+       
       }
       
     });
   }
+  
 
   updateComment(data): void {
     console.log(data);
@@ -131,7 +133,7 @@ export class DataService {
           console.log(data);
       },
       err => {
-          console.log("error");
+          this.showMessage(err.error.message);
       }
     );
   }
@@ -150,10 +152,10 @@ export class DataService {
     this.httpClient.delete('http://localhost:8080/project/delete?pid='+issue.projectId).subscribe(
       data => {
        console.log("Deleted Project"+ ' ' + issue.projectId); 
-       this.showMessage("Project deleted successfully");
+       //this.showMessage("Project deleted successfully");
       },
       err => {
-        this.showMessage("Project could not be deleted");
+        //this.showMessage("Project could not be deleted");
       }
     )
   }
@@ -163,10 +165,10 @@ export class DataService {
     this.httpClient.delete('http://localhost:8080/task/delete?tid='+issue.taskId).subscribe(
       data => {
        console.log("Deleted Task"+ ' ' + issue.taskId); 
-       this.showMessage("Task deleted successfully");
+       //this.showMessage("Task deleted successfully");
       },
       err => {
-        this.showMessage("Task could not be deleted");
+       // this.showMessage("Task could not be deleted");
       }
     )
   }

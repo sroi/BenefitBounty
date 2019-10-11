@@ -66,7 +66,7 @@ export interface ProjectStatus {
 export class TaskList1Component implements OnInit {
 
 
-  displayedTasks: string[] = ['activity', 'task', 'duration', 'status', 'actions'];
+  displayedTasks: string[] = ['project','activity', 'task', 'duration', 'status', 'actions'];
   
   displayedActivity: string[] = ['userId','activity','comments','uploads','timeEntered','updatedOn'];
   projectStatus: ProjectStatus[] = [

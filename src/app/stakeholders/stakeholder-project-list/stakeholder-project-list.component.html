@@ -10,7 +10,7 @@
             (click)="refreshData()">Refresh</button>
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" id="projectTable">
           <ng-container matColumnDef="areaOfEngagement">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Engagement<br>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CSR Area<br>
             </th>
             <td mat-cell *matCellDef="let element" (click)="showProjectDetails(element)" style="cursor:pointer;">
               {{element.areaOfEngagement}} </td>
@@ -82,7 +82,7 @@
               <button [disabled] = "checkStatus(element)" mat-flat-button color="accent" (click)="approveProject(element)" style="margin-right:10px;"> Approve </button>
               <!-- <button mat-flat-button matTooltip="All the tasks haven't been approved" *ngIf="!element.isApproved" color="accent" style="margin-right:10px;"> Approve </button> -->
     
-              <button [disabled] = "checkStatus(element)" mat-flat-button matTooltip="Remove this score" color="accent"
+              <button [disabled] = "checkStatus1(element)" mat-flat-button matTooltip="Remove this score" color="accent"
                 (click)="rejectProject(element)" style="margin-right:10px;">
                 Reject
               </button>

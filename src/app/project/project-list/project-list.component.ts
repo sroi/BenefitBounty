@@ -108,6 +108,10 @@ export interface Comment {
   userId: string;
   comment: string;
   projectId: string;
+  status: string;
+  role: string;
+  rating: number;
+  name: string;
 }
 /* #endregion */
 
@@ -120,19 +124,21 @@ export interface Comment {
 export class ProjectListComponent implements OnInit {
 
 /* #region Variables */
-  displayedColumns: string[] = ['areaOfEngagement', 'name', 'budget','status', 'location', 'duration','changeStatus', 'actions'];
+  displayedColumns: string[] = ['areaOfEngagement', 'name', 'budget','status', 'location', 'duration','rating','changeStatus', 'actions'];
   displayedTasks: string[] = ['activity', 'task', 'duration', 'approver', 'actions'];
   // dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   // taskSource = new MatTableDataSource<TaskElement>(taskData);
 
   projectStatus: ProjectStatus[] = [
-    {value: 'In Progress', viewValue: 'In Progress'},
-    {value: 'Approved', viewValue: 'Approved'},
-    {value: 'Rejected', viewValue: 'Rejected'},
+    //{value: 'In Progress', viewValue: 'In Progress'},
+    //{value: 'Approved', viewValue: 'Approved'},
+    //{value: 'Rejected', viewValue: 'Rejected'},
     {value: 'On Hold', viewValue: 'On Hold'},
-    {value: 'Closed', viewValue: 'Closed'},
-    {value: 'Created', viewValue: 'Created'}
+    {value: 'Closed', viewValue: 'Closed'}
+    //{value: 'Created', viewValue: 'Created'}
   ];
+
+  newProjectStatus: ProjectStatus[] = [];
 
   areaFilter = new FormControl();
   nameFilter = new FormControl();
@@ -265,20 +271,27 @@ export class ProjectListComponent implements OnInit {
         // Then you update that record using data from dialogData (values you enetered)
          //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
-        this.refreshTable();
+        this.showMessage("Project updated successfully");
+        //this.refreshTable();
       }
       else {
-        this.refreshTable();
+        //this.refreshTable();
       }
       
     });
 
   }
 
-  projectComment(element: Project)
+  checkOptions(element) {
+    if(element == 'On Hold'|| element == 'Closed')
+    return true;
+    return false;
+  }
+
+  projectComment(element: Project,status:string)
   {
     //console.log(element);
-    this.dataToSend = {userId: '123', comment:'',projectId:'345'};
+    this.dataToSend = {userId:this.userId, comment:'',projectId:element.projectId,status: status,role:'admin',rating:element.rating,name:element.name};
     const dialogRef = this.dialog.open(CommentComponent, {
       data: this.dataToSend
     });
@@ -291,6 +304,7 @@ export class ProjectListComponent implements OnInit {
          //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
        // this.refreshTable();
+       this.refreshTable();
       }
       
     });
@@ -325,10 +339,11 @@ taskEdit(element:Task)
         // Then you update that record using data from dialogData (values you enetered)
          //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
-        this.refreshDetails();
+        //this.refreshDetails();
+        this.showMessage1("Task updated successfully");
       }
       else {
-        this.refreshDetails();
+        //this.refreshDetails();
       }
       
     });
@@ -354,7 +369,8 @@ taskEdit(element:Task)
         // Then you update that record using data from dialogData (values you enetered)
          //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
-        this.refreshDetails();
+        this.showMessage1("Task added successfully");
+        //this.refreshDetails();
       }
       
     });
@@ -376,11 +392,12 @@ taskEdit(element:Task)
            //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
           // for delete we use splice in order to remove single object from DataService
             //this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-          this.refreshTable();
+          //this.refreshTable();
+          this.showMessage("Project deleted successfully");
         }
         else
         {
-          this.refreshTable();
+          //this.refreshTable();
         }
         
       });
@@ -397,8 +414,27 @@ taskEdit(element:Task)
            //const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
           // for delete we use splice in order to remove single object from DataService
             //this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-          this.refreshDetails();
+            this.showMessage1("Task deleted successfully");
+          //this.refreshDetails();
         } 
+        
+      });
+    }
+
+    showMessage1(msg: string) {
+      let message: Message = { message: msg };
+      const dialogRef = this.dialog.open(ShowMessageComponent, {
+        data: message
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result == 1) {
+          console.log("message displayed");
+          this.refreshDetails();
+        }
+        else {
+          this.refreshDetails();
+        }
         
       });
     }
@@ -412,7 +448,10 @@ taskEdit(element:Task)
       dialogRef.afterClosed().subscribe(result => {
         if (result == 1) {
           console.log("message displayed");
-          
+          this.refreshTable();
+        }
+        else {
+          this.refreshTable();
         }
         
       });
@@ -702,8 +741,8 @@ taskEdit(element:Task)
   changeStatusValue(statusValue,element)
   {
     this.statusToUpdate = statusValue;
-    this.projectComment(element);
-    this.changeStatus(element,statusValue);
+    this.projectComment(element,statusValue);
+    //this.changeStatus(element,statusValue);
   }
 
   changeStatus(project,statusValue)
@@ -739,11 +778,10 @@ taskEdit(element:Task)
         // Then you update that record using data from dialogData (values you enetered)
          //this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
-        this.refreshTable();
+        this.showMessage("Project added successfully");
+        //this.refreshTable();
       }
-      else {
-        this.refreshTable();
-      }
+      
       
     });
 
