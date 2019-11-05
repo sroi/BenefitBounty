@@ -36,6 +36,7 @@ export class TaskListComponent implements OnInit {
   uploadForm: FormGroup;
 
   imagesNew: image[] = [];
+  excelFiles: image[] = [];
 
   images: any[] = [{ name: 'photo1', url: 'https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/024/113/slideshow/2fb751a9d79c2bef5963210204348238/austria-hallstatt-daytime-mountains.jpg' },
   { name: 'photo1', url: 'https://st2.depositphotos.com/1004221/8723/i/950/depositphotos_87237724-stock-photo-hallstatt-mountain-village-alps-austria.jpg' },
@@ -59,7 +60,8 @@ export class TaskListComponent implements OnInit {
   isProject: boolean = false;
   isImage: boolean = false;
   statusToUpdate: string;
-  image: string = "./../../../assets/angularLogo.svg";
+  image: string = "./../../../assets/ExcelLogo.png";
+  excelImage: string = "./../../../assets/ExcelLogo.png";
   userId: string;
   role: string;
   isApprover: boolean = false;
@@ -299,6 +301,17 @@ export class TaskListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 
     });
+  }
+
+  downloadFile(file: image) {
+    console.log(file.name);
+    console.log(file.url);
+    console.log("Download File");
+    let link = document.createElement("a");
+    link.download = "abcd";
+    link.href = file.url;
+    console.log(link);
+    link.click();
   }
 
   showComments() {
@@ -571,11 +584,17 @@ export class TaskListComponent implements OnInit {
         console.log(data);
         this.arrJson = data;
         console.log(this.arrJson.length);
+        var j = 0;
         for (let i = 0; i < this.arrJson.length; i++) {
           console.log(this.arrJson[i]);
           let newImage = {name: this.arrJson[i].fileName,url:'http://localhost:8080/file/display/'+this.arrJson[i].fileId};
+          if(newImage.name.indexOf('.xlsx')!=-1)
+          {
+            this.excelFiles[j] = newImage;
+            j++;
+            continue;
+          }
           this.imagesNew[i] = newImage;
-          
         }
       }
     );
