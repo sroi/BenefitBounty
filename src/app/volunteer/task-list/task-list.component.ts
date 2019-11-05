@@ -308,7 +308,8 @@ export class TaskListComponent implements OnInit {
     console.log(file.url);
     console.log("Download File");
     let link = document.createElement("a");
-    link.download = "abcd";
+    link.download = file.name;
+    link.name = file.name;
     link.href = file.url;
     console.log(link);
     link.click();
@@ -588,7 +589,7 @@ export class TaskListComponent implements OnInit {
         for (let i = 0; i < this.arrJson.length; i++) {
           console.log(this.arrJson[i]);
           let newImage = {name: this.arrJson[i].fileName,url:'http://localhost:8080/file/display/'+this.arrJson[i].fileId};
-          if(newImage.name.indexOf('.xlsx')!=-1)
+          if(newImage.name.indexOf('.xlsx')!=-1 || newImage.name.indexOf('.txt')!=-1 || newImage.name.indexOf('.docx')!=-1 || newImage.name.indexOf('.java')!=-1)
           {
             this.excelFiles[j] = newImage;
             j++;
