@@ -229,6 +229,10 @@
                 <div class="flex-container">
                     <span style="font-size: 20px;">Task Related Files</span><br>
                     <img *ngFor="let image of excelFiles" src="./../../../assets/ExcelLogo.png" [alt]="image.name" (click)="downloadFile(image)">
+                    <img *ngFor="let image of txtFiles" src="./../../../assets/TxtLogo.png" [alt]="image.name" (click)="downloadFile(image)">
+                    <img *ngFor="let image of wordFiles" src="./../../../assets/WordLogo.jpeg" [alt]="image.name" (click)="downloadFile(image)">
+                    <img *ngFor="let image of pdfFiles" src="./../../../assets/PdfLogo.png" [alt]="image.name" (click)="downloadFile(image)">
+                    <!-- <a *ngFor="let image of excelFiles" [href] = "image.url" [download] = "image.name">{{image.name}}</a> -->
                 </div>
             </div>
 

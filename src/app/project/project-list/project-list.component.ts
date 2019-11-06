@@ -173,6 +173,11 @@ export class ProjectListComponent implements OnInit {
   taskApiUrl = this.hostname + this.portNo + "/task";
   exampleDatabase: DataService | null;
   imagesNew: image[] = [];
+  excelFiles: image[] = [];
+  wordFiles: image[] = [];
+  txtFiles: image[] = [];
+  pdfFiles: image[] = [];
+  
   images: any[]=[{name:'photo1', url:'https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/024/113/slideshow/2fb751a9d79c2bef5963210204348238/austria-hallstatt-daytime-mountains.jpg'},
   {name:'photo1', url:'https://st2.depositphotos.com/1004221/8723/i/950/depositphotos_87237724-stock-photo-hallstatt-mountain-village-alps-austria.jpg'},
   {name:'photo1', url:'https://travelpassionate.com/wp-content/uploads/2019/04/Scenic-view-of-famous-Hallstatt-village-in-the-Austrian-Alps.-Image-min.jpg'},
@@ -650,6 +655,21 @@ taskEdit(element:Task)
 
   }
 
+  downloadFile(file: image) {
+    console.log(file.name);
+    console.log(file.url);
+    console.log("Download File");
+    let link = document.createElement("a");
+    link.download = file.name;
+    link.name = file.name;
+    link.type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    // link.type = "application/octet-stream";
+    link.href = file.url;
+    console.log(link);
+    // link.click();
+    window.open(link.href);
+  }
+
   getImages(element)
   {
     this.imagesNew = [];
@@ -659,11 +679,39 @@ taskEdit(element:Task)
         console.log(data);
         this.arrJson = data;
         console.log(this.arrJson.length);
+        var j = 0;
+        var jTxt = 0;
+        var jWord = 0;
+        var jPdf = 0;
         for (let i = 0; i < this.arrJson.length; i++) {
           console.log(this.arrJson[i]);
-          let newImage = {name: this.arrJson[i].fileName,url:'http://localhost:8080/file/display/'+this.arrJson[i].fileId};
+          let newImage = {name: this.arrJson[i].fileName,url:'http://localhost:8080/file/display/'+this.arrJson[i].fileId+'/'+this.arrJson[i].fileName};
+          if(newImage.name.indexOf('.xlsx')!=-1)
+          {
+            this.excelFiles[j] = newImage;
+            j++;
+            continue;
+          }
+          if(newImage.name.indexOf('.txt')!=-1)
+          {
+            this.txtFiles[jTxt] = newImage;
+            jTxt++;
+            continue;
+          }
+          if(newImage.name.indexOf('.docx')!=-1 || newImage.name.indexOf('.doc')!=-1)
+          {
+            this.wordFiles[jWord] = newImage;
+            jWord++;
+            continue;
+          }
+          if(newImage.name.indexOf('.pdf')!=-1)
+          {
+            this.pdfFiles[jPdf] = newImage;
+            jPdf++;
+            continue;
+          }
+          if(newImage.name.indexOf('.jpeg')!=-1 || newImage.name.indexOf('.jpg')!=-1 || newImage.name.indexOf('.png')!=-1)
           this.imagesNew[i] = newImage;
-          
         }
       }
     );
