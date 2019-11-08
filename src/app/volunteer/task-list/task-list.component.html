@@ -5,13 +5,13 @@
         </mat-form-field>
     </div> -->
     <div fxLayout fxLayoutAlign="center center">
-    <mat-form-field fxFlex="100%" style="margin:10px;">
-        <input matInput type="text" (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-      </mat-form-field>
+        <mat-form-field fxFlex="100%" style="margin:10px;">
+            <input matInput type="text" (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
     </div>
 
     <div class="mat-elevation-z8-container">
-            <button mat-flat-button color="primary" style="margin-left:2px;margin-bottom: 10px;"
+        <button mat-flat-button color="primary" style="margin-left:2px;margin-bottom: 10px;"
             (click)="refreshData()">Refresh</button>
         <div [hidden]="!isLoaded">
             <table mat-table [dataSource]="taskSource" matSort class="mat-elevation-z8" id="taskTable">
@@ -42,7 +42,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Approver </th>
                     <td mat-cell *matCellDef="let element1" style="cursor:pointer;" (click)="showTaskDetails(element1)">
                         {{element1.approver_info.name}} </td>
-                        
+
                 </ng-container>
 
                 <ng-container matColumnDef="status">
@@ -60,7 +60,8 @@
 
                     <mat-cell *matCellDef="let element1">
 
-                        <button mat-flat-button color="accent" (click)="editTask(element1)" style="margin-right:10px;" *ngIf = "showEdit(element1)">
+                        <button mat-flat-button color="accent" (click)="editTask(element1)" style="margin-right:10px;"
+                            *ngIf="showEdit(element1)">
                             Edit
                         </button>
                     </mat-cell>
@@ -213,7 +214,7 @@
                         <!-- <vo-mat-fileUpload></vo-mat-fileUpload> -->
                         <!-- <input mat-flat-button color="accent" #fileUpload type="file" (change)="onFileSelected($event)"> -->
                         <!-- <button mat-flat-button color="warn" (click)="fileUpload">Pick File</button> -->
-                        
+
                         <!-- <button mat-flat-button color="warn" style="margin-left:5px;"
                             (click)="onUpload()">Upload</button> -->
                     </mat-card-actions>
@@ -224,14 +225,59 @@
             <div style="display:flex;flex:1 1 auto;flex-direction: column;">
                 <div class="flex-container">
                     <span style="font-size: 20px;">Task Related Images</span><br>
-                    <img *ngFor="let image of imagesNew" [src]="image.url" [alt]="image.name" (click)="openImage(image)">
+                    <img *ngFor="let image of imagesNew" [src]="image.url" [alt]="image.name"
+                        (click)="openImage(image)">
                 </div>
                 <div class="flex-container">
                     <span style="font-size: 20px;">Task Related Files</span><br>
-                    <img *ngFor="let image of excelFiles" src="./../../../assets/ExcelLogo.png" [alt]="image.name" (click)="downloadFile(image)">
-                    <img *ngFor="let image of txtFiles" src="./../../../assets/TxtLogo.png" [alt]="image.name" (click)="downloadFile(image)">
-                    <img *ngFor="let image of wordFiles" src="./../../../assets/WordLogo.jpeg" [alt]="image.name" (click)="downloadFile(image)">
-                    <img *ngFor="let image of pdfFiles" src="./../../../assets/PdfLogo.png" [alt]="image.name" (click)="downloadFile(image)">
+                    <div style="display: flex;flex-direction: row;">
+                        <div *ngFor="let image of excelFiles" class="flex-container">
+                            <div style="display: flex;flex-direction: column;">
+                                <img src="./../../../assets/ExcelLogo.png" [alt]="image.name" (click)="downloadFile(image)">
+                                <small>{{image.name}}</small>
+                            </div>
+    
+                        </div>
+                    </div>
+
+                    <div style="display: flex;flex-direction: row;">
+                        <div *ngFor="let image of txtFiles" class="flex-container">
+                            <div style="display: flex;flex-direction: column;">
+                                <img src="./../../../assets/TxtLogo.png" [alt]="image.name" (click)="downloadFile(image)">
+                                <small>{{image.name}}</small>
+                            </div>
+    
+                        </div>
+                    </div>
+
+                    <div style="display: flex;flex-direction: row;">
+                        <div *ngFor="let image of wordFiles" class="flex-container">
+                            <div style="display: flex;flex-direction: column;">
+                                <img src="./../../../assets/WordLogo.jpeg" [alt]="image.name" (click)="downloadFile(image)">
+                                <small>{{image.name}}</small>
+                            </div>
+    
+                        </div>
+                    </div>
+
+                    <div style="display: flex;flex-direction: row;">
+                        <div *ngFor="let image of pdfFiles" class="flex-container">
+                            <div style="display: flex;flex-direction: column;">
+                                <img src="./../../../assets/PdfLogo.png" [alt]="image.name" (click)="downloadFile(image)">
+                                <small>{{image.name}}</small>
+                            </div>
+    
+                        </div>
+                    </div>
+                    
+                    <!-- <img *ngFor="let image of excelFiles" src="./../../../assets/ExcelLogo.png" [alt]="image.name"
+                        (click)="downloadFile(image)">
+                    <img *ngFor="let image of txtFiles" src="./../../../assets/TxtLogo.png" [alt]="image.name"
+                        (click)="downloadFile(image)">
+                    <img *ngFor="let image of wordFiles" src="./../../../assets/WordLogo.jpeg" [alt]="image.name"
+                        (click)="downloadFile(image)">
+                    <img *ngFor="let image of pdfFiles" src="./../../../assets/PdfLogo.png" [alt]="image.name"
+                        (click)="downloadFile(image)"> -->
                     <!-- <a *ngFor="let image of excelFiles" [href] = "image.url" [download] = "image.name">{{image.name}}</a> -->
                 </div>
             </div>
