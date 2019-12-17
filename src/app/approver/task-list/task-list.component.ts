@@ -386,6 +386,10 @@ export class TaskList1Component implements OnInit {
   getImages(element)
   {
     this.imagesNew = [];
+    this.excelFiles = [];
+    this.txtFiles = [];
+    this.wordFiles = [];
+    this.pdfFiles = [];
     console.log("getImages");
     this.httpService.get('http://localhost:8080/file/getByTask/'+element.taskId).subscribe(
       data => {
@@ -399,6 +403,7 @@ export class TaskList1Component implements OnInit {
         for (let i = 0; i < this.arrJson.length; i++) {
           console.log(this.arrJson[i]);
           let newImage = {name: this.arrJson[i].fileName,url:'http://localhost:8080/file/display/'+this.arrJson[i].fileId+'/'+this.arrJson[i].fileName};
+          if(newImage.name==null) continue;
           if(newImage.name.indexOf('.xlsx')!=-1)
           {
             this.excelFiles[j] = newImage;

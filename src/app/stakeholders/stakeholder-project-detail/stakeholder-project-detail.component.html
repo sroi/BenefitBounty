@@ -474,10 +474,50 @@
         </div>
         <div class="flex-container">
             <span style="font-size: 20px;">Task Related Files</span><br>
-            <img *ngFor="let image of excelFiles" src="./../../../assets/ExcelLogo.png" [alt]="image.name" (click)="downloadFile(image)">
+            <div style="display: flex;flex-direction: row;">
+              <div *ngFor="let image of excelFiles" class="flex-container">
+                  <div style="display: flex;flex-direction: column;">
+                      <img src="./../../../assets/ExcelLogo.png" [alt]="image.name" (click)="downloadFile(image)">
+                      <small>{{image.name}}</small>
+                  </div>
+
+              </div>
+          </div>
+
+          <div style="display: flex;flex-direction: row;">
+              <div *ngFor="let image of txtFiles" class="flex-container">
+                  <div style="display: flex;flex-direction: column;">
+                      <img src="./../../../assets/TxtLogo.png" [alt]="image.name" (click)="downloadFile(image)">
+                      <small>{{image.name}}</small>
+                  </div>
+
+              </div>
+          </div>
+
+          <div style="display: flex;flex-direction: row;">
+              <div *ngFor="let image of wordFiles" class="flex-container">
+                  <div style="display: flex;flex-direction: column;">
+                      <img src="./../../../assets/WordLogo.jpeg" [alt]="image.name" (click)="downloadFile(image)">
+                      <small>{{image.name}}</small>
+                  </div>
+
+              </div>
+          </div>
+
+          <div style="display: flex;flex-direction: row;">
+              <div *ngFor="let image of pdfFiles" class="flex-container">
+                  <div style="display: flex;flex-direction: column;">
+                      <img src="./../../../assets/PdfLogo.png" [alt]="image.name" (click)="downloadFile(image)">
+                      <small>{{image.name}}</small>
+                  </div>
+
+              </div>
+          </div>
+
+            <!-- <img *ngFor="let image of excelFiles" src="./../../../assets/ExcelLogo.png" [alt]="image.name" (click)="downloadFile(image)">
             <img *ngFor="let image of txtFiles" src="./../../../assets/TxtLogo.png" [alt]="image.name" (click)="downloadFile(image)">
             <img *ngFor="let image of wordFiles" src="./../../../assets/WordLogo.jpeg" [alt]="image.name" (click)="downloadFile(image)">
-            <img *ngFor="let image of pdfFiles" src="./../../../assets/PdfLogo.png" [alt]="image.name" (click)="downloadFile(image)">
+            <img *ngFor="let image of pdfFiles" src="./../../../assets/PdfLogo.png" [alt]="image.name" (click)="downloadFile(image)"> -->
             <!-- <a *ngFor="let image of excelFiles" [href] = "image.url" [download] = "image.name">{{image.name}}</a> -->
         </div>
     </div>

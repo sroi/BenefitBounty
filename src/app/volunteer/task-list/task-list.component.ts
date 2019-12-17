@@ -313,7 +313,7 @@ export class TaskListComponent implements OnInit {
     let link = document.createElement("a");
     link.download = file.name;
     link.name = file.name;
-    link.type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    // link.type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     // link.type = "application/octet-stream";
     link.href = file.url;
     console.log(link);
@@ -585,19 +585,25 @@ export class TaskListComponent implements OnInit {
   getImages(element)
   {
     this.imagesNew = [];
+    this.excelFiles = [];
+    this.txtFiles = [];
+    this.wordFiles = [];
+    this.pdfFiles = [];
     console.log("getImages");
     this.httpService.get('http://localhost:8080/file/getByTask/'+element.taskId).subscribe(
       data => {
         console.log(data);
         this.arrJson = data;
-        console.log(this.arrJson.length);
+        console.log(this.arrJson);
         var j = 0;
         var jTxt = 0;
         var jWord = 0;
         var jPdf = 0;
         for (let i = 0; i < this.arrJson.length; i++) {
-          console.log(this.arrJson[i]);
+          console.log(this.arrJson[i].fileName);
           let newImage = {name: this.arrJson[i].fileName,url:'http://localhost:8080/file/display/'+this.arrJson[i].fileId+'/'+this.arrJson[i].fileName};
+          console.log(newImage);
+          if(newImage.name==null) continue;
           if(newImage.name.indexOf('.xlsx')!=-1)
           {
             this.excelFiles[j] = newImage;
